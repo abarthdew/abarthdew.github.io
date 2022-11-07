@@ -3,21 +3,17 @@
 -
   type: github
   icon: 'fab fa-github'
-  url: 'https://github.com/abarthdew'
 -
   type: twitter
   icon: 'fab fa-twitter'
-  url: 'https://github.com/abarthdew'
 -
   type: email
   icon: 'fas fa-envelope'
   noblank: true            # open link in current tab
-  url: 'https://github.com/abarthdew'
 -
   type: rss
   icon: 'fas fa-rss'
   noblank: true
-  url: 'https://github.com/abarthdew'
 
 # Uncomment and complete the url below to enable more contact options
 # -
