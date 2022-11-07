@@ -8,5 +8,5 @@ order: 4
 {: .prompt-tip }
 
 
-![img-description](\assets\img\guernica.jpg)
-_Image Caption_
+![Hello_World](/assets/img/hello.jpg)
+_Hello World_
