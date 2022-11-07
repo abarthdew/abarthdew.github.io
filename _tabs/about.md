@@ -9,3 +9,7 @@ order: 4
 
 ![hello](assets/img/hello.jpg)
 _Hello World_
+
+---
+pin: true
+---
