@@ -2,7 +2,7 @@
 title: go to git-to-hell for beginners
 author: ABarthDew
 date: 2019-06-21 18:32:00 -0500
-categories: [Git-Pages, Git]
+categories: [Git-Pages, git-to-hell]
 tags: [git, git-pages]
 ---
 
