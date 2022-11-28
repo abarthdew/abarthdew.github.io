@@ -6,7 +6,7 @@ categories: [Git-Pages, Git]
 tags: [git, git-pages]
 ---
 
-🔥git-to-hell🔥지옥으로 가는 git🌟
+[**🔥git-to-hell🔥지옥으로 가는 git🌟**](https://www.mathjax.org/)
 
 ## go to git-to-hell!
 ![git-to-hell](assets/img/git/git-to-hell.PNG)
