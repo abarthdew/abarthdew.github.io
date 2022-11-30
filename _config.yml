@@ -23,7 +23,7 @@ timezone: Asia/Seoul
 
 title: ABarthDew                          # the main title
 
-tagline: 전쟁사를 좋아하는 코타르형 인간   # it will display as the sub-title
+tagline: 전쟁사를 좋아하는\n코타르형 인간   # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
   A minimal, responsive, and powerful Jekyll theme for presenting professional writing.
