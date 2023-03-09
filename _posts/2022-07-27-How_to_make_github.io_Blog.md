@@ -106,7 +106,7 @@ kbizcowk40@FC-KBIZ043 MINGW64 ~/Downloads/test
 $ git config --global user.name "ABarthDew"
 
 kbizcowk40@FC-KBIZ043 MINGW64 ~/Downloads/test
-$ git config --global user.email "vsevolod117@gmail.com"
+$ git config --global user.email "___@gmail.com"
 
 kbizcowk40@FC-KBIZ043 MINGW64 ~/Downloads/test
 $ git config --global http.sslVerify false
@@ -382,7 +382,7 @@ Use `bundle info [gemname]` to see where a bundled gem is installed.
 - 배포
 
 ```bash
-$ bundle exec jekyll s
+$ bundle exec jekyll
 ```
 
 # gh-pages 브랜치가 죽어도 안 만들어짐
