@@ -9,7 +9,7 @@ mermaid: true
 {: .prompt-tip }
    
 > TODO: DO, Docker, Kubernetes, GraphQL, Nginx, AWS, etc
-{: .prompt-tip }
+{: .prompt-info }
 
 ```mermaid
 flowchart TD
@@ -32,7 +32,7 @@ flowchart TD
     C-->c-2[node.js, Express.js]
     C-->c-3[JQuery, Thymeleaf]
     C-->c-3[GraphQL]
-    F[Bitbucket, SVN]---D>gitHub, gitLab]
+    F[Bitbucket, SVN]---D[/gitHub, gitLab\]
     D-->E[\gitPages/]
 ```
 
@@ -47,5 +47,5 @@ flowchart BT
 ```
 <br>
 > 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
-{: .prompt-tip }
+{: .prompt-danger }
 ![hello](assets/img/favicons/the-bad-war.jpg)
