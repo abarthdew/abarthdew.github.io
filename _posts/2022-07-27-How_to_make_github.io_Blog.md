@@ -202,6 +202,7 @@ gem install jekyll bundler // jekyll 설치
 
 - local 리포지토리에 테마 내용 복사 + 붙여넣기
     ![http://jekyllthemes.org/themes/jekyll-theme-chirpy/](assets/img/2022/1(2).png)
+    _http://jekyllthemes.org/themes/jekyll-theme-chirpy/_
     
 - 테마의 gem 파일 설치
 
