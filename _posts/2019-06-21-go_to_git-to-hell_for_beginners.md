@@ -8,5 +8,5 @@ tags: [git, gitHub]
 
 [**🔥git-to-hell🔥지옥으로 가는 git🌟**](https://abarthdew.github.io/git-to-hell/)
 
-![git-to-hell](assets/img/git/git-to-hell.PNG)
+![git-to-hell](assets/img/2022/git-to-hell.png)
 _git-to-hell_
