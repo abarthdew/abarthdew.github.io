@@ -3,11 +3,6 @@
   See: ${JS_ROOT}/utils/locale-dateime.js
 -->
 
-
-<div class="footer-left">
-  © {{ 'now' | date: "%Y-%m-%d %H:%M:%S" }}
-</div>
-
 {% assign wrap_elem = include.wrap | default: 'em' %}
 
 {% if site.prefer_datetime_locale == 'en' or lang == 'en' %}
