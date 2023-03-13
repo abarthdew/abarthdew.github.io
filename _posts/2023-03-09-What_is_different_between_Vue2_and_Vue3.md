@@ -1,6 +1,6 @@
 ---
 title: What is different between Vue2 and Vue3?
-date: 2023-03-09
+date: 2023-03-13 22:14:41
 categories: [Front, Vue]
 tags: [Front, Vue]
 ---
