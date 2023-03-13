@@ -4,3 +4,13 @@ date: 2023-03-09
 categories: [Front, Vue]
 tags: [Front, Vue]
 ---
+
+<div class="footer-left">
+    © {{ '%Y-%m-%d %H:%M:%S' }}
+</div>
+
+console.log(
+      new Date().toISOString().split('T')[0] 
+      + ' ' 
+      + new Date().toTimeString().split(' ')[0]
+  )
