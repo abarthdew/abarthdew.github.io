@@ -1,6 +1,6 @@
 ---
 title: How to make github.io Blog
-date: 202-07-27
+date: 2022-07-27
 categories: [git, pages]
 tags: [git, pages]
 ---
@@ -382,7 +382,7 @@ Use `bundle info [gemname]` to see where a bundled gem is installed.
 - 배포
 
 ```bash
-$ bundle exec jekyll
+$ bundle exec jekyll s(serve)
 ```
 
 # gh-pages 브랜치가 죽어도 안 만들어짐
