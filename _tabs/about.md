@@ -19,12 +19,12 @@ flowchart TD
     A-->A-3[MyBatis, JPA, QueryDSL]
     G{TDD}-->K[Swagger]
 ```  
-
+   
 ```mermaid
 flowchart RL
     B1[(Oracle)]---B2[(MySQL)]---B3[(MariaDB)]---B4[(PostgreSQL)]---B5[(MongoDB)]---b-1[CubridDB, TiberoDB]
 ```
-
+   
 ```mermaid
 flowchart TD
     C[/javascript, ES6\]
@@ -35,7 +35,7 @@ flowchart TD
     F[Bitbucket, SVN]---D[/gitHub, gitLab\]
     D-->E[\gitPages/]
 ```
-
+   
 ```mermaid
 flowchart BT
     H[[Deploymentm]]
@@ -45,6 +45,7 @@ flowchart BT
     H-->h4([AWS])
     H-->h5([Nexus])
 ```
+   
 <br>
 > 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
 {: .prompt-danger }
