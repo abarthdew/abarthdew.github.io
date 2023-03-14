@@ -13,7 +13,7 @@ baseurl: ''
 lang: en
 
 # Additional parameters for datetime localization, optional. › https://github.com/iamkun/dayjs/tree/dev/src/locale
-prefer_datetime_locale: 
+prefer_datetime_locale:
 
 # Change to your timezone › http://www.timezoneconverter.com/cgi-bin/findzone/findzone
 timezone: Asia/Seoul
@@ -21,21 +21,20 @@ timezone: Asia/Seoul
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: ABarthDew                       # the main title
+title: ABarthDew                          # the main title
 
-tagline: 코타르형 인간                  # it will display as the sub-title
+tagline: 코타르형 인간   # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
   A minimal, responsive, and powerful Jekyll theme for presenting professional writing.
-
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
 url: 'https://abarthdew.github.io'
 
 github:
-  username: abarthdew                 # change to your github username
+  username: abarthdew            # change to your github username
 
 # twitter:
-#   username: notwitter               # change to your twitter username
+#   username: notwitter            # change to your twitter username
 
 social:
   # Change to your full name.
@@ -70,10 +69,10 @@ google_analytics:
 #
 # Available options:
 #
-# light  - Use the light color scheme
-# dark   - Use the dark color scheme
+#     light  - Use the light color scheme
+#     dark   - Use the dark color scheme
 #
-theme_mode: # [light|dark]
+theme_mode:   # [light|dark]
 
 # The CDN endpoint for images.
 # Notice that once it is assigned, the CDN url
@@ -99,7 +98,7 @@ comments:
     issue_term:   # < url | pathname | title | ...>
   # Giscus options › https://giscus.app
   giscus:
-    repo:         # <gh-username>/<repo>
+    repo:             # <gh-username>/<repo>
     repo_id:
     category:
     category_id:
@@ -155,7 +154,7 @@ defaults:
       comments: false
   - scope:
       path: ''
-      type: tabs        # see `site.collections`
+      type: tabs             # see `site.collections`
     values:
       layout: page
       permalink: /:title/
