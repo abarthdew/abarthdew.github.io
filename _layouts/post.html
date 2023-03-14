@@ -1,7 +1,7 @@
 ---
 layout: page
 refactor: true
-pannel_includes:
+panel_includes:
   - toc
 tail_includes:
   - related-posts
@@ -19,14 +19,14 @@ tail_includes:
 <div class="post-meta text-muted">
     <!-- published date -->
     <span>
-      {{ site.data.locales[lang].post.posted }}
+      {{ site.data.locales[site.lang].post.posted }}
       {% include datetime.html date=page.date tooltip=true %}
     </span>
 
     <!-- lastmod date -->
     {% if page.last_modified_at %}
     <span>
-      {{ site.data.locales[lang].post.updated }}
+      {{ site.data.locales[site.lang].post.updated }}
       {% include datetime.html date=page.last_modified_at tooltip=true %}
     </span>
     {% endif %}
@@ -89,7 +89,7 @@ tail_includes:
         <em id="pv" class="pageviews">
           <i class="fas fa-spinner fa-spin fa-fw"></i>
         </em>
-        {{ site.data.locales[lang].post.pageview_measure }}
+        {{ site.data.locales[site.lang].post.pageview_measure }}
       </span>
       {% endif %}
 
@@ -113,7 +113,7 @@ tail_includes:
   <div class="post-meta mb-3">
     <i class="far fa-folder-open fa-fw mr-1"></i>
     {% for category in page.categories %}
-      <a href='{{ site.baseurl }}/categories/{{ category | slugify | url_encode }}/'>{{ category }}</a>
+      <a href='/categories/{{ category | slugify | url_encode }}/'>{{ category }}</a>
       {%- unless forloop.last -%}, {%- endunless -%}
     {% endfor %}
   </div>
@@ -124,7 +124,7 @@ tail_includes:
   <div class="post-tags">
     <i class="fa fa-tags fa-fw mr-1"></i>
       {% for tag in page.tags %}
-      <a href="{{ site.baseurl }}/tags/{{ tag | slugify | url_encode }}/"
+      <a href="/tags/{{ tag | slugify | url_encode }}/"
           class="post-tag no-text-decoration" >
         {{- tag -}}
       </a>
