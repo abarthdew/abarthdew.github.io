@@ -1,7 +1,6 @@
 ---
 title: go to git-to-hell for beginners
-author: ABarthDew
-date: 2019-06-21 18:32:00 -0500
+date: 2019-06-21
 categories: [git, gitHub]
 tags: [git, gitHub]
 ---

@@ -5,48 +5,6 @@ order: 4
 mermaid: true
 ---
 
-> DO: Java, SpringMVC, Boot, Maven, Gradle, MyBatis, JPA, QueryDSL, TDD, Swagger, Oracle, MySQL, MariaDB, PostgreSQL, MongoDB, CubridDB, TiberoDB, javascript, ES6, vue.js, TypeScript, node.js, Express.js, JQuery, Thymeleaf, Bitbucket, SVN, gitHub, gitLab, Docker, Kubernetes, Nexus
-{: .prompt-tip }
-   
-> TODO: DO, Docker, Kubernetes, GraphQL, Nginx, AWS, etc
-{: .prompt-info }
-
-```mermaid
-flowchart TD
-    A((Java))
-    A-->A-1[SpringMVC, Boot, JavaFX]
-    A-->A-2[Maven, Gradle]
-    A-->A-3[MyBatis, JPA, QueryDSL]
-    G{TDD}-->K[Swagger]
-```  
-   
-```mermaid
-flowchart RL
-    B1[(Oracle)]---B2[(MySQL)]---B3[(MariaDB)]---B4[(PostgreSQL)]---B5[(MongoDB)]---b-1[CubridDB, TiberoDB]
-```
-   
-```mermaid
-flowchart TD
-    C[/javascript, ES6\]
-    C-->c-1[vue.js, TypeScript]
-    C-->c-2[node.js, Express.js]
-    C-->c-3[JQuery, Thymeleaf]
-    C-->c-3[GraphQL]
-    F[Bitbucket, SVN]---D[/gitHub, gitLab\]
-    D-->E[\gitPages/]
-```
-   
-```mermaid
-flowchart BT
-    H[[Deploymentm]]
-    H-->h1([Docker])
-    H-->h2([Nginx])
-    H-->h3([Kubernetes])
-    H-->h4([AWS])
-    H-->h5([Nexus])
-```
-   
-<br>
-> 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
-{: .prompt-danger }
 ![hello](assets/img/favicons/the-bad-war.jpg)
+> 👀👀(비교적)짧은 창을 아래로 찌르는 스위스 용병과 긴 창을 위로 휘두르는 란츠크네히트와 그걸 지켜보며 으휴 미개하다 미개해를 연발하는 중세 이탈리아인과 역시 전쟁사는 재밌다고 생각하는 역사와 아무 관련없는 현대인(근데 여기 개발 블로그임. 아마도.)👀👀
+{: .prompt-danger }
