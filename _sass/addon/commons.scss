@@ -645,8 +645,6 @@ $sidebar-display: "sidebar-display";
   width: $sidebar-width;
   z-index: 99;
   background: var(--sidebar-bg);
-  // background: url('/assets/img/guernica.jpg');
-  // background-position: center;
 
   /* Hide scrollbar for Chrome, Safari and Opera */
   &::-webkit-scrollbar {
