@@ -6,7 +6,9 @@ tags: [AI, Gpt]
 math: true
 mermaid: true
 image:
-  path: /assets/img/2023/1.jpg
+  path: assets/img/2023/1.jpg
+  width: 800
+  height: 500
 ---
 
 > [GPT_prompt_for_Highcharts](https://abarthdew.github.io/highcharts-gpt-chatbot/#/) 접속하기 👈 go!
@@ -86,28 +88,28 @@ $ npm run dev
 
 ### 2. api key 입력하기
 모든 기능을 온전히 사용하기 위해, [openai 홈페이지](https://platform.openai.com/) 에서 제공되는 개인 api key를 입력한다.
-![Desktop View](/assets/img/2023/1(1).png)
+![Untitled](assets/img/2023/1(1).png)
 
 ### 3. Sample Chart 확인하기
 차트에 대해 생소하다면, 기본 line chart 예시를 참고할 수 있도록 위와 같이 간단한 명칭 설명과 코드를 구현해 놓았다.   
-![Desktop View](/assets/img/2023/1(2).png)
+![Untitled](assets/img/2023/1(2).png)
 
 ### 4. Highchart의 궁금한 점에 대해 gpt에게 실시간으로 물어보기
 전처리 명령 프롬프터 역할을 하는 System란에 `전제`를 깔아둘 수 있다. 이 세팅 덕분에, 사용자가 차트 종류를 특정하지 않더라도 반드시 `Highchart`에 관한 결과가 도출된다.   
-![Desktop View](/assets/img/2023/1(3).png)
+![Untitled](assets/img/2023/1(3).png)
 > 
 번역: Highcharts, Vue2 버전을 기준으로, 하나의 json 형식 markdown 코드 블록을 제시하고, chartOptions 라는 객체만 사용한다. 포맷은 다음과 같고, html 이나 import 코드는 넣지 말 것. 설명을 덧붙일 순 있지만 일반 문자만 가능하다.
 {: .prompt-info }
 > - 자유롭게 물어보기   
 Highcharts에 대해 질문하고 싶은 것을 입력할 수 있다.
-![Desktop View](/assets/img/2023/1(4).png)
+![Untitled](assets/img/2023/1(4).png)
 > - 자세한 예시 차트 검색하고 답변 받기   
 sample로 제시된 line chart 보다 다소 복잡한 형식의 차트 예시 코드를 보고, 그에 대한 설명을 제공받을 수 있다.   
-![Desktop View](/assets/img/2023/1(5).png)
+![Untitled](assets/img/2023/1(5).png)
 
 ### 5. 답변 요청하기
 모든 요소가 충족되었으면, SEND MESSAGE 버튼 클릭!
-![Desktop View](/assets/img/2023/1(6).png)
+![Untitled](assets/img/2023/1(6).png)
 
 
 # How to Run - 사용
@@ -120,20 +122,20 @@ system은 앞서 설명했듯 질문에 전제되는 규칙이나 형식 등을 
 질문: 간단한 Column Chart 코드를 써 줘.   
 답변: chart 데이터를 chartOptions 객체로 감싸 답변 + 간단한 설명 + 동적 차트 시각화
 {: .prompt-info }
-![Desktop View](/assets/img/2023/1(7).png)
+![Untitled](assets/img/2023/1(7).png)
 _json코드 리턴(생략)_
-![Desktop View](/assets/img/2023/1(8).png)
+![Untitled](assets/img/2023/1(8).png)
 _간단한 설명과 응답된 값을 토대로 차트 시각화_
 
 ### 3. 답변을 가공한 차트 시각화
 여기서 system 전처리 기능이 빛을 발한다. 응답된 json 객체를 가공해 차트를 시각화하기 위해, `응답 객체의 이름은 chartOptions로 한다`는 전제가 필요하다.   
-![Desktop View](/assets/img/2023/1(9).png)
+![Untitled](assets/img/2023/1(9).png)
 
 ### 4. 예시 그래프 보기
 하지만, 차트의 각 api 요소를 모르는 상태에서 질문을 하기란 쉽지 않다. `"Column 차트에 대한 모든 요소를 코드로 구현해 줘."` 라는 요청을 해도, 그야말로 실제 어플리케이션 구현에 필요한 요소를 충분히 리턴해 주지는 않는다. 이 점을 보완하기 위해 보다 복잡한 차트를 예시로 확인할 수 있도록 했다. 추가로 설명도 덧붙여 준다. (현재는 `컬럼`, `스택 컬럼`, `풀 스택 컬럼`, `다중 x축`, `트리 맵` 차트 예시만 가능하다.)
-![Desktop View](/assets/img/2023/1(10).png)
+![Untitled](assets/img/2023/1(10).png)
 _OVERLAP_버튼을_클릭했을_때_
-![Desktop View](/assets/img/2023/1(11).png)
+![Untitled](assets/img/2023/1(11).png)
 _TREEMAP_버튼을_클릭했을_때_
 
 
@@ -209,14 +211,14 @@ const chartOptions = async (content) => {
 > - 현재 프로젝트는 2. 방식 채택.
 > - 배포 결과물이 ph-pages에 저장되므로 배포 브랜치는 main이 아닌 ph-pages.   
 > - 하지만, ph-pages 브랜치를 먼저 만들어 줘야 하므로 gh-pages.yml 파일을 push -> 파일 내용에 의해 [Actions](https://github.com/abarthdew/highcharts-gpt-chatbot/actions/runs/5410468901) 탭에서 자동으로 deploy됨 -> gh-pages 브랜치 생성 및 배포 파일 자동 저장됨.
-> ![image](https://github.com/abarthdew/highcharts-gpt-chatbot/assets/51596506/b6c78224-dfdf-416e-a999-22f5a3e304e2)
+> ![image](https://github.com/abarthdew/highcharts-gpt-chatbotassets/51596506/b6c78224-dfdf-416e-a999-22f5a3e304e2)
 > - 그 다음, [Settings - Actions](https://github.com/abarthdew/highcharts-gpt-chatbot/settings/pages) 탭에서 main으로 되어 있는 설정을 gh-pages로 바꿈.
-> ![image](https://github.com/abarthdew/highcharts-gpt-chatbot/assets/51596506/bcfc726a-3fb2-407a-b34d-07553b94aa9f)
+> ![image](https://github.com/abarthdew/highcharts-gpt-chatbotassets/51596506/bcfc726a-3fb2-407a-b34d-07553b94aa9f)
 
 - [Actions] - check build & deploy
 > - 위 [Settings]에서 gh-pages 브랜치 설정 후, [Actions](https://github.com/abarthdew/highcharts-gpt-chatbot/actions/runs/5410493027) 탭에서 다시 결과물이 배포됨.
 > - 그 외, 코드 수정 후 git push -> 배포 자동 실행 및 로그 확인 가능.
-> ![image](https://github.com/abarthdew/highcharts-gpt-chatbot/assets/51596506/8fdeecab-eef1-4356-87f8-fef6e0970450)
+> ![image](https://github.com/abarthdew/highcharts-gpt-chatbotassets/51596506/8fdeecab-eef1-4356-87f8-fef6e0970450)
 > - [reference](https://github.com/memochou1993/gpt-prompt-trainer/actions/runs/4621383101)
 
 ### 2. 오류
@@ -257,12 +259,12 @@ Error: Invalid exit code: 128
 > 1. deploy yml file에 명령어로 넣는 방식, 2. 프로젝트 settings 에서 설정하는 방식 두 가지가 있음.
 > 현재 프로젝트는 2. 방식 채택
 > [Settings -> Actions -> general](https://github.com/abarthdew/highcharts-gpt-chatbot/settings/actions)
-> ![image](https://github.com/abarthdew/highcharts-gpt-chatbot/assets/51596506/a7e9034e-4d37-4518-a666-2f0f5b6e160e)
+> ![image](https://github.com/abarthdew/highcharts-gpt-chatbotassets/51596506/a7e9034e-4d37-4518-a666-2f0f5b6e160e)
 
 - [deploy is waiting for github-pages deployment approval](https://github.com/orgs/community/discussions/59600)
-> ![image](https://github.com/abarthdew/highcharts-gpt-chatbot/assets/51596506/c06d3e94-7165-4368-a257-181898ad0768)   
+> ![image](https://github.com/abarthdew/highcharts-gpt-chatbotassets/51596506/c06d3e94-7165-4368-a257-181898ad0768)   
 > deploy 상태가 waiting에서 안 넘어가길래 별짓을 다 해봤는데 알고 봤더니 gitHub 자체 업데이트 때문에 벌어진 일이었다. 앞으론 안 된다고 냅다 리포지토리 날리지 말고 [gitHub Status](https://www.githubstatus.com/) 상태도 확인하자...   
-![image](https://github.com/abarthdew/highcharts-gpt-chatbot/assets/51596506/051cacb9-fd93-428d-8738-8f1ad08352b0)
+![image](https://github.com/abarthdew/highcharts-gpt-chatbotassets/51596506/051cacb9-fd93-428d-8738-8f1ad08352b0)
 
 
 ### 3. 버그/개선 목록
