@@ -211,14 +211,14 @@ const chartOptions = async (content) => {
 > - 현재 프로젝트는 2. 방식 채택.
 > - 배포 결과물이 ph-pages에 저장되므로 배포 브랜치는 main이 아닌 ph-pages.   
 > - 하지만, ph-pages 브랜치를 먼저 만들어 줘야 하므로 gh-pages.yml 파일을 push -> 파일 내용에 의해 [Actions](https://github.com/abarthdew/highcharts-gpt-chatbot/actions/runs/5410468901) 탭에서 자동으로 deploy됨 -> gh-pages 브랜치 생성 및 배포 파일 자동 저장됨.
-> ![image](https://github.com/abarthdew/highcharts-gpt-chatbotassets/51596506/b6c78224-dfdf-416e-a999-22f5a3e304e2)
+> ![image](https://github.com/abarthdew/highcharts-gpt-chatbot/assets/51596506/b6c78224-dfdf-416e-a999-22f5a3e304e2)
 > - 그 다음, [Settings - Actions](https://github.com/abarthdew/highcharts-gpt-chatbot/settings/pages) 탭에서 main으로 되어 있는 설정을 gh-pages로 바꿈.
-> ![image](https://github.com/abarthdew/highcharts-gpt-chatbotassets/51596506/bcfc726a-3fb2-407a-b34d-07553b94aa9f)
+> ![image](https://github.com/abarthdew/highcharts-gpt-chatbot/assets/51596506/bcfc726a-3fb2-407a-b34d-07553b94aa9f)
 
 - [Actions] - check build & deploy
 > - 위 [Settings]에서 gh-pages 브랜치 설정 후, [Actions](https://github.com/abarthdew/highcharts-gpt-chatbot/actions/runs/5410493027) 탭에서 다시 결과물이 배포됨.
 > - 그 외, 코드 수정 후 git push -> 배포 자동 실행 및 로그 확인 가능.
-> ![image](https://github.com/abarthdew/highcharts-gpt-chatbotassets/51596506/8fdeecab-eef1-4356-87f8-fef6e0970450)
+> ![image](https://github.com/abarthdew/highcharts-gpt-chatbot/assets/51596506/8fdeecab-eef1-4356-87f8-fef6e0970450)
 > - [reference](https://github.com/memochou1993/gpt-prompt-trainer/actions/runs/4621383101)
 
 ### 2. 오류
@@ -259,12 +259,12 @@ Error: Invalid exit code: 128
 > 1. deploy yml file에 명령어로 넣는 방식, 2. 프로젝트 settings 에서 설정하는 방식 두 가지가 있음.
 > 현재 프로젝트는 2. 방식 채택
 > [Settings -> Actions -> general](https://github.com/abarthdew/highcharts-gpt-chatbot/settings/actions)
-> ![image](https://github.com/abarthdew/highcharts-gpt-chatbotassets/51596506/a7e9034e-4d37-4518-a666-2f0f5b6e160e)
+> ![image](https://github.com/abarthdew/highcharts-gpt-chatbot/assets/51596506/a7e9034e-4d37-4518-a666-2f0f5b6e160e)
 
 - [deploy is waiting for github-pages deployment approval](https://github.com/orgs/community/discussions/59600)
-> ![image](https://github.com/abarthdew/highcharts-gpt-chatbotassets/51596506/c06d3e94-7165-4368-a257-181898ad0768)   
+> ![image](https://github.com/abarthdew/highcharts-gpt-chatbot/assets/51596506/c06d3e94-7165-4368-a257-181898ad0768)  
 > deploy 상태가 waiting에서 안 넘어가길래 별짓을 다 해봤는데 알고 봤더니 gitHub 자체 업데이트 때문에 벌어진 일이었다. 앞으론 안 된다고 냅다 리포지토리 날리지 말고 [gitHub Status](https://www.githubstatus.com/) 상태도 확인하자...   
-![image](https://github.com/abarthdew/highcharts-gpt-chatbotassets/51596506/051cacb9-fd93-428d-8738-8f1ad08352b0)
+![image](https://github.com/abarthdew/highcharts-gpt-chatbot/assets/51596506/051cacb9-fd93-428d-8738-8f1ad08352b0)
 
 
 ### 3. 버그/개선 목록
