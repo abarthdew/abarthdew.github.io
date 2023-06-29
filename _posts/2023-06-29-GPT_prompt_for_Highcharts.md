@@ -145,7 +145,11 @@ _TREEMAP_버튼을_클릭했을_때_
 - 구현: `Vue3`
 - Gpt model: `gpt-3.5-turbo`
 - chart: `vue3-highcharts`
-- markdown ui: `vue3-markdown-it`
+- markdown ui: `vue3-markdown-it`   
+
+> 구현은 `Vue3`, 코드 예시는 `Vue2`인 이유
+<br>: Vue2 버전으로 리턴되는 json 형식이 보다 정형화되어 있기 때문에, 이해가 쉬움.
+{: .prompt-danger }
 
 ### 2. 서비스
 - openai.js 내 코드로 통신 및 응답 리스트 전송
