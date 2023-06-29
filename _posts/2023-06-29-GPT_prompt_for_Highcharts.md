@@ -88,28 +88,28 @@ $ npm run dev
 
 ### 2. api key 입력하기
 모든 기능을 온전히 사용하기 위해, [openai 홈페이지](https://platform.openai.com/) 에서 제공되는 개인 api key를 입력한다.
-![Untitled](assets/img/2023/1(1).png)
+![Untitled](https://github.com/abarthdew/highcharts-gpt-chatbot/blob/main/src/assets/img/1(1).png)
 
 ### 3. Sample Chart 확인하기
 차트에 대해 생소하다면, 기본 line chart 예시를 참고할 수 있도록 위와 같이 간단한 명칭 설명과 코드를 구현해 놓았다.   
-![Untitled](assets/img/2023/1(2).png)
+![Untitled](https://github.com/abarthdew/highcharts-gpt-chatbot/blob/main/src/assets/img/1(2).png)
 
 ### 4. Highchart의 궁금한 점에 대해 gpt에게 실시간으로 물어보기
 전처리 명령 프롬프터 역할을 하는 System란에 `전제`를 깔아둘 수 있다. 이 세팅 덕분에, 사용자가 차트 종류를 특정하지 않더라도 반드시 `Highchart`에 관한 결과가 도출된다.   
-![Untitled](assets/img/2023/1(3).png)
+![Untitled](https://github.com/abarthdew/highcharts-gpt-chatbot/blob/main/src/assets/img/1(3).png)
 > 
 번역: Highcharts, Vue2 버전을 기준으로, 하나의 json 형식 markdown 코드 블록을 제시하고, chartOptions 라는 객체만 사용한다. 포맷은 다음과 같고, html 이나 import 코드는 넣지 말 것. 설명을 덧붙일 순 있지만 일반 문자만 가능하다.
 {: .prompt-info }
 > - 자유롭게 물어보기   
 Highcharts에 대해 질문하고 싶은 것을 입력할 수 있다.
-![Untitled](assets/img/2023/1(4).png)
+![Untitled](https://github.com/abarthdew/highcharts-gpt-chatbot/blob/main/src/assets/img/1(4).png)
 > - 자세한 예시 차트 검색하고 답변 받기   
 sample로 제시된 line chart 보다 다소 복잡한 형식의 차트 예시 코드를 보고, 그에 대한 설명을 제공받을 수 있다.   
-![Untitled](assets/img/2023/1(5).png)
+![Untitled](https://github.com/abarthdew/highcharts-gpt-chatbot/blob/main/src/assets/img/1(5).png)
 
 ### 5. 답변 요청하기
 모든 요소가 충족되었으면, SEND MESSAGE 버튼 클릭!
-![Untitled](assets/img/2023/1(6).png)
+![Untitled](https://github.com/abarthdew/highcharts-gpt-chatbot/blob/main/src/assets/img/1(6).png)
 
 
 # How to Run - 사용
@@ -122,20 +122,20 @@ system은 앞서 설명했듯 질문에 전제되는 규칙이나 형식 등을 
 질문: 간단한 Column Chart 코드를 써 줘.   
 답변: chart 데이터를 chartOptions 객체로 감싸 답변 + 간단한 설명 + 동적 차트 시각화
 {: .prompt-info }
-![Untitled](assets/img/2023/1(7).png)
+![Untitled](https://github.com/abarthdew/highcharts-gpt-chatbot/blob/main/src/assets/img/1(7).png)
 _json코드 리턴(생략)_
-![Untitled](assets/img/2023/1(8).png)
+![Untitled](https://github.com/abarthdew/highcharts-gpt-chatbot/blob/main/src/assets/img/1(8).png)
 _간단한 설명과 응답된 값을 토대로 차트 시각화_
 
 ### 3. 답변을 가공한 차트 시각화
 여기서 system 전처리 기능이 빛을 발한다. 응답된 json 객체를 가공해 차트를 시각화하기 위해, `응답 객체의 이름은 chartOptions로 한다`는 전제가 필요하다.   
-![Untitled](assets/img/2023/1(9).png)
+![Untitled](https://github.com/abarthdew/highcharts-gpt-chatbot/blob/main/src/assets/img/1(9).png)
 
 ### 4. 예시 그래프 보기
 하지만, 차트의 각 api 요소를 모르는 상태에서 질문을 하기란 쉽지 않다. `"Column 차트에 대한 모든 요소를 코드로 구현해 줘."` 라는 요청을 해도, 그야말로 실제 어플리케이션 구현에 필요한 요소를 충분히 리턴해 주지는 않는다. 이 점을 보완하기 위해 보다 복잡한 차트를 예시로 확인할 수 있도록 했다. 추가로 설명도 덧붙여 준다. (현재는 `컬럼`, `스택 컬럼`, `풀 스택 컬럼`, `다중 x축`, `트리 맵` 차트 예시만 가능하다.)
-![Untitled](assets/img/2023/1(10).png)
+![Untitled](https://github.com/abarthdew/highcharts-gpt-chatbot/blob/main/src/assets/img/1(10).png)
 _OVERLAP_버튼을_클릭했을_때_
-![Untitled](assets/img/2023/1(11).png)
+![Untitled](https://github.com/abarthdew/highcharts-gpt-chatbot/blob/main/src/assets/img/1(11).png)
 _TREEMAP_버튼을_클릭했을_때_
 
 
