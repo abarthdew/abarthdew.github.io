@@ -1,5 +1,5 @@
 ---
-title: GPT_prompt_for_Highcharts
+title: GPT prompt for Highcharts
 date: 2023-06-29
 categories: [AI, Gpt]
 tags: [AI, Gpt]
