@@ -16,7 +16,7 @@ image:
 > [Maker's GitHub](https://github.com/abarthdew/highcharts-gpt-chatbot) 제작자의 GitHub 🖐 Welcome🙃
 {: .prompt-info }
 
-# All of List - 목차
+# All Lists - 목차
 [Before get Start - 서문](#before-get-start---서문)   
 [ - 1. 개발자의 Gpt 활용 방식](#1-개발자의-gpt-활용-방식)   
 [ - 2. 개발에 필요한 교육 시간 현저하게 줄이기](#2-개발에-필요한-교육-시간-현저하게-줄이기)   
