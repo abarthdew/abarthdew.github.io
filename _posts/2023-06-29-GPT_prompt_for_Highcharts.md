@@ -7,8 +7,6 @@ math: true
 mermaid: true
 image:
   path: /assets/img/2023/1.jpg
-  width: 800
-  height: 500
 ---
 
 > [GPT_prompt_for_Highcharts](https://abarthdew.github.io/highcharts-gpt-chatbot/#/) 접속하기 👈 go!
@@ -95,7 +93,7 @@ $ npm run dev
 ![Desktop View](/assets/img/2023/1(2).png)
 
 ### 4. Highchart의 궁금한 점에 대해 gpt에게 실시간으로 물어보기
-전처리 명령 프롬프터 역할을 하는 System란에 `전제`를 깔아둘 수 있다. 이 세팅 덕분에, 사용자가 차트 종류를 특정하지 않더라도 반드시 `Highchart`에 관한 결과가 도출된다.
+전처리 명령 프롬프터 역할을 하는 System란에 `전제`를 깔아둘 수 있다. 이 세팅 덕분에, 사용자가 차트 종류를 특정하지 않더라도 반드시 `Highchart`에 관한 결과가 도출된다.   
 ![Desktop View](/assets/img/2023/1(3).png)
 > 
 번역: Highcharts, Vue2 버전을 기준으로, 하나의 json 형식 markdown 코드 블록을 제시하고, chartOptions 라는 객체만 사용한다. 포맷은 다음과 같고, html 이나 import 코드는 넣지 말 것. 설명을 덧붙일 순 있지만 일반 문자만 가능하다.
@@ -128,7 +126,7 @@ _json코드 리턴(생략)_
 _간단한 설명과 응답된 값을 토대로 차트 시각화_
 
 ### 3. 답변을 가공한 차트 시각화
-여기서 system 전처리 기능이 빛을 발한다. 응답된 json 객체를 가공해 차트를 시각화하기 위해, `응답 객체의 이름은 chartOptions로 한다`는 전제가 필요하다.
+여기서 system 전처리 기능이 빛을 발한다. 응답된 json 객체를 가공해 차트를 시각화하기 위해, `응답 객체의 이름은 chartOptions로 한다`는 전제가 필요하다.   
 ![Desktop View](/assets/img/2023/1(9).png)
 
 ### 4. 예시 그래프 보기
@@ -262,7 +260,7 @@ Error: Invalid exit code: 128
 > ![image](https://github.com/abarthdew/highcharts-gpt-chatbot/assets/51596506/a7e9034e-4d37-4518-a666-2f0f5b6e160e)
 
 - [deploy is waiting for github-pages deployment approval](https://github.com/orgs/community/discussions/59600)
-> ![image](https://github.com/abarthdew/highcharts-gpt-chatbot/assets/51596506/c06d3e94-7165-4368-a257-181898ad0768)
+> ![image](https://github.com/abarthdew/highcharts-gpt-chatbot/assets/51596506/c06d3e94-7165-4368-a257-181898ad0768)   
 > deploy 상태가 waiting에서 안 넘어가길래 별짓을 다 해봤는데 알고 봤더니 gitHub 자체 업데이트 때문에 벌어진 일이었다. 앞으론 안 된다고 냅다 리포지토리 날리지 말고 [gitHub Status](https://www.githubstatus.com/) 상태도 확인하자...   
 ![image](https://github.com/abarthdew/highcharts-gpt-chatbot/assets/51596506/051cacb9-fd93-428d-8738-8f1ad08352b0)
 
