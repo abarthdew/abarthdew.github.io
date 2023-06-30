@@ -11,7 +11,7 @@ image:
   height: 500
 ---
 
-> [GPT_prompt_for_Highcharts](https://abarthdew.github.io/highcharts-gpt-chatbot/#/) 접속하기 👈 go!
+> [GPT prompt for Highcharts](https://abarthdew.github.io/highcharts-gpt-chatbot/#/) 접속하기 👈 go!
 {: .prompt-tip }
 > [Maker's GitHub](https://github.com/abarthdew/highcharts-gpt-chatbot) 제작자의 GitHub 🖐 Welcome🙃
 {: .prompt-info }
@@ -69,7 +69,7 @@ navigation:{...}
 {: file='Highcharts API 문서 일부'}
 앞서 언급했듯, 통계 그래프의 문서는 양이 방대하다. X축, Y축, 범례, 값을 나타내는 개체의 모양과 라벨 내용까지, 무수한 property의 연속이다. 무엇보다 제일 성가신 점은, 개발이 끝난 후에는 내용을 잊어버린다는 것이다. 구현 빈도는 잦지만 보통 메뉴의 한 쪽만 차지하는 내용이라 개발과 개발 사이의 텀이 길고, 차트 라이브러리도 천차만별이어서 그렇다.   
 ### 5. 다양한 그래프 종류 구현과 실시간 혹은 비정형적인 질문이 가능한 환경 제공
-예시로 구현된 `GPT_prompt_for_Highcharts`는 수많은 라이브러리들 중 `Highcharts`만 특정한다. 사용자(개발자)가 차트에 관한 것을 물으면, 자동으로 `Highcharts`에 대한 내용을 답변해 준다. 또한, 개발자의 입장에서 필요할 법한 몇 가지 기능을 추가로 구현했다. 청사진을 목적으로 만들었기에 완벽하진 않지만.
+예시로 구현된 `GPT prompt for Highcharts`는 수많은 라이브러리들 중 `Highcharts`만 특정한다. 사용자(개발자)가 차트에 관한 것을 물으면, 자동으로 `Highcharts`에 대한 내용을 답변해 준다. 또한, 개발자의 입장에서 필요할 법한 몇 가지 기능을 추가로 구현했다. 청사진을 목적으로 만들었기에 완벽하진 않지만.
 
 
 # How to Use - 준비
@@ -77,7 +77,7 @@ navigation:{...}
 ### 1. 어플리케이션 실행
 - 배포 주소   
 
-> [GPT_prompt_for_Highcharts](https://abarthdew.github.io/highcharts-gpt-chatbot/#/) 접속하기 👈 go!
+> [GPT prompt for Highcharts](https://abarthdew.github.io/highcharts-gpt-chatbot/#/) 접속하기 👈 go!
 {: .prompt-tip }
 
 - 로컬에서 실행하는 경우
@@ -178,8 +178,9 @@ message = [
 
 ### 3. 동적 그래프
 - chartOptions 객체를 추출해내는 regex   
-> 만일 Gpt가 system 형식에 부합하지 않는 답을 도출할 시, 해당 답변의 그래프 시각화는 중단되고 에러 메세지가 출력된다.
-{: .prompt-warning }   
+
+ > 만일 Gpt가 system 형식에 부합하지 않는 답을 도출할 시, 해당 답변의 그래프 시각화는 중단되고 에러 메세지가 출력된다.
+{: .prompt-warning }
 ```javascript
 const chartOptions = async (content) => {
   let regex = new RegExp(/(```(.|\n)*```)/, "g");
@@ -199,7 +200,12 @@ const chartOptions = async (content) => {
 }
 ```
 
-- 동적 컴포넌트: 생략. 디버깅 필요.
+- 차트 컴포넌트   
+
+```javascript
+data.resultMessages.push(new Message(ROLE_ASSISTANT, message.content, data.chartOptions))
+```
+{: file='답변 가공 후 data.resultMessage 배열에 push'}
 
 
 # ETC - 배포/오류/버그
@@ -281,7 +287,7 @@ Error: Invalid exit code: 128
 - favicon 변경 ⭕
 - header: docs 주소 변경 ⭕
 - treemap 차트 click event 추가 -> 언젠가
-- user message 공란일 때 send message = return false;
+- user message 공란일 때 send message = return false;(x) -> data.userMessage 빈값일 시 버튼 disabled ⭕
 - 가끔 엉뚱한 답변&느린 응답 -> gpt 잘못이니 신경 안 쓸 예정
 
 # Reference - 참고
