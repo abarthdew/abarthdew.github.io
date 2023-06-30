@@ -55,6 +55,11 @@ Gpt를 활용하는 데 있어서, 일반 사용자와 개발자는 다를 수�
 통계 메뉴는 어떤 웹사이트든 쉽게 찾아볼 수 있는데, 매번 문서를 보며 구현하기에는 다소 시간이 든다. 이 과정에 AI를 도입해 화면 구현에 소요되는 시간을 획기적으로 줄이고, 서버 단의 코드나 SQL 쿼리를 짜는 데 시간을 더 할애해 보다 성능이 높은 수준의 코드를 짤 수 있다!
 ### 4. Highcharts 문서의 가독성과 양의 방대함
 ```javascript
+accessibility:{...}
+annotations:[{...}]
+boost:{...}
+caption:{...}
+chart:{...}
 colorAxis:[{...}]
 colors:[ "#2caffe", "#544fc5", "#00e272", "#fe6a35", "#6b8abc", "#d568fb", "#2ee0ca", "#fa4b42", "#feb56a", "#91e8e12 ]
 credits:{...}
@@ -65,6 +70,19 @@ exporting:{...}
 legend:{...}
 loading:{...}
 navigation:{...}
+noData:{...}
+pane:{...}
+plotOptions:{...}
+responsive:{...}
+series:[{...}]
+sonification:{...}
+subtitle:{...}
+time:{...}
+title:{...}
+tooltip:{...}
+xAxis:[{...}]
+yAxis:[{...}]
+zAxis:[{...}]
 ```
 {: file='Highcharts API 문서 일부'}
 앞서 언급했듯, 통계 그래프의 문서는 양이 방대하다. X축, Y축, 범례, 값을 나타내는 개체의 모양과 라벨 내용까지, 무수한 property의 연속이다. 무엇보다 제일 성가신 점은, 개발이 끝난 후에는 내용을 잊어버린다는 것이다. 구현 빈도는 잦지만 보통 메뉴의 한 쪽만 차지하는 내용이라 개발과 개발 사이의 텀이 길고, 차트 라이브러리도 천차만별이어서 그렇다.   
