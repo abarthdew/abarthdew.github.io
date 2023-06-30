@@ -94,7 +94,7 @@ $ npm run dev
 차트에 대해 생소하다면, 기본 line chart 예시를 참고할 수 있도록 위와 같이 간단한 명칭 설명과 코드를 구현해 놓았다.   
 ![Untitled](assets/img/2023/1(2).png)
 
-### 4. Highchart의 궁금한 점에 대해 gpt에게 실시간으로 물어보기
+### 4. Highchart의 궁금한 점에 대해 Gpt에게 실시간으로 물어보기
 전처리 명령 프롬프터 역할을 하는 System란에 `전제`를 깔아둘 수 있다. 이 세팅 덕분에, 사용자가 차트 종류를 특정하지 않더라도 반드시 `Highchart`에 관한 결과가 도출된다.   
 ![Untitled](assets/img/2023/1(3).png)
 > 
@@ -178,6 +178,7 @@ message = [
 
 ### 3. 동적 그래프
 - chartOptions 객체를 추출해내는 regex
+만일 Gpt가 system 형식에 부합하지 않는 답을 도출할 시, 해당 답변의 그래프 시각화는 중단되고 에러 메세지가 출력된다.
 ```javascript
 const chartOptions = async (content) => {
   let regex = new RegExp(/(```(.|\n)*```)/, "g");
@@ -207,14 +208,14 @@ const chartOptions = async (content) => {
 [.github/workflows/gh-pages.yaml](https://github.com/abarthdew/highcharts-gpt-chatbot/blob/main/.github/workflows/gh-pages.yml)
 > - 배포에 필요한 명령어들을 작성한 파일.
 > - [참고](https://codingapple.com/unit/vue-build-and-deploy-with-github-pages/)에 나오는 것처럼, `npm run build`를 호출해 압축 파일들을 /dist에 수동으로 저장할 필요 없음.
-> - gitHub deploy시, 자동으로 ph-pages 브랜치가 생성되고 배포할 결과물이 저장된다. 
+> - gitHub deploy시, 자동으로 gh-pages 브랜치가 생성되고 배포할 결과물이 저장된다. 
 
 - [Settings] - choose deploy method
 > - 배포에는 두 가지 방법이 있음.
 > 1. git actions 사용, 2. git 브랜치로 배포(Deploy from a branch)
 > - 현재 프로젝트는 2. 방식 채택.
-> - 배포 결과물이 ph-pages에 저장되므로 배포 브랜치는 main이 아닌 ph-pages.   
-> - 하지만, ph-pages 브랜치를 먼저 만들어 줘야 하므로 gh-pages.yml 파일을 push -> 파일 내용에 의해 [Actions](https://github.com/abarthdew/highcharts-gpt-chatbot/actions/runs/5410468901) 탭에서 자동으로 deploy됨 -> gh-pages 브랜치 생성 및 배포 파일 자동 저장됨.
+> - 배포 결과물이 gh-pages에 저장되므로 배포 브랜치는 main이 아닌 gh-pages.   
+> - 하지만, gh-pages 브랜치를 먼저 만들어 줘야 하므로 gh-pages.yml 파일을 push -> 파일 내용에 의해 [Actions](https://github.com/abarthdew/highcharts-gpt-chatbot/actions/runs/5410468901) 탭에서 자동으로 deploy됨 -> gh-pages 브랜치 생성 및 배포 파일 자동 저장됨.
 > ![image](https://github.com/abarthdew/highcharts-gpt-chatbot/assets/51596506/b6c78224-dfdf-416e-a999-22f5a3e304e2)
 > - 그 다음, [Settings - Actions](https://github.com/abarthdew/highcharts-gpt-chatbot/settings/pages) 탭에서 main으로 되어 있는 설정을 gh-pages로 바꿈.
 > ![image](https://github.com/abarthdew/highcharts-gpt-chatbot/assets/51596506/bcfc726a-3fb2-407a-b34d-07553b94aa9f)
