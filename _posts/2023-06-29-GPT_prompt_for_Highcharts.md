@@ -177,8 +177,9 @@ message = [
 ```
 
 ### 3. 동적 그래프
-- chartOptions 객체를 추출해내는 regex
-만일 Gpt가 system 형식에 부합하지 않는 답을 도출할 시, 해당 답변의 그래프 시각화는 중단되고 에러 메세지가 출력된다.
+- chartOptions 객체를 추출해내는 regex   
+> 만일 Gpt가 system 형식에 부합하지 않는 답을 도출할 시, 해당 답변의 그래프 시각화는 중단되고 에러 메세지가 출력된다.
+{: .prompt-warning }   
 ```javascript
 const chartOptions = async (content) => {
   let regex = new RegExp(/(```(.|\n)*```)/, "g");
