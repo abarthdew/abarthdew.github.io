@@ -5,7 +5,7 @@ categories: [Front, Vue]
 tags: [Front, Vue]
 ---
 
-# vue-lesson
+# [vue-lesson](https://github.com/abarthdew/vue-lesson)
 
 ## 강의에서 다루는 내용
 
@@ -13,7 +13,7 @@ tags: [Front, Vue]
 
 ## 실습 미리보기
 
-![Untitled](https://github.com/abarthdew/vue-lesson/blob/main/vue-todo-cli3/src/assets/vue-lesson(2).png)
+![Untitled](vue-lesson/blob/main/vue-todo-cli3/src/assets/vue-lesson(2).png)
 
 ![Untitled](https://github.com/abarthdew/vue-lesson/blob/main/vue-todo-cli3/src/assets/vue-lesson(3).png)
 
