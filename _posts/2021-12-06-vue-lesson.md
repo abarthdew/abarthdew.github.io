@@ -9,13 +9,13 @@ tags: [Front, Vue]
 
 ## 강의에서 다루는 내용
 
-<img src="{{site.baseurl}}blob/main/vue-todo-cli3/src/assets/vue-lesson(1).png">
+![Untitled] (https://github.com/abarthdew/vue-lesson/blob/main/vue-todo-cli3/src/assets/vue-lesson(1).png)
 
 ## 실습 미리보기
 
-<img src="https://github.com/abarthdew/vue-lesson/blob/main/vue-todo-cli3/src/assets/vue-lesson(3).png">
+![Untitled](https://github.com/abarthdew/vue-lesson/blob/main/vue-todo-cli3/src/assets/vue-lesson(2).png)
 
-![Untitled](/vue-lesson/blob/main/vue-todo-cli3/src/assets/vue-lesson(3).png)
+![Untitled](https://github.com/abarthdew/vue-lesson/blob/main/vue-todo-cli3/src/assets/vue-lesson(3).png)
 
 ## 개발환경 `+ubuntu`
 
