@@ -43,7 +43,7 @@ tags: [Back, Java]
     
     ```java
     public DmbCellPhone () { // 자식 객체가 생성될 때,
-    	super(); // 컴파일러가 자동으로 넣은 super()가 먼저 부모의 기본 생성자를 호출
+      super(); // 컴파일러가 자동으로 넣은 super()가 먼저 부모의 기본 생성자를 호출
     } // 자식 생성자 생성
     ```
     
@@ -211,9 +211,9 @@ tags: [Back, Java]
     
     ```java
     public void method(Parent parent) {
-    	if(parnet instanceof Child) { // 매개변수 parent 가 Child 클래스로 만들어진 객체인가?
-    		Child child = (Child) parent; // 검사 후 강제 타입 변환
-    	}
+      if(parnet instanceof Child) { // 매개변수 parent 가 Child 클래스로 만들어진 객체인가?
+        Child child = (Child) parent; // 검사 후 강제 타입 변환
+      }
     }
     ```
     

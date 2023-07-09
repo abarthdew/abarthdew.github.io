@@ -111,8 +111,8 @@ tags: [Back, Java]
 
 ```java
 부모 클래스 [필드|변수] = new 부모클래스(매개값, ...) {
-	// 필드
-	// 메서드
+  // 필드
+  // 메서드
 };
 ```
 
@@ -122,8 +122,8 @@ tags: [Back, Java]
     
     ```java
     {
-    	// 필드
-    	// 메서드
+      // 필드
+      // 메서드
     };
     ```
     
@@ -149,10 +149,10 @@ tags: [Back, Java]
     
     ```java
     Parent field = new Parent() {
-    	int childField; // 새로운 필드
-    	void childMethod() {} // 새로운 메서드
-    	@Override
-    	void parentMethod() {} // 부모의 메서드 재정의
+      int childField; // 새로운 필드
+      void childMethod() {} // 새로운 메서드
+      @Override
+      void parentMethod() {} // 부모의 메서드 재정의
     }
     ```
     

@@ -104,7 +104,7 @@ public static void add(int a, int b) {...}
 
 ```java
 public static void main(String[] args) {
-	// ....
+  // ....
 }
 ```
 
@@ -130,7 +130,7 @@ public static void main(String[] args) {
 
 ```java
 public static void main(String[] args) {
-	int sum = 0;
+  int sum = 0;
 }
 ```
 
@@ -150,11 +150,11 @@ public static void main(String[] args) {
 
 ```java
 public static void main(String[] args) {
-	int sum = 0;
-	if (sum==0) {
-		int v2 = 10;
-		int v3 = 20;
-	}
+  int sum = 0;
+  if (sum==0) {
+    int v2 = 10;
+    int v3 = 20;
+  }
 }
 ```
 
@@ -174,16 +174,16 @@ public static void main(String[] args) {
 
 ```java
 public static void main(String[] args) {
-	int sum = 0;
-	if (sum==0) {
-		int v2 = 10;
-		int v3 = 20;
-		sum = add(v2, v3);
-	}
+  int sum = 0;
+  if (sum==0) {
+	int v2 = 10;
+	int v3 = 20;
+	sum = add(v2, v3);
+  }
 }
 
 public static int add(int a, int b) {
-	return a + b;
+  return a + b;
 }
 ```
 
@@ -213,16 +213,16 @@ public static int add(int a, int b) {
 
 ```java
 public static void main(String[] args) {
-	int sum = 0;
-	if (sum==0) {
-		int v2 = 10;
-		int v3 = 20;
-		sum = add(v2, v3);
-	}
+  int sum = 0;
+  if (sum==0) {
+    int v2 = 10;
+    int v3 = 20;
+    sum = add(v2, v3);
+  }
 }
 
 public static int add(int a, int b) {
-	return a + b;
+  return a + b;
 } //-------(메소드 끝나는 시점)
 ```
 
@@ -254,12 +254,12 @@ public static int add(int a, int b) {
 
 ```java
 public static void main(String[] args) {
-	int sum = 0;
-	if (sum==0) {
-		int v2 = 10;
-		int v3 = 20;
-		sum = add(v2, v3);
-	} //----(if 끝나는 시점)
+  int sum = 0;
+  if (sum==0) {
+    int v2 = 10;
+    int v3 = 20;
+    sum = add(v2, v3);
+  } //----(if 끝나는 시점)
 }
 ```
 
@@ -271,13 +271,13 @@ public static void main(String[] args) {
 
 ```java
 public static void main(String[] args) {
-	int sum = 0;
-	if (sum==0) {
-		int v2 = 10;
-		int v3 = 20;
-		sum = add(v2, v3);
-	}
-	System.out.println(sum);
+  int sum = 0;
+  if (sum==0) {
+    int v2 = 10;
+    int v3 = 20;
+    sum = add(v2, v3);
+  }
+  System.out.println(sum);
 } //-----(main 메서드 끝나는 시점)
 ```
 
@@ -422,10 +422,10 @@ $ java [클래스명] [문자열1] [문자열2]
     
     ```java
     public static void main(String[] args) {
-    	args[0]
-    	args[1]
-    	args.length
-    	// ....
+      args[0]
+      args[1]
+      args.length
+      // ....
     }
     ```
     
@@ -614,7 +614,7 @@ scores[1] = new int[3]; // A 배열의 1번째에 길이 3짜리 C 대입
     ```java
     Week[] days = Week.values();
     for(Week day:days) {
-    	System.out.println(day);
+      System.out.println(day);
     }
     ```
     

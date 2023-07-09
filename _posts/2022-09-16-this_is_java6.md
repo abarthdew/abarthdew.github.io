@@ -141,14 +141,14 @@ tags: [Back, Java]
 
 ```java
 Car(String model, String color, int maxSpeed) {
-	this.model = model;
-	this.color = color;
-	this.maxSpeed = maxSpeed;
+  this.model = model;
+  this.color = color;
+  this.maxSpeed = maxSpeed;
 }
 // (1) 공통 실행 코드를 작성해 놓고, this()로 이 코드를 호출함
 
 Car(String model) { // (2)
-	this(model, null, 0); // 생성자를 호출만 함(매개변수 외의 값은 기본값)
+  this(model, null, 0); // 생성자를 호출만 함(매개변수 외의 값은 기본값)
 // 즉, (2)는내부적으로 (1)에 선언한 생성자를 실행하는 것
 }
 ```
@@ -158,16 +158,16 @@ Car(String model) { // (2)
 ```java
 // 올바른 예
 Car(String model) {
-	this(model, null, 0);
-	System.out.println();
+  this(model, null, 0);
+  System.out.println();
 }
 ```
 
 ```java
 // 올바르지 않은 예
 Car(String model) {
-	System.out.println();
-	this(model, null, 0);
+  System.out.println();
+  this(model, null, 0);
 }
 ```
 
@@ -251,14 +251,14 @@ Car(String model) {
 
 ```java
 class Test {
-	int x = 10;
-	int y;
-	Test() {
-		y = 20; // 생성자 내에서 복잡한 필드값을 줄 때
-	}
-	// static 필드는 생성자 내에서 초기화 할 수 없음
-	// 생성자는 객체를 생성할 때 실행하므로 객체와 관련있음 
-	// static은 객체 안에 들어가는 게 아니기 때문에 생성자 안에서 초기화하지 못함
+  int x = 10;
+  int y;
+  Test() {
+    y = 20; // 생성자 내에서 복잡한 필드값을 줄 때
+  }
+  // static 필드는 생성자 내에서 초기화 할 수 없음
+  // 생성자는 객체를 생성할 때 실행하므로 객체와 관련있음 
+  // static은 객체 안에 들어가는 게 아니기 때문에 생성자 안에서 초기화하지 못함
 }
 ```
 
@@ -266,12 +266,12 @@ class Test {
 
 ```java
 class Test {
-	static int x;
-	static {
-		x = 10; // 이런 식으로 static 필드 초기화 가능(for문 등도 가능)
-	}
-	// 정적 필드 초기화, 정적 메서드 호출 가능
-	// 인스턴스 필드, 인스턴스 메서드 호출 불가능
+  static int x;
+  static {
+    x = 10; // 이런 식으로 static 필드 초기화 가능(for문 등도 가능)
+  }
+  // 정적 필드 초기화, 정적 메서드 호출 가능
+  // 인스턴스 필드, 인스턴스 메서드 호출 불가능
 }
 ```
 
@@ -437,7 +437,7 @@ class Test {
         
         ```java
         public class Car {
-        	com.hankook.Tire tire = new com.hankook.Tire();
+          com.hankook.Tire tire = new com.hankook.Tire();
         }
         ```
         
@@ -560,14 +560,14 @@ class Test {
     ```java
     @AnnotationName
     public class ClassName {
-    	@AnnotationName
-    	private String fieldName;
-    
-    	// @AnnotationName (x) // @Target의 인자에 ElementType.CONSTRUCTOR가 없으므로 생성자에는 어노테이션 적용 불가
-    	public ClassName() {}
-    
-    	@AnnotationName
-    	public void methodName() {}
+      @AnnotationName
+      private String fieldName;
+  
+      // @AnnotationName (x) // @Target의 인자에 ElementType.CONSTRUCTOR가 없으므로 생성자에는 어노테이션 적용 불가
+      public ClassName() {}
+  
+      @AnnotationName
+      public void methodName() {}
     }
     ```
     
@@ -619,23 +619,23 @@ class Test {
     
     ```java
     class xxx {
-    	@Annotation
-    	int field1;
-    	@Annotation
-    	String field2;
-    	// getFields(): field1, 2(필드)의 정보를 배열로 리턴
-    
-    	@Annotation
-    	xxx() {}
-    	@Annotation
-    	xxx(int x) {}
-    	// getConstructors(): 생성자 정보를 배열로 리턴
-    
-    	@Annotation
-    	void method1() {}
-    	@Annotation
-    	int method2() {}
-    	// getDeclareMethods(): 메서드 정보를 배열로 리턴
+      @Annotation
+      int field1;
+      @Annotation
+      String field2;
+      // getFields(): field1, 2(필드)의 정보를 배열로 리턴
+  
+      @Annotation
+      xxx() {}
+      @Annotation
+      xxx(int x) {}
+      // getConstructors(): 생성자 정보를 배열로 리턴
+  
+      @Annotation
+      void method1() {}
+      @Annotation
+      int method2() {}
+      // getDeclareMethods(): 메서드 정보를 배열로 리턴
     }
     ```
     
