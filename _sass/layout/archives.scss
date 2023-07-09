@@ -57,7 +57,7 @@
   ul {
     li {
       font-size: 1.1rem;
-      line-height: 3rem;
+      line-height: 2.9rem;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -80,7 +80,7 @@
 
       &::before {
         @extend %timeline;
-
+        content: '👉';
         top: 0;
         left: 68px;
         height: 3rem;
