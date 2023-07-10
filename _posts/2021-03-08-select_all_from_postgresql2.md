@@ -1,5 +1,5 @@
 ---
-title: SELECT 2.* FROM PostgreSQL;
+title: SELECT B.* FROM PostgreSQL;
 date: 2021-03-08
 categories: [DB, RDBMS]
 tags: [DB, PostgreSQL]
