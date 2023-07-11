@@ -1427,124 +1427,122 @@ SELECT * FROM sub_number; // 3
 > 💡 감사합니다. 질문과 보충했으면 좋을 것 같은 사항들을 말씀해주세요.
 
 # 11. 색인과 출처
-- 1. 특징
-    - 1) 포스트그레스큐엘이란?
-        - `ORACLE`, `MySQL`, `MS SQL Server`, `PostgreSQL` : RDBMS의 종류
-    - 2) 역사
-        - [IngresDB](https://en.wikipedia.org/wiki/Ingres_(database)) : 대규모 상용 및 정부 애플리케이션을 지원하기 위한 전용 SQL 관계형 데이터베이스 관리 시스템, C로 작성됨
-    - 3) 키워드
-        - [ANSI/ISO 규격의 SQL](https://duni-world.tistory.com/16) : SQL의 표준화는 ANSI(미국규격협회)와 ISO(국제표준화기구)의 2개 표준화 단체에 의해 진행되고 있다
-        - `Reliable(신뢰성) : 소프트웨어 품질 목표 중 옳고 일관된 결과를 얻기 위해 요구된 기능을 수행할 수 있는 정도를 나타냄(=주어진 시간동안 주어진 기능을 오류 없이 수행하는 정도)
-        - `ACID` : 원자성, 일관성, 고립성, 지속성
-        - `MVCC(다중 버전 동시성 제어)
-            
-            [[1]](https://mangkyu.tistory.com/53)Multi-Version Concurrency Control, 동시 접근을 허용하는 데이터베이스에서 동시성을 제어하기 위해 사용하는 방법 중 하나. [[2]](http://www.datanet.co.kr/news/articleView.html?idxno=116534)DBMS에서 쓰기세션-읽기세션이 서로를 블로킹하지 않고, 서로 다른 세션이 동일 데이터에 접근했을 때 각각의 스냅샷 이미지를 보장해주는 메커니즘. 변경된 내용은 UNDO영역에 기록되며, 사용자는 마지막 버전의 데이터를 읽게 됨.
-            
-        - [로우 레벨 락킹(Row Level Locking)](https://offbyone.tistory.com/225) : Table Locking은 Table에 대하여 Query문이 수행될 때, 그 Table전체에 대해 Locking을 거는 방식. Row Level Locking(행 수준 잠금)은 데이터를 수정하는 경우 해당 Row에만 Locking을 거는 것.
-        - [로킹(Locking)](https://raisonde.tistory.com/entry/%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4-%EB%A1%9C%ED%82%B9Locking-%EA%B8%B0%EB%B2%95%EA%B3%BC-%EB%A1%9C%ED%82%B9-%EB%8B%A8%EC%9C%84) : 한 번에 한명만 사용할 수 있게 하는 단위.
-        - [블로킹](https://chrisjune-13837.medium.com/db-lock-%EB%9D%BD%EC%9D%B4%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%B8%EA%B0%80-d908296d0279)
-        - [전체 텍스트 검색(Full-text search)](https://jomuljomul.tistory.com/entry/%EB%B2%88%EC%97%AD-PostgreSQL-Full-Text-Search-%ED%85%8D%EC%8A%A4%ED%8A%B8-%EA%B2%80%EC%83%89-1-Introduction) : document를 전처리하여 빠르게 검색이 가능하도록 하는 기능[document를 token으로 해체(단어 분리)-token을 lexem으로 변환(정규화)-전처리된 document를 검색하기 좋은 형태로 저장(정렬된 배열로 표현)][(예시)](https://webcache.googleusercontent.com/search?q=cache:AItqchvrsA8J:https://postgresql.kr/blog/korean_full_textsearch.html+&cd=2&hl=ko&ct=clnk&gl=kr&client=firefox-b-e)
-        - [테이블 파티셔닝](https://gmlwjd9405.github.io/2018/09/24/db-partitioning.html) : DB 시스템의 용량과 성능 관리를 위해, 대용량 테이블을 파티션이라는 작은 단위로 나누어 관리하는 것(PostgreSQL 10 [[1]](https://semode.tistory.com/466), [[2]](https://browndwarf.tistory.com/36), [[공식]](https://www.postgresql.org/docs/11/ddl-partitioning.html))
-        - `테이블 스페이스`
-            
-            [[1]](https://blogger.pe.kr/504?category=144029) 오라클과 PostgreSQL에서만 사용되는 개념. psql에서 DB는 PGDATA라는 환경변수에 지정된 디렉토리를 통째로 DB로 사용하는데, 그 하위에 테이블이 파일로 생성된다. 즉, 테이블 스페이스를 따로 생성하지 않아도 DB에 사용자 테이블을 만들 수 있다. 결론적으로, DB로 지정된 디렉토리 전체가 하나의 기본 테이블 스페이스로 인식된다. (*DB관리자에 의해 데이터베이스의 객체가 저장될 수 있는 파일시스템의 경로) [[2]](https://hotte.tistory.com/1)데이터베이스 객체가 파일 시스템상에 저장되는 물리적인 공간. Table Space를 이용하여 데이터베이스의 목적에 따라 저장소를 다르게 사용하는 운영이 가능해지며, 장애 대응 및 복구 등의 용도로도 활용이 가능. [[공식]](https://postgresql.kr/docs/9.6/manage-ag-tablespaces.html)데이터베이스 관리자가 데이터베이스 객체를 나타내는 파일을 저장할 수 있는 파일 시스템의 위치를 정의할 수 있게 하는 것.
-            
-        - `호스트 기반 인증(host-based authentication) : 호스트(IP주소를 갖는 시스템, 네트워크에 연결되어 있는 컴퓨터) 기반 인증[[1]](https://heaven9598.tistory.com/entry/SSH-Secure-Shell)[[2]](https://webcache.googleusercontent.com/search?q=cache:yMPnxh0r2pcJ:https://postgresql.kr/docs/9.6/auth-pg-hba-conf.html+&cd=2&hl=ko&ct=clnk&gl=kr&client=firefox-b-e)[[3]](https://info-lab.tistory.com/51)
-        - [호스트 기반 침입 탐지 시스템(Host-based Intrusion Detection System, HIDS)](https://ko.wikipedia.org/wiki/%ED%98%B8%EC%8A%A4%ED%8A%B8_%EA%B8%B0%EB%B0%98_%EC%B9%A8%EC%9E%85_%ED%83%90%EC%A7%80_%EC%8B%9C%EC%8A%A4%ED%85%9C) : 컴퓨터 시스템의 내부를 감시하고 분석하는 데 더 중점을 둔다
-        - [Object-level 권한](https://bylee5.tistory.com/76) : 오브젝트(table, column, view, foreign table, sequence, database, foreign-data wrapper, foreign server, function, procedural language, schema, tablespace) 단위로 접근이 허용 또는 거부
-        - `SSL(Secure Socket Layer)통신` : 보안 프로토콜이며, 일반적으로 https://형태
-        - `스트리밍 복제(Streaming Replication)
-            
-            [[1]](https://postgresql.kr/docs/9.3/warm-standby.html#STREAMING-REPLICATION)레코드 기반 로그 전달 방식. TCP 연결 방식을 이용해서 운영 서버와 직접 연결하고, 커밋된 트랜잭션을 즉시 대기 서버로 반영한다. WAL 세그먼트 파일 전달 방식보다 운영 서버의 자료 상태를 거의 실시간으로 동기화하는 방식이다. [[2]](https://idchowto.com/?p=44332)[[3]](https://browndwarf.tistory.com/4)WAL Log를 거의 실시간성으로 전달함으로써(물론 DB 서버 사이에는 Network에 문제가 없어야 한다.) 별다른 지연 없이 모든 DB가 동일한 값을 저장할 수 있게 하는 것. [[복제의 한 종류]](https://www.postgresql.org/docs/9.6/different-replication-solutions.html)
-            
-        - [Hot Standby(상시대기)](https://postgresql.kr/docs/9.4/hot-standby.html) : 서버가 아카이브 파일로 복구 작업 중이거나 대기 모드일 때도 클라이언트가 그 서버로 접속할 수 있으며, 읽기 전용 쿼리를 실행할 수 있는 기능. 현재 운용장비와 예비 운용장비의 구성을 항상 같은 상태로 해두는 것
-        - `Warm Standby` : [[1]](https://brownbears.tistory.com/85)서버 다중화 요소 중 한 쪽은 사용할 수 없는 Active-Standby(↔ Active-Active)의 세 종류 중 하나. [[2]](https://kangprog.tistory.com/11)가동 후 즉시 이용은 불가능 하지만, 어느정도 준비가 갖추어져있는 정도.
-        - [Cold Standby](https://bae-juk.tistory.com/26) : 예비 운용장비를 평소에는 사용하지 않고, 현재 운용장비에 장애가 발생하면 그 때 예비 운용장비에 연결하는 운용체제를 말한다.
-        - [다중화](https://starkying.tistory.com/entry/11-%EB%8B%A4%EC%A4%91%ED%99%94%EC%9D%98-%EA%B8%B0%EB%B3%B8) : 장애가 발생하더라도 예비 운용장비로 시스템의 기능을 계속할 수 있도록 하는 것.
-        - [Active-Active / Active-Standby](https://travislife.tistory.com/47) : (A-A)부하분산(로드밸런싱)을 통해 기능 또는 성격에 따라 1번 또는 2번 서버로 나누어서 처리하도록 구상. (A-S)서버를 이중화하여 구성하지만 장애 시에 서비스를 이전하여 운영하는 형태로 구성. 운영(메인)서버 장애 시 서비스 장애를 즉시 인지하여 서브 서버로 서비스를 이전함.
-        - `WAL(write ahead log, 선행기입로그) 아카이빙` : [[1]](https://goodlife-coding.tistory.com/entry/Postgresql-WALWrite-Ahead-Logging-%EC%95%84%EC%B9%B4%EC%9D%B4%EB%B8%8C-%EB%B0%8F-%ED%92%80-%EB%B0%B1%EC%97%85%EA%B3%BC-%EB%B3%B5%EA%B5%AC)PostgreSQL에서는 미리 쓰기 기록을 데이터베이스 클러스터 디렉토리 안 pg_xlog/디렉토리에서 관리함. 이 로그는 데이터베이스의 데이터 파일에 대한 모든 조작 기록을 보관함. 서버가 갑자기 중지되었을 경우, 미처리 작업을 로그에서 읽어서 다시 복구한 후 작업을 완료하기 위함. 어떤 데이터베이스에 쿼리를 날려 변경 이벤트를 실행할 때, 데이터를 변경하기 전에 해당 변경 내용을 로그에 미리 담아두고 이후에 변경한다는 개념. [[2]](https://browndwarf.tistory.com/4)Database 변경 사항만을 저장한 Log
-        - [Hot Backup(열린백업)](https://ktdsoss.tistory.com/219) : 데이터베이스가 오픈된 상태에서 백업 가능, 백업 중에도 DB서비스를 제공할 수 있다(↔Cold Backup, 닫힌백업)
-        - `Point in time recovery(시점복구) : [[1]](https://onedaystudy.tistory.com/66)DB 손실, 장애, 과거 데이터 조회 필요성에 의해 특정 시점으로 데이터베이스를 복원해야할 때 행하는 방법. 과거의 특정 시점(Point in Time)으로 복구한다는 의미. [[2]](https://webcache.googleusercontent.com/search?q=cache:1-4MlOYDD6IJ:https://postgresql.kr/docs/9.4/continuous-archiving.html+&cd=2&hl=ko&ct=clnk&gl=kr&client=firefox-b-e)
-        - [pg_upgrade](https://stackframe.tistory.com/3) : PostgreSQL에서 제공해주는 업그레이드 명령어[[공식]](https://postgresql.kr/docs/11/upgrading.html)
-        - [C/S기반](http://blog.naver.com/PostView.nhn?blogId=pcs1535&logNo=220758702587&parentCategoryNo=&categoryNo=81&viewDate=&isShowPopularPosts=true&from=search) : Application 방식으로 PC에 app을 깔아서 프로그램을 실행해 접근(↔Web 방식)
-    - 4) 내부 구조[[1]](https://waspro.tistory.com/146)[[2]](https://kimdubi.github.io/postgresql/psql_architecture/)[[3]](https://blog.goodusdata.com/12)[[4]](https://mangkyu.tistory.com/71)[[5]](https://www.youtube.com/watch?v=Hm_Q4_mz3UA)[[6]](https://kwomy.tistory.com/6?category=851266)
-        - [DATABASE 구조](http://www.gurubee.net/lecture/2942)
-        - [template 테이블](https://daewonyoon.tistory.com/158)
-        - [스키마](https://kimdubi.github.io/postgresql/pg_schema/)
-        - `MASTER DB - SLAVE DB` [[1]](https://www.toptal.com/mysql/mysql-master-slave-replication-tutorial)[[2]](https://kamang-it.tistory.com/entry/MySQLReplication%EC%9C%BC%EB%A1%9C-DB-Master-Slave%EA%B5%AC%EC%A1%B0-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%84%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%8F%99%EA%B8%B0%ED%99%94-%ED%95%98%EA%B8%B0feat-docker-shell-script)
-        - 권한[[1]](https://wiki.kldp.org/KoreanDoc/html/PgSQL_Extension-KLDP/PgSQL_Extension-KLDP-2.html)[[공식]](https://www.postgresql.org/docs/9.1/sql-revoke.html)
-        - `연결 초기화(Initialize connection)
-        - [Postmaster](https://younghk.github.io/etc/2020-04-01---postgresql-tips/) : PostgreSQL server
-        - [Deamon](https://haruhiism.tistory.com/9) : 멀티태스킹 운영 체제에서 데몬은 사용자가 직접적으로 제어하지 않고, 백그라운드에서 돌면서 여러 작업을 하는 프로그램을 말한다
-        - [데몬과 배치 차이점](https://brownbears.tistory.com/446) : 배치는 특정 시간에 작업을 실행하는 프로세스. 지정된 시간 이후에는 자원을 거의 소비하지 않음 / 데몬은 특정 서비스를 위해 백그라운드 상태에서 계속 실행되는 서버 프로세스. 서버가 죽을 때까지 자원을 점유.
-        - `Postgres Server`
-        - [캐시](https://ko.wikipedia.org/wiki/%EC%BA%90%EC%8B%9C) : 데이터나 값을 미리 복사해 놓는 임시 장소
-        - `Dirty Buffer` : [[1]](http://www.gurubee.net/lecture/1887)[[2]](http://wiki.gurubee.net/pages/viewpage.action?pageId=26739627)버퍼에 캐시된 이후 변경이 발생했지만, 아직 디스크에 기록되지 않아 데이터 파일 블록과 동기화가 필요한 버퍼 블록.
-    - 5) 세부 기능 및 제한점
-        - `Nested transactions` : 중첩된 트랜잭션
-        - `Savepoints` : 저장점
-        - [온라인 백업(Online Backup)/열린 백업(Hot Backup)](http://m.1day1.org/cubrid/manual/admin/admin_br_backuppolicy.htm) : 운영 중인 데이터베이스에 대해 백업을 수행하는 방식
-        - `Point in time recovery` : 시점 복구
-        - `Hot Backup` : 열린 백업
-        - `병렬복구(Parallel restore) : 다중 백업(multi-thread backup), 동시 백업을 수행하는 방식
-        - `Rule System` : PostgreSQL 규칙 시스템의 CREATE RULE은 지정된 테이블 또는 보기에 적용되는 새 규칙을 정의함. CREATE OR REPLACE RULE는 새 규칙을 만들거나 동일한 테이블에 대해 동일한 이름의 기존 규칙을 바꿈.
-        - `B-트리`: B트리란 Balanced Tree로, 자식을 두개만 가질 수 있던 Binary tree(이진 트리)의 확장개념. 자식 노드의 개수가 2개 이상이고, 데이터를 정렬하여 탐색, 삽입, 삭제 및 순차 접근이 가능하도록 유지하는 트리형 자료구조.[[1][](https://beelee.tistory.com/37)[2]](https://hyungjoon6876.github.io/jlog/2018/07/20/btree.html)
-        - `R-트리`
-            
-            [[1]](http://seb.kr/w/R_%ED%8A%B8%EB%A6%AC)다차원의 공간 데이터를 효과적으로 저장하고 지리정보와 관련된 질의를 빠르게 수행 할 수 있는 트리 자료 구조. [[2]](https://ko.wikipedia.org/wiki/R_%ED%8A%B8%EB%A6%AC)다차원의 공간 데이터를 저장하는 색인. 이를테면, 지리학에서 R 트리는 "현재 위치에서 200km 이내의 모든 도시를 찾아라"와 같은 질의에 대해 빠르게 답을 줄 수 있다.
-            
-        - [해시 인덱스](https://najuung.tistory.com/45) : 검색하고자 하는 값을 찾기 위해 해시함수를 거쳐 키값이 포함된 버켓을 찾아내는 방식
-        - `버킷` : 인덱스 각 키값과 레코드의 주소값등의 정보를 두는 공간[[1]](https://dev-woo.tistory.com/28)[[2]](https://maengdev.tistory.com/31)
-        - `GiST(Generalized Search Tree) 인덱스`
-            
-            [[1]](https://bitnine.tistory.com/m/entry/PostgreSQLs-Indexes)GiST는 어떤 운영 클래스가 적용되는지에 따라 다른 인덱스 전략을 사용할 수 있는 균형 잡힌 트리 구조 인덱스 액세스 방식. 이 기능의 경우 인덱스의 유형이 아닌 인프라로 볼 수 있음. 기하학 데이터, 텍스트 검색 문서 등 다양한 GiST 연산자 클래스를 제공. [[2]](https://postgis.net/docs/manual-3.0/postgis-ko_KR.html#gist_indexes) "일반화된 검색 트리"의 줄임말로, 인덱스 작업의 포괄적인 형태. 일반 B-Tree 인덱스 작업으로는 쓸 수 없는 온갖 종류의 비정규 데이터 구조(정수 배열, 분광 데이터 등등)에 대한 검색 속도를 향상시키는 데 GiST를 이용.
-            
-        - [PostgreSQL INDEX](https://webcache.googleusercontent.com/search?q=cache:teayQF99WcsJ:https://postgresql.kr/docs/11/sql-createindex.html+&cd=5&hl=ko&ct=clnk&gl=kr&client=firefox-b-e)
-        - [절차 언어](https://deftkang.tistory.com/125) : 순서를 명확한 계산법으로서 쉽게 표현할 수 있는 문제 지향 언어로서, 컴퓨터에 처리시키고자 할 때 그 순서를 명확하게 기술함으로써 처리를 쉽게 실행하는 프로그래밍 언어.
-        - [PL/pgSQL](https://webcache.googleusercontent.com/search?q=cache:7-vrIVEn_FgJ:https://postgresql.kr/docs/9.6/plpgsql-overview.html+&cd=2&hl=ko&ct=clnk&gl=kr&client=firefox-b-e) : PostgreSQL 데이터베이스 시스템에서 로드가능한 프로시저 언어이자, 절차적 언어라는 특징을 가지고 있음
-        - [정보 스키마(Information Schema)](https://www.postgresql.org/docs/9.1/information-schema.html) : 현재 데이터베이스에 정의된 개체에 대한 정보를 포함하는 보기 집합으로 구성[[2]](https://kimdubi.github.io/postgresql/pg_schema/)
-        - `국제화(I18N) : 응용 프로그램을 다양한 지역에 맞게 조정하는 시스템
-        - `현지화(L10N) : 문화, 지역 또는 언어가 다양한 대상 고객을 위해 쉽게 현지화할 수 있는 디자인 및 개발
-        - [데이터베이스 및 열별 데이터 정렬(Database & Column level collation)](https://www.postgresql.org/docs/9.1/collation.html)
-        - [Array, XML, UUID type](https://www.postgresql.org/docs/9.5/datatype.html)
-        - [Auto-increment (sequences)](https://aspdotnet.tistory.com/2401)
-        - [SSL, IPv6](https://postgresql.kr/docs/9.6/auth-pg-hba-conf.html)
-        - `hstore` : [[1]](https://www.postgresql.org/docs/9.0/hstore.html)[[2]](http://www.gisdeveloper.co.kr/?p=2082)PostgresSQL에서 기본적으로 제공되는 기능. Key / Value라는 단순한 구조를 갖는 테이블을 정의할 수 있는 확장.
-        - `테이블 상속(Table inheritance) : [[1]](https://corekms.tistory.com/entry/table-inheritance%EC%83%81%EC%86%8D)[[2]](https://www.postgresql.org/docs/10/tutorial-inheritance.html)
-    - 6) 경쟁 제품들과의 비교
-        - `마이그레이션` : 서비스 중인 한 어플리케이션 또는 모듈 등을 전혀 다른 환경(OS, 미들웨어, 하드웨어 등) 에서도 돌아갈 수 있도록 전환하는 것을 의미. 예를 들어, C로 개발된 솔라리스 OS 기반 프로그램을 시스템이 노후화되어 리눅스 기반의 새로운 시스템에서 돌아갈 수 있도록 하려면 솔라리스 OS에서 참조하던 라이브러리, API(함수) 등에 대해 동일한 역할을 하는 리눅스 기반의 그것으로 1:1 변환/매핑하는 작업이 필요함. 이런 것이 단순하게 바라본 마이그레이션의 의미.
-- 2. ORACLE vs PostgreSQL
-    - [오라클과 포스트그레스큐엘 비교](https://db-engines.com/en/system/Oracle%3BPostgreSQL)
-    - [BSD](https://ko.wikipedia.org/wiki/BSD) : 라이센스 종류
-    - `horizontal partitioning`
+### 1. 특징
+- 1) 포스트그레스큐엘이란?
+    - `ORACLE`, `MySQL`, `MS SQL Server`, `PostgreSQL` : RDBMS의 종류
+- 2) 역사
+    - [IngresDB](https://en.wikipedia.org/wiki/Ingres_(database)) : 대규모 상용 및 정부 애플리케이션을 지원하기 위한 전용 SQL 관계형 데이터베이스 관리 시스템, C로 작성됨
+- 3) 키워드
+    - [ANSI/ISO 규격의 SQL](https://duni-world.tistory.com/16) : SQL의 표준화는 ANSI(미국규격협회)와 ISO(국제표준화기구)의 2개 표준화 단체에 의해 진행되고 있다
+    - `Reliable(신뢰성) : 소프트웨어 품질 목표 중 옳고 일관된 결과를 얻기 위해 요구된 기능을 수행할 수 있는 정도를 나타냄(=주어진 시간동안 주어진 기능을 오류 없이 수행하는 정도)
+    - `ACID` : 원자성, 일관성, 고립성, 지속성
+    - MVCC(다중 버전 동시성 제어)
         
-        [[1]](https://ko.wikipedia.org/wiki/%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4_%EB%B6%84%ED%95%A0)하나의 테이블을 특정 분할 기준(ex. 여, 남)에 따라 수평 분할(레코드로 분할)하는 것. [[2]](https://jack-of-all-trades.tistory.com/95) 오라클 파티셔닝 : 대용량 테이블을 물리적인 n개 테이블로 나누는 것(논리적으로 1개 테이블, 물리적으로 n개 테이블)[[예제]](https://coding-factory.tistory.com/422)
+        [[1]](https://mangkyu.tistory.com/53)Multi-Version Concurrency Control, 동시 접근을 허용하는 데이터베이스에서 동시성을 제어하기 위해 사용하는 방법 중 하나. [[2]](http://www.datanet.co.kr/news/articleView.html?idxno=116534)DBMS에서 쓰기세션-읽기세션이 서로를 블로킹하지 않고, 서로 다른 세션이 동일 데이터에 접근했을 때 각각의 스냅샷 이미지를 보장해주는 메커니즘. 변경된 내용은 UNDO영역에 기록되며, 사용자는 마지막 버전의 데이터를 읽게 됨.
+    - [로우 레벨 락킹(Row Level Locking)](https://offbyone.tistory.com/225) : Table Locking은 Table에 대하여 Query문이 수행될 때, 그 Table전체에 대해 Locking을 거는 방식. Row Level Locking(행 수준 잠금)은 데이터를 수정하는 경우 해당 Row에만 Locking을 거는 것.
+    - [로킹(Locking)](https://raisonde.tistory.com/entry/%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4-%EB%A1%9C%ED%82%B9Locking-%EA%B8%B0%EB%B2%95%EA%B3%BC-%EB%A1%9C%ED%82%B9-%EB%8B%A8%EC%9C%84) : 한 번에 한명만 사용할 수 있게 하는 단위.
+    - [블로킹](https://chrisjune-13837.medium.com/db-lock-%EB%9D%BD%EC%9D%B4%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%B8%EA%B0%80-d908296d0279)
+    - [전체 텍스트 검색(Full-text search)](https://jomuljomul.tistory.com/entry/%EB%B2%88%EC%97%AD-PostgreSQL-Full-Text-Search-%ED%85%8D%EC%8A%A4%ED%8A%B8-%EA%B2%80%EC%83%89-1-Introduction) : document를 전처리하여 빠르게 검색이 가능하도록 하는 기능[document를 token으로 해체(단어 분리)-token을 lexem으로 변환(정규화)-전처리된 document를 검색하기 좋은 형태로 저장(정렬된 배열로 표현)][(예시)](https://webcache.googleusercontent.com/search?q=cache:AItqchvrsA8J:https://postgresql.kr/blog/korean_full_textsearch.html+&cd=2&hl=ko&ct=clnk&gl=kr&client=firefox-b-e)
+    - [테이블 파티셔닝](https://gmlwjd9405.github.io/2018/09/24/db-partitioning.html) : DB 시스템의 용량과 성능 관리를 위해, 대용량 테이블을 파티션이라는 작은 단위로 나누어 관리하는 것(PostgreSQL 10 [[1]](https://semode.tistory.com/466), [[2]](https://browndwarf.tistory.com/36), [[공식]](https://www.postgresql.org/docs/11/ddl-partitioning.html))
+    - `테이블 스페이스`
         
-    - [이기종 시스템 아키텍처(Heterogeneous System Architecture, HSA)](https://m.blog.naver.com/PostView.nhn?blogId=cyonic&logNo=207955491&proxyReferer=https:%2F%2Fwww.google.com%2F) : 컴퓨팅 자원을 최대한 활용해 비용 대비 높은 생산성을 얻을 수 있는 효율적인 설계 방식. 쉽게 말해 CPU와 GPU의 벽을 허물고 소프트웨어가 두 부품의 컴퓨팅 자원을 자유롭게 활용한다는 의미. 기업을 예로 들면, 부처 간의 벽을 허물고 하나의 목표를 이루기 위해 모든 인력과 자원을 공유해 업무 효율을 높이는 것.
-    - [Multi-source replication(다중 소스 복제)](https://docs.oracle.com/cd/B12037_01/server.101/b10728/repmultd.htm) : 스트림을 사용하여 세 개의 Oracle 데이터베이스 중 스키마에 대한 데이터를 복제하는 방법.
-    - [Source-replica replication(원본 복제)](https://docs.oracle.com/cd/E17952_01/connector-j-8.0-en/connector-j-source-replica-replication-connection.html)
-    - [서버 사이드 스크립트 언어](https://ko.wikipedia.org/wiki/%EC%84%9C%EB%B2%84_%EC%82%AC%EC%9D%B4%EB%93%9C_%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8_%EC%96%B8%EC%96%B4) : 웹에서 사용되는 스크립트 언어 중 서버 사이드에서 실행되는 스크립트 언어.
-    - [맵리듀스](https://songsunbi.tistory.com/5) : 구글에서 대용량 데이터 처리를 분산 병렬 컴퓨팅에서 처리하기 위한 목적으로 제작하여 2004년 발표한 소프트웨어 프레임워크. 맵(Map)+리듀스(Reduce)로 이루어져 있으며, Input(데이터 입력) → Splitting(데이터를 쪼개 HDFS에 저장) → Mapping → Shuffling(맵 함수의 결과 취합을 위해 리듀스 함수로 데이터 전달) → Reducing(모든 값을 합쳐 원하는 값 추출) → Final Result과 같은 과정을 거친다.
-- 3. 설치
-    - [PostgreSQL 설치하기](https://www.postgresql.org/download/windows/)
-    - [data 디렉토리 파일 목록](https://waspro.tistory.com/146)
-- 4. 환경 변수 설정
-- 5. 접속
-- 6.  CRUD
-- 7. 자료형
-    - [자료형](https://webcache.googleusercontent.com/search?q=cache:WZNP5IfsJngJ:https://postgresql.kr/docs/8.4/datatype.html+&cd=5&hl=ko&ct=clnk&gl=kr&client=firefox-b-e)
-    - [JSON, JSONB](https://americanopeople.tistory.com/300)
-- 8. 활용
-    - 계층형 구조에 대한 쿼리[[1]](https://coding-factory.tistory.com/461)[[2]](https://www.postgresql.org/docs/9.1/queries-with.html)[[3]](https://sas-study.tistory.com/165)
-    - [CLOB](https://www.cubrid.com/tutorial/3794112) : 사이즈가 큰 데이터를 외부 파일로 저장하기 위한 데이터 타입(오라클)
-    - [조인](https://felixgrayson.wordpress.com/2015/06/18/left-join-right-join-inner-join-and-outer-join/)
-    
+        [[1]](https://blogger.pe.kr/504?category=144029) 오라클과 PostgreSQL에서만 사용되는 개념. psql에서 DB는 PGDATA라는 환경변수에 지정된 디렉토리를 통째로 DB로 사용하는데, 그 하위에 테이블이 파일로 생성된다. 즉, 테이블 스페이스를 따로 생성하지 않아도 DB에 사용자 테이블을 만들 수 있다. 결론적으로, DB로 지정된 디렉토리 전체가 하나의 기본 테이블 스페이스로 인식된다. (*DB관리자에 의해 데이터베이스의 객체가 저장될 수 있는 파일시스템의 경로) [[2]](https://hotte.tistory.com/1)데이터베이스 객체가 파일 시스템상에 저장되는 물리적인 공간. Table Space를 이용하여 데이터베이스의 목적에 따라 저장소를 다르게 사용하는 운영이 가능해지며, 장애 대응 및 복구 등의 용도로도 활용이 가능. [[공식]](https://postgresql.kr/docs/9.6/manage-ag-tablespaces.html)데이터베이스 관리자가 데이터베이스 객체를 나타내는 파일을 저장할 수 있는 파일 시스템의 위치를 정의할 수 있게 하는 것.
+    - 호스트 기반 인증(host-based authentication) : 호스트(IP주소를 갖는 시스템, 네트워크에 연결되어 있는 컴퓨터) 기반 인증[[1]](https://heaven9598.tistory.com/entry/SSH-Secure-Shell)[[2]](https://webcache.googleusercontent.com/search?q=cache:yMPnxh0r2pcJ:https://postgresql.kr/docs/9.6/auth-pg-hba-conf.html+&cd=2&hl=ko&ct=clnk&gl=kr&client=firefox-b-e)[[3]](https://info-lab.tistory.com/51)
+    - [호스트 기반 침입 탐지 시스템(Host-based Intrusion Detection System, HIDS)](https://ko.wikipedia.org/wiki/%ED%98%B8%EC%8A%A4%ED%8A%B8_%EA%B8%B0%EB%B0%98_%EC%B9%A8%EC%9E%85_%ED%83%90%EC%A7%80_%EC%8B%9C%EC%8A%A4%ED%85%9C) : 컴퓨터 시스템의 내부를 감시하고 분석하는 데 더 중점을 둔다
+    - [Object-level 권한](https://bylee5.tistory.com/76) : 오브젝트(table, column, view, foreign table, sequence, database, foreign-data wrapper, foreign server, function, procedural language, schema, tablespace) 단위로 접근이 허용 또는 거부
+    - `SSL(Secure Socket Layer)통신` : 보안 프로토콜이며, 일반적으로 https://형태
+    - 스트리밍 복제(Streaming Replication)
+        
+        [[1]](https://postgresql.kr/docs/9.3/warm-standby.html#STREAMING-REPLICATION)레코드 기반 로그 전달 방식. TCP 연결 방식을 이용해서 운영 서버와 직접 연결하고, 커밋된 트랜잭션을 즉시 대기 서버로 반영한다. WAL 세그먼트 파일 전달 방식보다 운영 서버의 자료 상태를 거의 실시간으로 동기화하는 방식이다. [[2]](https://idchowto.com/?p=44332)[[3]](https://browndwarf.tistory.com/4)WAL Log를 거의 실시간성으로 전달함으로써(물론 DB 서버 사이에는 Network에 문제가 없어야 한다.) 별다른 지연 없이 모든 DB가 동일한 값을 저장할 수 있게 하는 것. [[복제의 한 종류]](https://www.postgresql.org/docs/9.6/different-replication-solutions.html)
+    - [Hot Standby(상시대기)](https://postgresql.kr/docs/9.4/hot-standby.html) : 서버가 아카이브 파일로 복구 작업 중이거나 대기 모드일 때도 클라이언트가 그 서버로 접속할 수 있으며, 읽기 전용 쿼리를 실행할 수 있는 기능. 현재 운용장비와 예비 운용장비의 구성을 항상 같은 상태로 해두는 것
+    - `Warm Standby` : [[1]](https://brownbears.tistory.com/85)서버 다중화 요소 중 한 쪽은 사용할 수 없는 Active-Standby(↔ Active-Active)의 세 종류 중 하나. [[2]](https://kangprog.tistory.com/11)가동 후 즉시 이용은 불가능 하지만, 어느정도 준비가 갖추어져있는 정도.
+    - [Cold Standby](https://bae-juk.tistory.com/26) : 예비 운용장비를 평소에는 사용하지 않고, 현재 운용장비에 장애가 발생하면 그 때 예비 운용장비에 연결하는 운용체제를 말한다.
+    - [다중화](https://starkying.tistory.com/entry/11-%EB%8B%A4%EC%A4%91%ED%99%94%EC%9D%98-%EA%B8%B0%EB%B3%B8) : 장애가 발생하더라도 예비 운용장비로 시스템의 기능을 계속할 수 있도록 하는 것.
+    - [Active-Active / Active-Standby](https://travislife.tistory.com/47) : (A-A)부하분산(로드밸런싱)을 통해 기능 또는 성격에 따라 1번 또는 2번 서버로 나누어서 처리하도록 구상. (A-S)서버를 이중화하여 구성하지만 장애 시에 서비스를 이전하여 운영하는 형태로 구성. 운영(메인)서버 장애 시 서비스 장애를 즉시 인지하여 서브 서버로 서비스를 이전함.
+    - `WAL(write ahead log, 선행기입로그) 아카이빙` : [[1]](https://goodlife-coding.tistory.com/entry/Postgresql-WALWrite-Ahead-Logging-%EC%95%84%EC%B9%B4%EC%9D%B4%EB%B8%8C-%EB%B0%8F-%ED%92%80-%EB%B0%B1%EC%97%85%EA%B3%BC-%EB%B3%B5%EA%B5%AC)PostgreSQL에서는 미리 쓰기 기록을 데이터베이스 클러스터 디렉토리 안 pg_xlog/디렉토리에서 관리함. 이 로그는 데이터베이스의 데이터 파일에 대한 모든 조작 기록을 보관함. 서버가 갑자기 중지되었을 경우, 미처리 작업을 로그에서 읽어서 다시 복구한 후 작업을 완료하기 위함. 어떤 데이터베이스에 쿼리를 날려 변경 이벤트를 실행할 때, 데이터를 변경하기 전에 해당 변경 내용을 로그에 미리 담아두고 이후에 변경한다는 개념. [[2]](https://browndwarf.tistory.com/4)Database 변경 사항만을 저장한 Log
+    - [Hot Backup(열린백업)](https://ktdsoss.tistory.com/219) : 데이터베이스가 오픈된 상태에서 백업 가능, 백업 중에도 DB서비스를 제공할 수 있다(↔Cold Backup, 닫힌백업)
+    - Point in time recovery(시점복구) : [[1]](https://onedaystudy.tistory.com/66)DB 손실, 장애, 과거 데이터 조회 필요성에 의해 특정 시점으로 데이터베이스를 복원해야할 때 행하는 방법. 과거의 특정 시점(Point in Time)으로 복구한다는 의미. [[2]](https://webcache.googleusercontent.com/search?q=cache:1-4MlOYDD6IJ:https://postgresql.kr/docs/9.4/continuous-archiving.html+&cd=2&hl=ko&ct=clnk&gl=kr&client=firefox-b-e)
+    - [pg_upgrade](https://stackframe.tistory.com/3) : PostgreSQL에서 제공해주는 업그레이드 명령어[[공식]](https://postgresql.kr/docs/11/upgrading.html)
+    - [C/S기반](http://blog.naver.com/PostView.nhn?blogId=pcs1535&logNo=220758702587&parentCategoryNo=&categoryNo=81&viewDate=&isShowPopularPosts=true&from=search) : Application 방식으로 PC에 app을 깔아서 프로그램을 실행해 접근(↔Web 방식)
+- 4) 내부 구조[[1]](https://waspro.tistory.com/146)[[2]](https://kimdubi.github.io/postgresql/psql_architecture/)[[3]](https://blog.goodusdata.com/12)[[4]](https://mangkyu.tistory.com/71)[[5]](https://www.youtube.com/watch?v=Hm_Q4_mz3UA)[[6]](https://kwomy.tistory.com/6?category=851266)
+    - [DATABASE 구조](http://www.gurubee.net/lecture/2942)
+    - [template 테이블](https://daewonyoon.tistory.com/158)
+    - [스키마](https://kimdubi.github.io/postgresql/pg_schema/)
+    - `MASTER DB - SLAVE DB` [[1]](https://www.toptal.com/mysql/mysql-master-slave-replication-tutorial)[[2]](https://kamang-it.tistory.com/entry/MySQLReplication%EC%9C%BC%EB%A1%9C-DB-Master-Slave%EA%B5%AC%EC%A1%B0-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%84%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%8F%99%EA%B8%B0%ED%99%94-%ED%95%98%EA%B8%B0feat-docker-shell-script)
+    - 권한[[1]](https://wiki.kldp.org/KoreanDoc/html/PgSQL_Extension-KLDP/PgSQL_Extension-KLDP-2.html)[[공식]](https://www.postgresql.org/docs/9.1/sql-revoke.html)
+    - 연결 초기화(Initialize connection)
+    - [Postmaster](https://younghk.github.io/etc/2020-04-01---postgresql-tips/) : PostgreSQL server
+    - [Deamon](https://haruhiism.tistory.com/9) : 멀티태스킹 운영 체제에서 데몬은 사용자가 직접적으로 제어하지 않고, 백그라운드에서 돌면서 여러 작업을 하는 프로그램을 말한다
+    - [데몬과 배치 차이점](https://brownbears.tistory.com/446) : 배치는 특정 시간에 작업을 실행하는 프로세스. 지정된 시간 이후에는 자원을 거의 소비하지 않음 / 데몬은 특정 서비스를 위해 백그라운드 상태에서 계속 실행되는 서버 프로세스. 서버가 죽을 때까지 자원을 점유.
+    - `Postgres Server`
+    - [캐시](https://ko.wikipedia.org/wiki/%EC%BA%90%EC%8B%9C) : 데이터나 값을 미리 복사해 놓는 임시 장소
+    - `Dirty Buffer` : [[1]](http://www.gurubee.net/lecture/1887)[[2]](http://wiki.gurubee.net/pages/viewpage.action?pageId=26739627)버퍼에 캐시된 이후 변경이 발생했지만, 아직 디스크에 기록되지 않아 데이터 파일 블록과 동기화가 필요한 버퍼 블록.
+- 5) 세부 기능 및 제한점
+    - `Nested transactions` : 중첩된 트랜잭션
+    - `Savepoints` : 저장점
+    - [온라인 백업(Online Backup)/열린 백업(Hot Backup)](http://m.1day1.org/cubrid/manual/admin/admin_br_backuppolicy.htm) : 운영 중인 데이터베이스에 대해 백업을 수행하는 방식
+    - `Point in time recovery` : 시점 복구
+    - `Hot Backup` : 열린 백업
+    - 병렬복구(Parallel restore) : 다중 백업(multi-thread backup), 동시 백업을 수행하는 방식
+    - `Rule System` : PostgreSQL 규칙 시스템의 CREATE RULE은 지정된 테이블 또는 보기에 적용되는 새 규칙을 정의함. CREATE OR REPLACE RULE는 새 규칙을 만들거나 동일한 테이블에 대해 동일한 이름의 기존 규칙을 바꿈.
+    - `B-트리`: B트리란 Balanced Tree로, 자식을 두개만 가질 수 있던 Binary tree(이진 트리)의 확장개념. 자식 노드의 개수가 2개 이상이고, 데이터를 정렬하여 탐색, 삽입, 삭제 및 순차 접근이 가능하도록 유지하는 트리형 자료구조.[[1][](https://beelee.tistory.com/37)[2]](https://hyungjoon6876.github.io/jlog/2018/07/20/btree.html)
+    - `R-트리`
+        
+        [[1]](http://seb.kr/w/R_%ED%8A%B8%EB%A6%AC)다차원의 공간 데이터를 효과적으로 저장하고 지리정보와 관련된 질의를 빠르게 수행 할 수 있는 트리 자료 구조. [[2]](https://ko.wikipedia.org/wiki/R_%ED%8A%B8%EB%A6%AC)다차원의 공간 데이터를 저장하는 색인. 이를테면, 지리학에서 R 트리는 "현재 위치에서 200km 이내의 모든 도시를 찾아라"와 같은 질의에 대해 빠르게 답을 줄 수 있다.
+    - [해시 인덱스](https://najuung.tistory.com/45) : 검색하고자 하는 값을 찾기 위해 해시함수를 거쳐 키값이 포함된 버켓을 찾아내는 방식
+    - `버킷` : 인덱스 각 키값과 레코드의 주소값등의 정보를 두는 공간[[1]](https://dev-woo.tistory.com/28)[[2]](https://maengdev.tistory.com/31)
+    - `GiST(Generalized Search Tree) 인덱스`
+        
+        [[1]](https://bitnine.tistory.com/m/entry/PostgreSQLs-Indexes)GiST는 어떤 운영 클래스가 적용되는지에 따라 다른 인덱스 전략을 사용할 수 있는 균형 잡힌 트리 구조 인덱스 액세스 방식. 이 기능의 경우 인덱스의 유형이 아닌 인프라로 볼 수 있음. 기하학 데이터, 텍스트 검색 문서 등 다양한 GiST 연산자 클래스를 제공. [[2]](https://postgis.net/docs/manual-3.0/postgis-ko_KR.html#gist_indexes) "일반화된 검색 트리"의 줄임말로, 인덱스 작업의 포괄적인 형태. 일반 B-Tree 인덱스 작업으로는 쓸 수 없는 온갖 종류의 비정규 데이터 구조(정수 배열, 분광 데이터 등등)에 대한 검색 속도를 향상시키는 데 GiST를 이용.
+    - [PostgreSQL INDEX](https://webcache.googleusercontent.com/search?q=cache:teayQF99WcsJ:https://postgresql.kr/docs/11/sql-createindex.html+&cd=5&hl=ko&ct=clnk&gl=kr&client=firefox-b-e)
+    - [절차 언어](https://deftkang.tistory.com/125) : 순서를 명확한 계산법으로서 쉽게 표현할 수 있는 문제 지향 언어로서, 컴퓨터에 처리시키고자 할 때 그 순서를 명확하게 기술함으로써 처리를 쉽게 실행하는 프로그래밍 언어.
+    - [PL/pgSQL](https://webcache.googleusercontent.com/search?q=cache:7-vrIVEn_FgJ:https://postgresql.kr/docs/9.6/plpgsql-overview.html+&cd=2&hl=ko&ct=clnk&gl=kr&client=firefox-b-e) : PostgreSQL 데이터베이스 시스템에서 로드가능한 프로시저 언어이자, 절차적 언어라는 특징을 가지고 있음
+    - [정보 스키마(Information Schema)](https://www.postgresql.org/docs/9.1/information-schema.html) : 현재 데이터베이스에 정의된 개체에 대한 정보를 포함하는 보기 집합으로 구성[[2]](https://kimdubi.github.io/postgresql/pg_schema/)
+    - 국제화(I18N) : 응용 프로그램을 다양한 지역에 맞게 조정하는 시스템
+    - 현지화(L10N) : 문화, 지역 또는 언어가 다양한 대상 고객을 위해 쉽게 현지화할 수 있는 디자인 및 개발
+    - [데이터베이스 및 열별 데이터 정렬(Database & Column level collation)](https://www.postgresql.org/docs/9.1/collation.html)
+    - [Array, XML, UUID type](https://www.postgresql.org/docs/9.5/datatype.html)
+    - [Auto-increment (sequences)](https://aspdotnet.tistory.com/2401)
+    - [SSL, IPv6](https://postgresql.kr/docs/9.6/auth-pg-hba-conf.html)
+    - `hstore` : [[1]](https://www.postgresql.org/docs/9.0/hstore.html)[[2]](http://www.gisdeveloper.co.kr/?p=2082)PostgresSQL에서 기본적으로 제공되는 기능. Key / Value라는 단순한 구조를 갖는 테이블을 정의할 수 있는 확장.
+    - 테이블 상속(Table inheritance) : [[1]](https://corekms.tistory.com/entry/table-inheritance%EC%83%81%EC%86%8D)[[2]](https://www.postgresql.org/docs/10/tutorial-inheritance.html)
+- 6) 경쟁 제품들과의 비교
+    - `마이그레이션` : 서비스 중인 한 어플리케이션 또는 모듈 등을 전혀 다른 환경(OS, 미들웨어, 하드웨어 등) 에서도 돌아갈 수 있도록 전환하는 것을 의미. 예를 들어, C로 개발된 솔라리스 OS 기반 프로그램을 시스템이 노후화되어 리눅스 기반의 새로운 시스템에서 돌아갈 수 있도록 하려면 솔라리스 OS에서 참조하던 라이브러리, API(함수) 등에 대해 동일한 역할을 하는 리눅스 기반의 그것으로 1:1 변환/매핑하는 작업이 필요함. 이런 것이 단순하게 바라본 마이그레이션의 의미.   
+
+### 2. ORACLE vs PostgreSQL
+  - [오라클과 포스트그레스큐엘 비교](https://db-engines.com/en/system/Oracle%3BPostgreSQL)
+  - [BSD](https://ko.wikipedia.org/wiki/BSD) : 라이센스 종류
+  - `horizontal partitioning`
+      
+      [[1]](https://ko.wikipedia.org/wiki/%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4_%EB%B6%84%ED%95%A0)하나의 테이블을 특정 분할 기준(ex. 여, 남)에 따라 수평 분할(레코드로 분할)하는 것. [[2]](https://jack-of-all-trades.tistory.com/95) 오라클 파티셔닝 : 대용량 테이블을 물리적인 n개 테이블로 나누는 것(논리적으로 1개 테이블, 물리적으로 n개 테이블)[[예제]](https://coding-factory.tistory.com/422)
+  - [이기종 시스템 아키텍처(Heterogeneous System Architecture, HSA)](https://m.blog.naver.com/PostView.nhn?blogId=cyonic&logNo=207955491&proxyReferer=https:%2F%2Fwww.google.com%2F) : 컴퓨팅 자원을 최대한 활용해 비용 대비 높은 생산성을 얻을 수 있는 효율적인 설계 방식. 쉽게 말해 CPU와 GPU의 벽을 허물고 소프트웨어가 두 부품의 컴퓨팅 자원을 자유롭게 활용한다는 의미. 기업을 예로 들면, 부처 간의 벽을 허물고 하나의 목표를 이루기 위해 모든 인력과 자원을 공유해 업무 효율을 높이는 것.
+  - [Multi-source replication(다중 소스 복제)](https://docs.oracle.com/cd/B12037_01/server.101/b10728/repmultd.htm) : 스트림을 사용하여 세 개의 Oracle 데이터베이스 중 스키마에 대한 데이터를 복제하는 방법.
+  - [Source-replica replication(원본 복제)](https://docs.oracle.com/cd/E17952_01/connector-j-8.0-en/connector-j-source-replica-replication-connection.html)
+  - [서버 사이드 스크립트 언어](https://ko.wikipedia.org/wiki/%EC%84%9C%EB%B2%84_%EC%82%AC%EC%9D%B4%EB%93%9C_%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8_%EC%96%B8%EC%96%B4) : 웹에서 사용되는 스크립트 언어 중 서버 사이드에서 실행되는 스크립트 언어.
+  - [맵리듀스](https://songsunbi.tistory.com/5) : 구글에서 대용량 데이터 처리를 분산 병렬 컴퓨팅에서 처리하기 위한 목적으로 제작하여 2004년 발표한 소프트웨어 프레임워크. 맵(Map)+리듀스(Reduce)로 이루어져 있으며, Input(데이터 입력) → Splitting(데이터를 쪼개 HDFS에 저장) → Mapping → Shuffling(맵 함수의 결과 취합을 위해 리듀스 함수로 데이터 전달) → Reducing(모든 값을 합쳐 원하는 값 추출) → Final Result과 같은 과정을 거친다.
+
+### 3. 설치
+  - [PostgreSQL 설치하기](https://www.postgresql.org/download/windows/)
+  - [data 디렉토리 파일 목록](https://waspro.tistory.com/146)
+
+### 4. 환경 변수 설정
+### 5. 접속
+### 6. CRUD
+### 7. 자료형
+  - [자료형](https://webcache.googleusercontent.com/search?q=cache:WZNP5IfsJngJ:https://postgresql.kr/docs/8.4/datatype.html+&cd=5&hl=ko&ct=clnk&gl=kr&client=firefox-b-e)
+  - [JSON, JSONB](https://americanopeople.tistory.com/300)
+
+### 8. 활용
+  - 계층형 구조에 대한 쿼리[[1]](https://coding-factory.tistory.com/461)[[2]](https://www.postgresql.org/docs/9.1/queries-with.html)[[3]](https://sas-study.tistory.com/165)
+  - [CLOB](https://www.cubrid.com/tutorial/3794112) : 사이즈가 큰 데이터를 외부 파일로 저장하기 위한 데이터 타입(오라클)
+  - [조인](https://felixgrayson.wordpress.com/2015/06/18/left-join-right-join-inner-join-and-outer-join/)
     ![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/29.png)
-    
-    - [GIN인덱스](https://medium.com/vuno-sw-dev/postgresql-gin-%EC%9D%B8%EB%8D%B1%EC%8A%A4%EB%A5%BC-%ED%86%B5%ED%95%9C-like-%EA%B2%80%EC%83%89-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0-3c6b05c7e75f)
-    - [to_tsvector](https://daesuni.github.io/postgres-fulltext-search/)
-- 9. 트리거 & 프로시저
-    - [프로시저 함수 형식 예제](http://www.gisdeveloper.co.kr/?p=4621)
-    - 프로시저 함수, 트리거, 사용자 정의 함수의 차이[[1]](https://keumjae.tistory.com/131)[[2]](https://velog.io/@minsuk/%ED%94%84%EB%A1%9C%EC%8B%9C%EC%A0%80-%ED%8A%B8%EB%A6%AC%EA%B1%B0-%EC%82%AC%EC%9A%A9%EC%9E%90%EC%A0%95%EC%9D%98%ED%95%A8%EC%88%98-%EC%B0%A8%EC%9D%B4)
-- 10. 질문과 보충사항
-- 그 외
+  
+  - [GIN인덱스](https://medium.com/vuno-sw-dev/postgresql-gin-%EC%9D%B8%EB%8D%B1%EC%8A%A4%EB%A5%BC-%ED%86%B5%ED%95%9C-like-%EA%B2%80%EC%83%89-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0-3c6b05c7e75f)
+  - [to_tsvector](https://daesuni.github.io/postgres-fulltext-search/)
+
+### 9. 트리거 & 프로시저
+  - [프로시저 함수 형식 예제](http://www.gisdeveloper.co.kr/?p=4621)
+  - 프로시저 함수, 트리거, 사용자 정의 함수의 차이[[1]](https://keumjae.tistory.com/131)[[2]](https://velog.io/@minsuk/%ED%94%84%EB%A1%9C%EC%8B%9C%EC%A0%80-%ED%8A%B8%EB%A6%AC%EA%B1%B0-%EC%82%AC%EC%9A%A9%EC%9E%90%EC%A0%95%EC%9D%98%ED%95%A8%EC%88%98-%EC%B0%A8%EC%9D%B4)
+
+### 10. 질문과 보충사항
