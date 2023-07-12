@@ -5,7 +5,7 @@ categories: [Back, JSP]
 tags: [Back, JSP]
 ---
 
-# [JSP for Eclipse - List](https://github.com/abarthdew/eclipse-jsp)
+# [JSP for Eclipse - List](https://github.com/abarthdew/eclipse-jsp){:target="_blank"}
 
 ## 핵심정리
 
