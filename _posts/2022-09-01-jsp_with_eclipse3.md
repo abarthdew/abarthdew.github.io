@@ -1,5 +1,5 @@
 ---
-title: JSP for Eclipse 3
+title: 3. JSP for Eclipse
 date: 2022-09-01
 categories: [Back, JSP]
 tags: [Back, JSP]
