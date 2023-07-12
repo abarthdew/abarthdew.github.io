@@ -9,21 +9,21 @@ tags: [Back, JSP]
 
 - jsp를 잘못 만들면 코드 블럭이 복잡해지는 문제 해결을 위해 고안
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/135.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/135.png)
 
 - 흩어져 있는 코드 블럭을 한 곳에 모으기
 
-![입력코드, 출력코드 분리](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/136.png)
+![입력코드, 출력코드 분리](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/136.png)
 _입력코드, 출력코드 분리_
 
-![출력할 데이터를 변수화해 제어](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/137.png)
+![출력할 데이터를 변수화해 제어](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/137.png)
 _출력할 데이터를 변수화해 제어_
 
 → 코드블럭을 최대한 한 곳에 넣고, model 변수에 결과만 넣은 방식
 
 ### MVC model1
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/138.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/138.png)
 
 - controller : 순수 자바 코드
 - view : 주로 html 코드
@@ -31,33 +31,33 @@ _출력할 데이터를 변수화해 제어_
 
 ## 46. JSP MVC model1 VS model2
 
-![GIF.gif](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/139.gif)
+![GIF.gif](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/139.gif)
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/140.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/140.png)
 
 - Controller는 서블릿
 - View는 jsp 형태로 만듬
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/141.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/141.png)
 
 - Controller 단에서 View를 연결하기 위해 포워딩하는 방법이 사용됨.
 - View는 jsp로 되어있긴 하지만 서블릿. Controller 도 서블릿.
 - 서블릿에서 서블릿으로 이전되며 흐름을 이어받아 코드를 진행하는 데 사용되는 게 포워딩.
 
-![GIF.gif](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/142.gif)
+![GIF.gif](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/142.gif)
 
 - 수가 추가될 때마다 Controller는 Dispatcher를 이용해 포워딩함.
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/143.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/143.png)
 
 - 하지만 각각의 Controller 마다 가지고 있는 Dispatcher 기능이 비효율적이기 때문에, Dispatcher는 하나만 두고, Controller를 전담하는 것을 따로 만듬.
 - 실질적으로 Servlet은 하나만 만들고, 일반적인 업무 로직은 별도의 POJO 클래스로, 즉 서블릿 클래스가 아닌 일반 클래스로 만듬.
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/144.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/144.png)
 
 - 사용자 요청이 들어오면 Dispatcher가 적절한 Controller를 찾아 수행하도록 함.
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/145.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/145.png)
 
 - Controller는 로직에 해당하는 View를 호출해서 Dispatcher에게 관련 내용을 알림.
 - Dispatcher는 그 내용을 가지고 응답.
@@ -108,7 +108,7 @@ public class Nana extends HttpServlet{
 }
 ```
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/146.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/146.png)
 
 ### MVC1 → MVC2 비교 키포인트
 
@@ -117,26 +117,26 @@ public class Nana extends HttpServlet{
 
 ## 47. EL(Expression Language)
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/147.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/147.png)
 
 - Controller에 쓴 코드를 view에서 써야 하는데, view에서는 가급적 자바 코드를 쓰는 것을 권장하지 않음.
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/148.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/148.png)
 
 - 그래서 JSP에 EL이라는 방법이 추가되어, 쉽게 값을 꺼낼 수 있음.
 
-![list 값을 el로 쉽게 꺼낸 예](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/149.png)
+![list 값을 el로 쉽게 꺼낸 예](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/149.png)
 _list 값을 el로 쉽게 꺼낸 예_
 
 ## 48. EL의 데이터 저장소
 
 - 47강 cnt 키워드는 request 저장소에 담겨 있음
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/150.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/150.png)
 
 - 서버 상에서 사용할 수 있는 4가지 저장소 객체
 
-![4가지 객체를 이용해 데이터를 저장하거나 꺼냄](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/151.png)
+![4가지 객체를 이용해 데이터를 저장하거나 꺼냄](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/151.png)
 _4가지 객체를 이용해 데이터를 저장하거나 꺼냄_
 
 - jsp 내에서 만들어진 객체 중 `pageContext` : 페이지 내에서 사용가능한 서블릿 객체들(request, response, session, application)을 모아놓은 객체.
@@ -170,7 +170,7 @@ _4가지 객체를 이용해 데이터를 저장하거나 꺼냄_
     3. session 객체
     4. application 객체임.
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/152.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/152.png)
 
 - 하지만 4개 종류 저장소에 같은 이름으로 저장된 변수를 불러오게 된다면? ⇒ el은 4개 저장소를 전부 뒤져서, 우선순위가 높은 것부터 가져옴.
     - 우선순위
@@ -180,7 +180,7 @@ _4가지 객체를 이용해 데이터를 저장하거나 꺼냄_
         4. application
 - 특정 저장소에서 꺼내오고 싶으면, scope 키워드를 붙여 사용
 
-![~scope는 객체가 아니라 한정사임](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/153.png)
+![~scope는 객체가 아니라 한정사임](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/153.png)
 _~scope는 객체가 아니라 한정사임_
 
 ```jsx
@@ -202,9 +202,9 @@ _~scope는 객체가 아니라 한정사임_
 
 - EL은 4대 저장소 외에도 사용할 수 있는 저장소가 있음
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/154.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/154.png)
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/155.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/155.png)
 
 ```jsx
 // 4대 저장소 이외 저장소 <br>
@@ -215,26 +215,26 @@ _~scope는 객체가 아니라 한정사임_
 
 - 가져올 수 있는 request 정보들
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/156.png){: width="450"}
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/156.png){: width="450"}
 
 - pageContext 내 객체를 얻을 때는 getter로 씀.
     1. 코드 블럭으로 표기할때 : getter 함수 사용.
     2. EL로 표기할 때 : EL은 속성을 호출하기만 하지, 함수를 호출할 수는 없기 때문에 이런식으로 사용. (getRequest() → request, getMethod() → method)
     
-    ![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/157.png)
+    ![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/157.png)
 
 ## 49. EL 연산자
 
 - 종류
     
-    ![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/158.png){: width="350"}
+    ![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/158.png){: width="350"}
     
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/159.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/159.png)
 
 ## 51. JSP를 이용해서 자바 웹 프로그램 만들기 시작
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/160.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/160.png)
 
 - `<%%>` : 일반
 - `<%=%>` : 출력을 위한 코드블럭
@@ -248,7 +248,7 @@ _~scope는 객체가 아니라 한정사임_
 1. /notice/list.html → list.jsp
     - list.jsp - properties : 인코딩 설정
     
-    ![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/161.png)
+    ![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/161.png)
     
     - 실행 후 출력할 때도 한글로 나와야 하기 때문에 설정
     
@@ -300,7 +300,7 @@ _~scope는 객체가 아니라 한정사임_
 
 3. 오라클 드라이버 lib 폴더에 넣기
     
-    ![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/162.png){: width="350"}
+    ![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/162.png){: width="350"}
     
     - 이 예시에선 프로젝트 - build path 에서 order and expert에 ojdbc를 넣으면 안 됨.
     - jar 파일은 컴파일 할 때, 실행할 때 필요하기 때문.
@@ -310,7 +310,7 @@ _~scope는 객체가 아니라 한정사임_
 
 4. 상세 페이지 구현
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/163.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/163.png)
 
 ```html
 <td class="title indent text-align-left">
@@ -336,21 +336,21 @@ _~scope는 객체가 아니라 한정사임_
 
 - notice/list.jsp 에서 재실행
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/164.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/164.png)
 
 ## 54. 자세한 페이지 MVC model1으로 변경하기
 
 - 이전 `50_project`는 스파게티 코드로 되어있음
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/165.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/165.png)
 
 - 이렇게 작성되어 있는 코드를 이렇게 바꿀 예정(자바 코드 따로, html 코드 따로)
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/166.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/166.png)
 
 - html 부분에는 출력할 수 있는 최소한의 변수 `code/title/writer/...` 만 둠
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/167.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/167.png)
 
 - detail.jsp : 코드블럭 전부 위로 ㄱ
 
@@ -388,19 +388,19 @@ _~scope는 객체가 아니라 한정사임_
 %>
 ```
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/168.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/168.png)
 
 ## 55. MVC model2 방식으로 변경하기
 
 ### 🔰 이전 `54_project-model1` 방식
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/169.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/169.png)
 
 - 사용되는 모델이 지역적으로 view 단에서 사용(m,v,c가 하나의 함수로 작용)
 
 ### 🔰 `55_project-model2` MVC2 방식은 M, V, C를 물리적으로 나눔
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/170.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/170.png)
 
 - 여기서 model은 지역변수의 형태로서 사용할 수가 없게 됨.
 - servlet과 jsp을 이어주고, 값을 넘길 수 있는 공유 방법이 필요하게 됨.
@@ -411,7 +411,7 @@ _~scope는 객체가 아니라 한정사임_
 
 ### 🔰 Controller에서 Model을 만들어 View 단에 전달하기 위한 상태 저장 방법
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/171.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/171.png)
 
 - model을 둘 사이 서블릿이 공유할 수 있는 방법 : pageContext 제외, 세가지 - 범위가 상대적으로 좁은 `request`가 가장 적합.
 
@@ -478,22 +478,22 @@ public class NoticeDetailController extends HttpServlet {
 - 출력을 위해 사용된 데이터
 - 개념적으로 말할 수 있는 데이터의 집합 : 엔티티(개체), 개념화된 데이터, 사용자형 자료형, 구조적 데이터(엔티티를 계층으로 만들었기 때문)
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/172.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/172.png)
 
 - 데이터를 낱개로 사용하게 되면 반복이 많아지고 구분이 어려움. → 낱개가 아닌 데이터 속성으로 묶어서 표현.
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/173.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/173.png)
 
 - id, title, writer등을 개별로 표현하지 않고, notice 객체에 한꺼번에 담아서 사용.
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/174.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/174.png)
 
 ### 🔰 코드 - `56_project-notice`
 
 - Notice 객체 생성
 - 코드 - 생성자, getter, setter 추가
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/175.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/175.png)
 
 - controller 에 추가
 
@@ -542,7 +542,7 @@ request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp").forward(request, r
 - 즉, WEB-INF 안의 루트는 외부에서 요청할 수 없는 디렉토리.
 - jsp 파일(뷰 페이지)를 WEB-INF 폴더 안에 저장하면 은닉 가능.
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/176.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/176.png)
 
 - 참고 : https://jg-han.tistory.com/15
 
@@ -571,9 +571,9 @@ request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp").forward(request, r
 
 - 자바 코드를 대신할 수 있는 무언가가 필요하게 됨 : `태그`
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/177.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/177.png)
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/178.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/178.png)
 
 1. 태그를 사용하기 위해 JSTL jar 파일 다운로드 : https://mvnrepository.com/artifact/javax.servlet/jstl/1.2
 2. /WEB-INF/lib 폴더에 jar 파일 옮기기
@@ -615,7 +615,7 @@ request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp").forward(request, r
 
 - JSTL이 제공하는 다섯가지 태그 라이브러리
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/179.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/179.png)
 
 - CORE : 가장 기본적인 제어의 행위 담당하는 태그 라이브러리
 - Formating : 숫자, 날짜, 화폐 등 포맷 기능하는 태그 라이브러리
@@ -624,40 +624,40 @@ request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp").forward(request, r
 
 ### 🔰 태그 라이브러리 심화
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/180.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/180.png)
 
 - 접두사를 사용하지 않았을 때 → jsp에서 이해할 수 없음. 반드시 접두사를 작성해야 함.
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/181.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/181.png)
 
 - for태그를 만든다고 할 때, 이를 식별하기 위해 특정 uri를 붙여 줌.
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/182.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/182.png)
 
 - 때문에, uri는 forEach라는 태그명에 대한 식별자고, 식별자를 대신하는 prefix를 c로 정의.
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/183.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/183.png)
 
 - 각각의 행위에서 발생하는 이벤트에 대한 태그를 정의할 수 있음.
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/184.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/184.png)
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/185.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/185.png)
 
 ## 61. 중간 정리
 
 - 서블릿 : 자바 웹 서버 프로그램
 - MVC : 코드블록을 한 쪽에 몰아넣음
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/186.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/186.png)
 
 ## 62.  forEach의 속성 사용하기
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/187.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/187.png)
 
 - varStatus
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/188.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/188.png)
 
 ```html
 <!-- forEach에 대한 상태값 설정 : varStatus="(상태값변수)" -->
@@ -674,7 +674,7 @@ request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp").forward(request, r
 
 - 결과 : begin="1" end="3"이기 때문에 1부터 나옴.
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/189.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/189.png)
 
 - begin, end를 지우면 다음과 같이 나옴
 
@@ -691,21 +691,21 @@ request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp").forward(request, r
 </c:forEach>
 ```
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/190.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/190.png)
 
 ## 63. JSTL로 pager 번호 만들기
 
 - 5번씩 반복한다고 할 때, p에 대한 배열은 다음과 같음
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/191.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/191.png)
 
 - 5번 반복한다고 할 때, 첫번째 숫자를 기준으로 현제 페이지번호(p)를 구하도록 함
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/192.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/192.png)
 
 - p의 나머지(p%5)를 구해 계산 → 19 % 5 - 1 = 4 - 1 = 3 (첫번째 번호 16과 19 사이의 거리)
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/193.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/193.png)
 
 ### 🔰 `63_pager` 코드
 
@@ -723,11 +723,11 @@ request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp").forward(request, r
 
 - http://localhost:8888/notice/list?p=6
     
-    ![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/194.png)
+    ![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/194.png)
     
 - http://localhost:8888/notice/list?p=28
     
-    ![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/195.png)
+    ![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/195.png)
 
 ## 64. JSTL: if문으로 pager 이전/다음 번호 만들기
 
@@ -747,7 +747,7 @@ request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp").forward(request, r
     </c:if>
     ```
     
-    ![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/196.png)
+    ![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/196.png)
     
 - 이전 번호
     
@@ -767,14 +767,14 @@ request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp").forward(request, r
     </div>
     ```
     
-    ![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/197.png)
+    ![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/197.png)
     
 
 ## 65. forTokens로 첨부파일 목록 출력하기
 
 - 컬럼 값
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/198.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/198.png)
 
 - forTokens 사용
 
@@ -787,7 +787,7 @@ request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp").forward(request, r
 </td>
 ```
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/199.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/199.png)
 
 - 구분자 조건걸기
     
@@ -803,16 +803,16 @@ request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp").forward(request, r
     </tr>
     ```
     
-    ![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/200.png)
+    ![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/200.png)
     
 
 ## 66. format태그로 날짜 형식 변경하기
 
 - 작성일 날짜는 jsp에서 임의로 출력된 형식임. (db에 적재된 값의 형태와 다름)
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/201.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/201.png)
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/202.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/202.png)
 
 - 코드
     
@@ -823,9 +823,9 @@ request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp").forward(request, r
     <td><fmt:formatDate pattern="YYYY-MM-DD hh:mm:ss" value="${n.regdate }"></fmt:formatDate></td>
     ```
     
-    ![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/203.png)
+    ![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/203.png)
     
-    ![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/204.png)
+    ![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/204.png)
     
 
 ## 65. 숫자 출력 형식 지정하기 JSTL:formatNumber
@@ -839,7 +839,7 @@ request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp").forward(request, r
     <fmt:formatNumber type="number" pattern="##,####$" value="${ notice.hit }" />
     ```
     
-    ![캡처.PNG](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/205.png)
+    ![캡처.PNG](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/205.png)
     
 
 ## 68. EL에서 함수 이용하기 JSTL:functions
@@ -857,7 +857,7 @@ request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp").forward(request, r
     </c:forTokens>
     ```
     
-    ![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/206.png)
+    ![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/206.png)
     
 - style 설정
     
@@ -874,7 +874,7 @@ request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp").forward(request, r
     </c:forTokens>
     ```
     
-    ![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/207.png)
+    ![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/207.png)
     
 - https://docs.oracle.com/javaee/5/jstl/1.1/docs/tlddocs/fn/tld-summary.html
 
@@ -882,7 +882,7 @@ request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp").forward(request, r
 
 ### 🔰 코드 분리를 위한 사전 설명
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/208.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/208.png)
 
 - Servlet
     - 사용자의 응답을 처리, 출력에 대한 내용을 .jsp에 위임, 출력 주도(controller)
@@ -891,7 +891,7 @@ request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp").forward(request, r
 
 ### 🔰 서비스 종류와 규모가 늘어난다면?
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/209.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/209.png)
 
 - 기업형에서는 서비스를 분리해서 만듬.
 - 업무 서비스 : 사용자가 요청하는 단위; 결재 시스템과 같은 중요한 서비스.
@@ -899,14 +899,14 @@ request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp").forward(request, r
 - 재사용 가능.
 - ex)계좌이체 로직 : a 계좌의 금액은 +, b 계좌의 금액은 -를 할 때, 두 과정을 하나로 묶어 처리해야 함. → 한쪽만 실행되는 일이 없어야 하므로 트랜잭션 필요.
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/210.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/210.png)
 
 - 데이터 서비스(DAO) 계층
     - 업무 서비스에서는 자바만 이용하고 싶을 때.
     - 업무 서비스에서 데이터 소스가 달라지는 것을 신경쓰고 싶지 않을 때.
     - 데이터 서비스를 책임지고, 데이터 소스를 숨기는 기능을 담당.
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/211.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/211.png)
 
 - `데이터 서비스`에서는 업무 서비스에 entity(구조화된 데이터)라는 데이터 객체를 자바 형태로 제공.
 - `업무 서비스`에서는 처리한 결과를 Servlet(Controller)에 Model 형태로 제공.
@@ -921,8 +921,8 @@ request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp").forward(request, r
 
 - 비지니스 로직(서비스 레이어)를 따로 빼지 않았을 때
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/212.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/212.png)
 
 - 데이터 서비스(DAO)를 따로 빼지 않고 업무 서비스에서 SQL 처리할 때
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/eclipse-jsp/main/images/213.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/jsp-with-eclipse/main/images/213.png)
