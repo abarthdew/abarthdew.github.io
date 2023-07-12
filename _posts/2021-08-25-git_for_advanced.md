@@ -9,10 +9,7 @@ tags: [git, gitHub]
 
 - 환경 세팅
 
-<aside>
-✅ **git bash, gitHub, repository(name: test0)**
-
-</aside>
+> ✅ git bash, gitHub, repository(name: test0)
 
 ### 🔰 git 리파지토리에서 아무런 작업 없이 바로 `clone` 받아서 올리기
 
