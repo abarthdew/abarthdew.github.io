@@ -9,7 +9,7 @@ tags: [DB, PostgreSQL]
 
 ## 1) 포스트그레스큐엘이란?
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/1.png){: width="190" style="margin-right: 40px;" .left}   
+![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/1.png){: width="190" style="margin-right: 40px;" .left}
 >    <br>
 > 🛢 Oracle<br>
 > 🗄 MS SQL Server<br>
@@ -20,7 +20,7 @@ tags: [DB, PostgreSQL]
 
 ## 2) 역사
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/2.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/2.png)
 
 - 1977년 미국 UC 버클리 대학
 - `Ingres(INteractive Graphics REtrieval System)DB`란 이름으로 개발 프로젝트 시작
@@ -70,9 +70,9 @@ tags: [DB, PostgreSQL]
 
 ### DATABASE 구조
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/3.jpg)
+![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/3.jpg)
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/4.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/4.png)
 
 ### 스키마
 
@@ -127,10 +127,10 @@ SELECT * FROM pg_talbes;
 | 16736 | mytable |
 | 13441 | template0 |
 
-> 💡 **CREATE DATABASE 는 실제론 이미 존재하는 데이터베이스를 복사하는 방식으로 동작.** 
+> 💡 **CREATE DATABASE 는 실제론 이미 존재하는 데이터베이스를 복사하는 방식으로 동작.**
 > `template1` : CREATE DATABASE 명령을 할 때, 기본(default)으로 복사되는 테이블.
 >   - template1 테이블 자체에 사용자가 원하는 요소를 넣어 수정할 수 있다.
->   - 이후 테이블을 생성 template1 테이블에 있는 요소가 그대로 새로운 테이블에 복사된다. 
+>   - 이후 테이블을 생성 template1 테이블에 있는 요소가 그대로 새로운 테이블에 복사된다.
 >   - 예를 들어, template1에 프로시저 언어 PL/pgSQL을 설치하면, 이후 생성하는 테이블에서 그대로 쓸 수 있다.
 > `template0` : template1의 초기값과 동일한 데이터를 가지고 있음.
 >   - 따라서, template1에 사용자 정의 요소를 추가한 후, 다시 초기화된 데이터베이스를 생성하고 싶다면 template0을 복사.
@@ -171,11 +171,11 @@ REVOKE privilege [,...]
 > - `object` : 적용될 수 있는 객체 : table, view, sequence, index
 > - `PUBLIC` : 모든 유저를 승인/취소
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/5.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/5.png)
 
-> 💡 다른 계정의 데이터베이스 테이블에 접근했을 때 아래와 같은 오류 출력   
+> 💡 다른 계정의 데이터베이스 테이블에 접근했을 때 아래와 같은 오류 출력
 > ```shell
-> ERROR: 오류:  "public.users" 이름의 릴레이션(relation)이 없습니다   
+> ERROR: 오류:  "public.users" 이름의 릴레이션(relation)이 없습니다
 > LINE 1: select * from public.users;
 >                       ^
 > ERROR: 오류:  "testtest" 스키마(schema) 없음
@@ -185,7 +185,7 @@ REVOKE privilege [,...]
 
 ### 아키텍처
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/6.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/6.png)
 
 ### < Postmaster Daemon >
 - `postmaster` : PostgreSQL 기동할 때 가장 먼저 시작되는 프로세스. 초기 복구 작업, 메모리 초기화, Background 프로세스 기동 작업 수행. 데몬 프로세스로 Client 프로세스의 접속 요청을 받아 Backend 프로세스를 생성.
@@ -211,7 +211,7 @@ REVOKE privilege [,...]
 
 ### 아키텍처 단순화
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/7.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/7.png)
 
 > 💡 ① `연결 초기화` : 클라이언트에서 인터페이스 라이브러리(JDBC, ODBC 등)을 통해 서버와의 연결 요청<br>
 > 👉 ② `서버 생성` : Postmaster 프로세스가 서버와의 연결을 중계<br>
@@ -289,11 +289,11 @@ REVOKE privilege [,...]
 > - instead : 원래 명령 대신 명령 실행
 > - also : 원래 명령 외 명령 실행
 > - command : 규칙 작업을 구성하는 명령. 유효한 명령은 SELECT, INSERT, UPDATE, DELETE 또는 Notify.
-> 
+>
 > ```jsx
 > CREATE VIEW myview AS SELECT * FROM mytab;
 > CREATE TABLE myview (same column list as mytab);
-> 
+>
 > CREATE RULE "_RETURN" AS ON SELECT TO myview DO INSTEAD
 >     SELECT * FROM mytab;
 > ```
@@ -321,24 +321,24 @@ REVOKE privilege [,...]
 > 💡 데이터베이스 관리자가 데이터베이스 객체를 나타내는 파일을 저장할 수 있는 파일 시스템의 위치를 정의할 수 있게 하는 것.<br>
 > 데이터베이스 객체가 파일 시스템상에 저장되는 물리적인 공간.<br>
 > Tablespace를 이용하여 데이터베이스의 목적에 따라 저장소를 다르게 사용하는 운영이 가능해지며, 장애 대응 및 복구 등의 용도로도 활용이 가능.<br>
-> 
+>
 > ```jsx
 > // 새 테이블 스페이스 생성
 > CREATE TABLESPACE myTableSpace LOCATION '\data\myTableSpace';
-> 
+>
 > // 데이터베이스를 생성하며 테이블 저장소(테이블 스페이스)를 지정
 > CREATE DATABASE myTable WITH TABLESPACE = myTableSpace;
 > ```
-> 
+>
 > 해당 데이터베이스에 테이블을 생성하면 Tablespace의 저장소에 데이터베이스 객체를 나타내는 파일들이 저장됨<br>
-> ![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/8.png)
+> ![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/8.png)
 > ```jsx
-> SELECT 
+> SELECT
 >   pg_database.dattablespace AS dtspcoid, datname, pg_database.oid,
 > 	pg_tablespace.oid AS spcoid, spcname, spcowner
 > FROM pg_database, pg_tablespace WHERE pg_database.dattablespace = pg_tablespace.oid;
 > ```
-> 
+>
 > | DB_TS | DB 이름 | DB 아이디 | 테이블스페이스 ID | 테이블스페이스 이름 |
 > | --- | --- | --- | --- | --- |
 > | 1663 | postgres | 13442 | 1663 | pg_default |
@@ -359,8 +359,8 @@ REVOKE privilege [,...]
 > ```jsx
 > CREATE TABLE member(
 >     id	    serial  PRIMARY KEY,
->     name    varchar(20),     
->     age     integer,         
+>     name    varchar(20),
+>     age     integer,
 >     hobby   varchar(100)[]   -- 배열형 컬럼
 >     //테이블을 만들 때 컬럼 타입뒤에 []를 붙이면 배열형 컬럼이 된다.
 > );
@@ -395,19 +395,19 @@ REVOKE privilege [,...]
 > 💡 [시퀀스 예시](https://aspdotnet.tistory.com/2401)
 > ### SEQUENCE
 > ```jsx
-> -- 시퀀스 생성	
-> CREATE SEQUENCE seq_ttt;	
-> 
-> -- 테이블 생성 
-> CREATE TABLE tbl_ttt 
+> -- 시퀀스 생성
+> CREATE SEQUENCE seq_ttt;
+>
+> -- 테이블 생성
+> CREATE TABLE tbl_ttt
 > (
 >     seq INT NOT NULL default NEXTVAL('seq_ttt') --시퀀스 매칭
 > ,   a   VARCHAR(10)
 > );
-> 
+>
 > -- 테이블 삭제시 시퀀스도 같이 삭제 처리
-> ALTER SEQUENCE seq_ttt OWNED BY tbl_ttt.seq; 
-> 
+> ALTER SEQUENCE seq_ttt OWNED BY tbl_ttt.seq;
+>
 > -- 삽입
 > INSERT INTO tbl_ttt (a) VALUES ('aaa');
 > INSERT INTO tbl_ttt (a) VALUES ('bbb');
@@ -415,7 +415,7 @@ REVOKE privilege [,...]
 > INSERT INTO tbl_ttt (a) VALUES ('ddd');
 > INSERT INTO tbl_ttt (a) VALUES ('eee');
 > INSERT INTO tbl_ttt (seq, a) VALUES (default,'eee');
-> 
+>
 > -- 조회
 > SELECT * FROM tbl_ttt;
 > // 조회결과
@@ -428,11 +428,11 @@ REVOKE privilege [,...]
 >    5 | eee
 >    6 | eee
 > (6개 행)
-> 
+>
 > -- 자동적으로 테이블과 시퀀스가 삭제
 > DROP TABLE tbl_ttt;
 > ```
-> 
+>
 > ### SERIAL
 > ```jsx
 > // CREATE
@@ -440,7 +440,7 @@ REVOKE privilege [,...]
 >   id SERIAL PRIMARY KEY, --PK지정을 해야 자동증가
 >   name VARCHAR NOT NULL
 > );
-> 
+>
 > // INSERT
 > INSERT INTO TEST(name) VALUES ('APPLE');
 > INSERT INTO TEST(id, name) VALUES (default, 'BANANA');
@@ -449,15 +449,15 @@ REVOKE privilege [,...]
 > // ERROR: 오류:  중복된 키 값이 "test_pkey" 고유 제약 조건을 위반함
 > // DETAIL:  (id)=(1) 키가 이미 있습니다.
 > ```
-> 
+>
 > ### GENERATED { ALWAYS | BY DEFAULT } AS IDENTITY
 > ```jsx
-> CREATE TABLE foo 
+> CREATE TABLE foo
 > (
 >   id   INTEGER GENERATED ALWAYS AS IDENTITY,
 >   name VARCHAR
 > );
-> 
+>
 > INSERT INTO foo (name) VALUES ('가가가');
 > INSERT INTO foo (id, name) VALUES (default,'나나나');
 > INSERT INTO foo (name) VALUES ('나나나');
@@ -466,10 +466,10 @@ REVOKE privilege [,...]
 > // ERROR: 오류:  "id" 칼럼에 자료를 입력할 수 없습니다
 > // DETAIL:  Column "id" is an identity column defined as GENERATED ALWAYS.
 > // HINT:  Use OVERRIDING SYSTEM VALUE to override.
-> 
+>
 > // override system value 사용 시 중복 가능
 > INSERT INTO foo (id, name) OVERRIDING SYSTEM VALUE VALUES (3,'나나나');
-> 
+>
 > SELECT * FROM foo;
 > // 조회결과
 > id |  name
@@ -480,18 +480,18 @@ REVOKE privilege [,...]
 >   3 | 나나나
 > (4개 행)
 > ```
-> 
+>
 > ```jsx
 > CREATE TABLE foo1
 > (
 >   id   INTEGER GENERATED BY DEFAULT AS IDENTITY,
 >   name VARCHAR
 > );
-> 
+>
 > INSERT INTO foo1 (name) VALUES ('가가가');
 > INSERT INTO foo1 (id,name) VALUES (1,'가가가'); // 중복 가능
 > INSERT INTO foo1 (id,name) VALUES (default,'홍길동');
-> 
+>
 > SELECT * FROM foo1;
 > // 조회결과
 > id |  name
@@ -506,39 +506,39 @@ REVOKE privilege [,...]
 - Log-Shipping, 스트리밍 복제 방식 제공
 
 > 💡 출처[[공식]](https://postgresql.kr/docs/9.3/warm-standby.html#STREAMING-REPLICATION)[[공식2]](https://www.postgresql.org/docs/9.6/different-replication-solutions.html)[[1]](https://browndwarf.tistory.com/4)[[PostgreSQL Replication에 대한 보다 더 자세한 글]](https://idchowto.com/?p=44332)
-> 
+>
 > # 1. 복제가 왜 필요한가?
 > 😨 운영 서버가 장애로 멈추게 된다면<br>
 > → 😧 대기 서버를 운영해서 가용성을 향상하면 되지 있을까?<br>
 > → 🧐 그렇다면 운영 서버의 데이터가 대기 서버와 일치해야 한다<br>
 > → 😮 복제가 필요하다!
 > = `warm standby`, 또는 `log shipping` 기능
-> 
+>
 > ✔️ 운영 서버와 대기 서버가 모두 실행 중이어야 함.<br>
 > ✔️ 운영 서버는 아카이브 모드로 운영되며, 운영 중에 생기는 다 쓴 WAL 세그먼트 파일(트랜잭션 로그 파일)을 차례대로 대기 서버로 보낸다.<br>
 > ✔️ 대기 서버는 복구 모드 전용으로 실행.<br>
 > ✔️ 이 방식을 이용하면, 데이터베이스 테이블들을 수정할 필요가 없고, 복제 관리가 용이하다.<br>
-> 
+>
 > ## 로그 전달 대기 서버 구현 방식
 > - 운영 서버에서 다 쓴 WAL 파일을 다른 서버로 운송(shipping) 한다.
 > - 로그 전달 방식은 비동기식임을 기억한다.
 > - 다시 말해, WAL 내용은 이미 커밋된 자료이기 때문에, 서버로 전달 되기전에 운영 서버가 멈추면 손실된다. (손실량을 줄이는 방법으로 `archive_timeout` 설정값을 초단위로 짧게 지정한다)
 > - 대기 서버로 WAL 파일이 제때 잘 넘어오면, 운영 서버가 중지된 후 대기 서버가 그 역할을 맡기까지 서비스가 중지되는 시각은 극히 짧다. 이렇게 가용성을 향상시킨다!
-> 
+>
 > ## 복제 방식의 종류
 > 서버가 대기 모드로 실행되면, 서버는 마스터 서버에서 받는 WAL 파일을 계속해서 자신의 서버에 반영하는 작업만 한다.
 > ### 🔧 Log-Shipping(Warm standby)
 > 대기 서버가 운영서버에서 보내는 파일을 보관해 두는 디렉토리에 새 WAL 파일이 있는지 확인 후, 새 WAL 파일을 반영하는 방식.
 > ### 🔧 스트리밍 복제
 > TCP연결 방식을 이용해서 운영 서버와 직접 연결, 커밋된 트랜잭션을 즉시 대기 서버로 반영하는 방식.
-> 
+>
 > # 2. 스트리밍 복제
 > 💡 **Streaming-Replication** : Master 에서 생성된 WAL log를 Slave DB로 실시간성으로 전달하여 정합성을 일치시키는 replication 방법<br>
-> ![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/9.png)
-> 
+> ![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/9.png)
+>
 > # 3. PostgreSQL Replication에 대한 보다 더 자세한 글
 > - 테스트 환경 : CentOS 7.5 , PostgreSQL 10.4 버전
-> 
+>
 > ## **1-1) WAL-Write Ahead Log**
 > - 마스터 서버에서 발생하는 모든 작업 로그를 생성
 > - 생성된 로그를 스탠바이 서버로 전달
@@ -546,23 +546,23 @@ REVOKE privilege [,...]
 > > 💡 위와 같은 동작으로 마스터 서버와 같은 스키마를 가진 복제 서버를 생성합니다.<br>
 > > – 마스터 서버의 로그를 WAL 이라고 하며, $설치경로/data/pg_xlog 에 쌓이게 됩니다.<br>
 > > – 메뉴얼의 설치 경로는 /usr/local/pgsql/data 입니다.<br>
-> 
+>
 > ## **1-2) WAL 전달 방식**
 > ### **< Log-Shipping 방식 >**
 > - pg_xlog 안에 WAL 파일 자체를 스탠바이 서버로 전달
 > - 마스터 서버에서 저장된 WAL 파일의 크기를 지정된 사이즈 만큼 채워야 스탠바이 서버로 전송
 > - 채워지는 시간동안 마스터/스탠바이 서버간의 데이터가 어긋남
 > - 마스터 서버 장애 발생 시, WAL 파일을 다 채우지 못하여 전달되지 않을 경우 데이터 유실 있음
-> 
+>
 > ### **< Streaming 방식 >** `* PostgreSQL 9.0 이상 버전에서 사용 가능`
 > - WAL 파일 저장 여부와 관계없이 로그내용을 스탠바이 서버로 전달
 > - 서버 간의 네트워크 문제가 없다는 가정하에, 거의 실시간으로 작동
 > - 스탠바이 서버의 장애가 발생 시, 유실된 데이터 복구를 위해서는 스탠바이 서버를 처음부터 다시 구축해야 함<br>= Streaming 방식을 사용하더라도, Log-shipping 방식을 적용해 놓는 것이 좋음
-> 
+>
 > ## **2. Streaming Replication 적용**
 > - 마스터와 스탠바이 2대의 서버가 존재하는 상태에서 진행
 > - 실행 계정은 설치 계정인 postgres
-> 
+>
 > ### **2-1) 마스터 서버 설정**
 > - Streaming 방식 적용을 위해 스탠바이 서버에서 마스터 서버에 접근할Replication 전용 유저를 생성
 > ```jsx
@@ -581,7 +581,7 @@ REVOKE privilege [,...]
 > max_wal=senders = 2 # WAL 파일을 전송할 수 있는 최대 서버 수
 > wal_keep_segments = 32 # 마스터 서버 디렉토리에 보관할 최근 WAL 파일 수
 > ```
-> 
+>
 > ### **2-2) 스탠바이 서버 설정**
 > - `pg_basebackup` 명령어를 통해 최초 백업을 진행해야 합니다.
 > - 마스터 서버의 `/usr/local/pgsql/data` 디렉토리 전체를 스탠바이 서버로 복제/복원을 합니다.
@@ -606,7 +606,7 @@ REVOKE privilege [,...]
 > primary_conninfo = ‘host=[마스터 서버 ip] port=5432
 > user=repluser password=password’
 > ```
-> 
+>
 > ### **2-3) 설정 확인**
 > - 마스터 서버와 스탠바이 서버 설정이 완료 후 마스터 서버와 스탠바이 서버 차례로 데몬을 실행해 줍니다.
 > [마스터서버 실행 상태]
@@ -622,7 +622,7 @@ REVOKE privilege [,...]
 > postgres 32683 32676 0 04:36 ? 00:00:00 postgres: bgworker: logical replication launcher
 > // 정상적으로 리플리케이션 설정이 되었다면 위의 굵은 글씨의 wal sender process를 확인할 수 있습니다.
 > ```
-> 
+>
 > - 마스터 서버에서 아래와 같은 쿼리를 실행하면 더 확실하게 확인이 가능합니다.
 > ```jsx
 > # ps -ef |grep postgres
@@ -634,11 +634,11 @@ REVOKE privilege [,...]
 > postgres 17156 17151 0 05:39 ? 00:00:07 postgres: wal receiver process streaming 0/3000140
 > // 정상적으로 리플케이션 설정이 되었다면 마스터 서버의 wal sender process에서 보내고 있는 키(0/3000140)와 같은 키를 받고 있는 것을 확인할 수 > 있습니다.
 > ```
-> 
+>
 > ## **3. Log-Shipping Replication 적용**
 > - 혹시 모를 스탠바이 서버의 장애를 대비하기 위해 Log-Shipping 방식을 함께 적용할 수 있습니다.
 > - 스탠바이 서버의 WAL 복원자체는 Streaming 방식으로 하고, WAL 파일을 저장하게 됩니다.
-> 
+>
 > ### **3-1) WAL 파일을 저장할 디렉토리 설정** `* 스탠바이 서버에서 설정`
 > - 반드시 스탠바이 서버에 저장할 필요는 없으며, 스탠바이 서버가 접근 가능한 위치면 됩니다.
 > - 본 메뉴얼에서는 스탠바이 서버 postgres 계정의 홈 디렉토리(/usr/local/pgsql)에 저장을 하였습니다.
@@ -647,14 +647,14 @@ REVOKE privilege [,...]
 > # chown postgres:postgres /usr/local/pgsql/archives
 > # chmod 700 /usr/local/pgsql/archives
 > ```
-> 
+>
 > ### **3-2) 비밀번호 없이 scp 동작하도록 설정** `* 마스터 서버에서 설정`
 > - 자동화를 위해 마스터서버로 ssh 접속 시 비밀번호 입력을 안해도 되도록 설정을 해줍니다.
 > ```jsx
 > # sudo -u postgres ssh-keygen
 > # sudo -u postgres ssh-copy-id -i /usr/local/pgsql/.ssh/id_rsa.pub postgres@[스탠바이 서버 ip]
 > ```
-> 
+>
 > - WAL 파일 전송 설정
 > ```jsx
 > # vim /usr/local/pgsql/data/postgresql.conf
@@ -662,7 +662,7 @@ REVOKE privilege [,...]
 > archive_timeout = 30
 > ```
 > - %p는 archive(WAL) 파일의 full path 이고, %f는 파일의 이름입니다.
-> 
+>
 > ### **3-3) 설정 확인**
 > - 마스터 서버를 재시작하면, 스탠바이 서버의 지정된 디렉토리에 파일이 쌓이는 것을 확인할 수 있습니다.
 > ```jsx
@@ -676,7 +676,7 @@ REVOKE privilege [,...]
 > -rw——- 1 postgres postgres 16777216 8월 13 09:14 00000001000000000000000A
 > ```
 > {: file='PostgreSQL 실행 스크립트'}
-> 
+>
 > - PostgreSQL을 소스설치를 하는 경우, pg_ctl 명령어로 데몬 실행을 해야 합니다.
 > - PostgreSQL은 보안적인 이유로 root 권한으로 데몬의 실행을 허가하지 않습니다.
 > - 이런 이유로 인해 반드시 일반유저로 로그인해서 실행해야 하는데, 일반적으로 postgres라는 계정으로 실행하게 됩니다.
@@ -720,7 +720,7 @@ REVOKE privilege [,...]
 > -- 처음 10개의 Row를 반환
 > SELECT * FROM test LIMIT 10;
 > SELECT * FROM test LIMIT 10 OFFSET 0;
-> 
+>
 > -- 11번째부터 10개의 ROW를 반환
 > SELECT * FROM test LIMIT 10 OFFSET 10;
 > ```
@@ -747,7 +747,7 @@ REVOKE privilege [,...]
 >  ```jsx
 >  CREATE EXTENSION hstore; // hstore 활성화
 >  ```
-> 
+>
 > ```jsx
 > k => v // => 기호 주변의 공백은 무시
 > foo => bar, baz => whatever
@@ -755,7 +755,7 @@ REVOKE privilege [,...]
 > // 공백, 쉼표, = 또는 >를 포함하는 두 개의 따옴표로 묶은 키 및 값
 > // 키 또는 값에 큰따옴표 또는 백슬래시를 포함하려면 백슬래시를 사용
 > ```
-> 
+>
 > ```jsx
 > SELECT 'a=>1,a=>2'::hstore;
 > // 결과
@@ -763,15 +763,15 @@ REVOKE privilege [,...]
 > ----------
 >  "a"=>"1" // 중복 불가
 > ```
-> 
+>
 > ```jsx
 > -- 테이블에 적용
 > CREATE TABLE AddressBook (
->     id SERIAL PRIMARY KEY,    
+>     id SERIAL PRIMARY KEY,
 >     name VARCHAR,
 >     attributes HSTORE
 > );
-> 
+>
 > -- 레코드 삽입
 > INSERT INTO AddressBook (name, attributes) VALUES (
 >     '김가가',
@@ -785,7 +785,7 @@ REVOKE privilege [,...]
 >      telephone => "N/A",
 >      email => "222@bbb.co.kr"'
 > );
-> 
+>
 > -- 조회
 > SELECT * FROM AddressBook;
 > // 결과
@@ -794,7 +794,7 @@ REVOKE privilege [,...]
 >   1 | 김가가 | "age"=>"38", "email"=>"111@aaa.co.kr", "telephone"=>"010-1111-1111"
 >   2 | 김나나 | "age"=>"29", "email"=>"222@bbb.co.kr", "telephone"=>"N/A"
 > (2개 행)
-> 
+>
 > -- telephone이 'N/A'인 사람 조회
 > SELECT * FROM AddressBook WHERE attributes->'telephone' = 'N/A';
 > // 결과
@@ -817,36 +817,36 @@ REVOKE privilege [,...]
 >   altitude    INT
 > );
 > ```
-> 
+>
 > ```jsx
 > // 자식 테이블
 > CREATE TABLE capitals(
 >   state   char(2)
 > ) INHERITS (cities);
 > ```
-> 
-> ![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/10.png)
-> 
+>
+> ![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/10.png)
+>
 > ```jsx
 > // 자식테이블 capitals를 상속받는 또 다른 테이블 생성
 > CREATE TABLE streets (
 > 	col1 char(1)
 > ) INHERITS (capitals);
 > ```
-> 
-> ![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/11.png)
-> 
+>
+> ![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/11.png)
+>
 > ```jsx
 > -- 부모 테이블 삭제 시
 > DROP TABLE public.cities;
-> 
+>
 > // 아래와 같은 오류가 뜸
 > ERROR: 오류:  기타 다른 개체들이 이 개체에 의존하고 있어, cities 테이블 삭제할 수 없음
 > DETAIL:  capitals 테이블 의존대상: cities 테이블
 > streets 테이블 의존대상: capitals 테이블
 > HINT:  이 개체와 관계된 모든 개체들을 함께 삭제하려면 DROP ... CASCADE 명령을 사용하십시오
 > SQL state: 2BP01
-> 
+>
 > -- CASCADE 사용
 > DROP TABLE public.cities CASCADE;
 > // 결과
@@ -854,7 +854,7 @@ REVOKE privilege [,...]
 > DETAIL:  capitals 테이블 개체가 덩달아 삭제됨
 > streets 테이블 개체가 덩달아 삭제됨
 > DROP TABLE
-> 
+>
 > -- 삭제 후 조회
 > SELECT * FROM public.cities;
 > SELECT * FROM public.capitals;

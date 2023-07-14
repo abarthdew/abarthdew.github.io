@@ -47,7 +47,7 @@ tags: [DB, PostgreSQL]
 > ### 오라클 파티션 테이블
 > 오라클 파티션 기능은 `STANDARD`버전일 경우 불가(`PERSONAL`, `ENTERPRISE EDITION` 만 가능)
 > - (1) Range : 범위 단위로 나누어진 테이블(ex. 날짜)
-> 
+>
 > ```jsx
 > -- 파티션 기준 설정 & 테이블 생성
 > CREATE TABLE mypart (
@@ -62,7 +62,7 @@ tags: [DB, PostgreSQL]
 >     PARTITION my_q2 VALUES LESS THAN (2017, 01, 01) TABLESPACE TEST_TBS2,
 >     PARTITION my_q3 VALUES LESS THAN (2017, 07, 01) TABLESPACE TEST_TBS3
 >    );
-> 
+>
 > -- 데이터 삽입
 > INSERT INTO mypart VALUES(1, 2016, 01, 03, 'scott');
 > INSERT INTO mypart VALUES(2, 2017, 05, 17, 'jones');
@@ -71,15 +71,15 @@ tags: [DB, PostgreSQL]
 > INSERT INTO mypart VALUES(5, 2016, 11, 04, 'lion');
 > INSERT INTO mypart VALUES(6, 2016, 12, 21, 'tiger');
 > COMMIT;
-> 
+>
 > -- 데이터 조회
 > SELECT my_value FROM mypart PARTITION (my_q1); -- scott, ford
 > SELECT my_value FROM mypart PARTITION (my_q2); -- lion, tiger
 > SELECT my_value FROM mypart PARTITION (my_q3); -- jones, miller
 > ```
-> 
+>
 > - (2) List : 특정 컬럼 값을 기준으로 파티셔닝을 수행
-> 
+>
 > ```jsx
 > -- 생성
 > CREATE TABLE emp_list_pt (
@@ -96,7 +96,7 @@ tags: [DB, PostgreSQL]
 > 	PARTITION emp_list_pt2 VALUES ('SALESMAN') TABLESPACE TEST_TBS2,
 > 	PARTITION emp_list_pt3 VALUES ('ANALYST') TABLESPACE TEST_TBS3,
 > 	PARTITION emp_list_pt4 VALUES ('PRESIDENT', 'CLERK') TABLESPACE TEST_TBS4);
-> 
+>
 > -- 데이터 삽입
 > INSERT INTO emp_list_pt VALUES(1, 'SMITH',  'CLERK',     7902, SYSDATE,  800, NULL, 20);
 > INSERT INTO emp_list_pt VALUES(2, 'ALLEN',  'SALESMAN',  7698, SYSDATE, 1600,  300, 30);
@@ -113,16 +113,16 @@ tags: [DB, PostgreSQL]
 > INSERT INTO emp_list_pt VALUES(13, 'FORD',   'ANALYST',   7566, SYSDATE,  3000, NULL, 20);
 > INSERT INTO emp_list_pt VALUES(14, 'MILLER', 'CLERK',     7782,  SYSDATE, 1300, NULL, 10);
 > COMMIT;
-> 
+>
 > -- emp_list_pt1의 데이터 조회
 > SELECT ename FROM emp_list_pt PARTITION (emp_list_pt1); -- JONES, BLAKE, CLAR
 > ```
-> 
+>
 > - (3) Hash : 데이터를 해시 알고리즘에 의해 무작위로 분산시켜 삽입
 >
 > ### 포스트그레스큐엘 파티션 테이블
 > 10 버전 이전에는 상속을 이용한 구현으로 상속 하는 테이블과 받는 테이블 사이에 `trigger`를 걸어서 서로를 연결하는 번거로운 방법을 사용해야 했지만, 10버전 이후 `parent-child` 형태로 단순하게 사용이 가능해짐
-> 
+>
 > - (1) 파티션 PARENT 생성
 > ```jsx
 > CREATE TABLE test.test_partitioned (
@@ -132,48 +132,48 @@ tags: [DB, PostgreSQL]
 > ) PARTITION BY RANGE(dt);
 > 					-- [RANGE | LIST | HASH]
 > ```
-> ![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/12.png){: width="150" style="margin-bottom: 40px; margin-right: 10px;" .left}   
-> - `PARTITION BY RANGE(id)` : id 범위를 기준으로 한 RANGE  Partition 
+> ![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/12.png){: width="150" style="margin-bottom: 40px; margin-right: 10px;" .left}
+> - `PARTITION BY RANGE(id)` : id 범위를 기준으로 한 RANGE  Partition
 >    partition_bound_spec 설정 예 : FOR VALUES FROM (1) to (1000)
-> - `PARTITION BY LIST(class)` : class column을 기준으로 한 LIST Partition 
+> - `PARTITION BY LIST(class)` : class column을 기준으로 한 LIST Partition
 >    partition_bound_spec 설정 예 : FOR VALUES IN ('G', 'V')
 > - `PARTITION BY HASH(id)` : id column을 기준으로 한 HASH Partition
 >    partition_bound_spec 설정 예 : FOR VALUES WITH (MODULUS 10, REMAINDER 5)
 >
 > - (2) CHILD 테이블 생성
-> 
+>
 > ```jsx
 > CREATE TABLE test.test_2019_01
 > 	PARTITION OF test.test_partitioned
 > 	FOR VALUES
 > 	FROM ('2019-01-01') to ('2019-02-01');
-> 
+>
 > CREATE TABLE test.test_2019_02
 > 	PARTITION OF test.test_partitioned
 > 	FOR VALUES
 > 	FROM ('2019-02-01') to ('2019-03-01');
-> 
+>
 > CREATE TABLE test.test_default
 > 	PARTITION OF test.test_partitioned
 > 	DEFAULT;
 > ```
 >
-> ![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/13.png){: width="400"}   
-> 
+> ![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/13.png){: width="400"}
+>
 > - (3) 데이터 삽입
-> 
+>
 > ```jsx
 > INSERT INTO test.test_partitioned VALUES ('2019-01-10', 'message...', 10);
 > ```
-> 
+>
 > - (4) 파티션 삭제
-> 
+>
 > ```jsx
 > ALTER TABLE test.test_partitioned DETACH PARTITION test.test_2019_02;
 > ```
-> 
+>
 > 💡 [[오라클]](https://m.blog.naver.com/PostView.nhn?blogId=whdahek&logNo=220796458477&proxyReferer=https:%2F%2Fwww.google.com%2F)> [포스트그레스큐엘[[1]](https://semode.tistory.com/466)[[2]](https://browndwarf.tistory.com/36)[(공식)](https://www.postgresql.org/docs/10/> ddl-partitioning.html)[(상속-트리거 방식)](https://antop.tistory.com/entry/Postgresql-Partitioning)]
-> 
+>
 
 ### 3. `복제 방법`
 > 💡 여러 노드에 데이터를 중복 저장하는 방법
@@ -219,7 +219,7 @@ tags: [DB, PostgreSQL]
 
 - 제어판 > 시스템 > 고급 시스템 설정 > 환경 변수 > 시스템변수 > path편집
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/14.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/14.png)
 
 # 5. 접속
 
@@ -232,7 +232,7 @@ tags: [DB, PostgreSQL]
 
 3. pgAdmin4(전용 GUI 툴)
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/15.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/15.png)
 
 # 6. CRUD
 
@@ -247,13 +247,13 @@ tags: [DB, PostgreSQL]
 
 ### 1) CREATE | `CREATE TABLE [tb_name] ([컬럼명][자료형],...);`
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/16.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/16.png)
 
 1. SQL shell에 차례대로 입력 *구문 오류가 있을 시, 오류 문구가 출력됨
 2. \e 명령어 입력
 3. 외부 편집기로 쿼리 수정 후 저장
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/17.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/17.png)
 
 ```jsx
 -- 기존 테이블 복사 후 생성(칼럼, 레코드 데이터 복사됨)
@@ -285,7 +285,7 @@ id |  name  |                             attributes
 
 ### 2) SELECT | `SELECT * FROM "[schema_name]".[tb_name];`
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/18.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/18.png)
 
 ---
 
@@ -300,13 +300,13 @@ UPDATE [tb_name] SET [column] = [values] WHERE [condition] [RETURNING *];
 -- RETURNING * : 수정한 내용 바로 조회
 ```
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/19.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/19.png)
 
 ---
 
 ### 4) DELETE | `DROP TABLE [tb_name]`
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/20.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/20.png)
 
 # 7. 자료형
 
@@ -375,7 +375,7 @@ INSERT INTO info3 VALUES (001, 'POST', Array[01011111111, 01022222222]);
 INSERT INTO info3 VALUES (002, 'POST2', '{01011111111, 01022222222}');
 ```
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/21.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/21.png)
 
 🔰 JSON형 : `JOSN` / `JSONB`
 
@@ -401,7 +401,7 @@ INSERT INTO order3 VALUES
   (003, '{"custormer":"333", "books":{"id":"c", "name":"cBook"}}');
 ```
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/22.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/22.png)
 
 # 8. 활용
 
@@ -428,30 +428,30 @@ FROM 절에 사용하는 서브 쿼리를 인라인 뷰라고 함. 인라인 뷰
 ```jsx
 SELECT *
 FROM (
-  SELECT '{ 
-    "guid": "9c36adc1-7fb5-4d5b-83b4-90356a46061a", 
-    "name": "Angela Barton", 
-    "is_active": true, 
-    "company": "Magnafone", 
-    "address": "178 Howard Place, Gulf, Washington, 702", 
-    "registered": "2009-11-07T08:53:22 +08:00", 
-    "latitude": 19.793713, 
-    "longitude": 86.513373, 
-    "tags": [ "enim", "aliquip", "qui" ] 
+  SELECT '{
+    "guid": "9c36adc1-7fb5-4d5b-83b4-90356a46061a",
+    "name": "Angela Barton",
+    "is_active": true,
+    "company": "Magnafone",
+    "address": "178 Howard Place, Gulf, Washington, 702",
+    "registered": "2009-11-07T08:53:22 +08:00",
+    "latitude": 19.793713,
+    "longitude": 86.513373,
+    "tags": [ "enim", "aliquip", "qui" ]
     }'::json
 ) AS test_table;
 
 // 결과
-{   
-  "guid": "9c36adc1-7fb5-4d5b-83b4-90356a46061a", 
-  "name": "Angela Barton", 
-  "is_active": true, 
-  "company": "Magnafone", 
-  "address": "178 Howard Place, Gulf, Washington, 702", 
-  "registered": "2009-11-07T08:53:22 +08:00", 
-  "latitude": 19.793713, 
-  "longitude": 86.513373, 
-  "tags": [ "enim", "aliquip", "qui" ] 
+{
+  "guid": "9c36adc1-7fb5-4d5b-83b4-90356a46061a",
+  "name": "Angela Barton",
+  "is_active": true,
+  "company": "Magnafone",
+  "address": "178 Howard Place, Gulf, Washington, 702",
+  "registered": "2009-11-07T08:53:22 +08:00",
+  "latitude": 19.793713,
+  "longitude": 86.513373,
+  "tags": [ "enim", "aliquip", "qui" ]
 }
 // 결과(SHELL)
 json
@@ -471,16 +471,16 @@ json
 
 SELECT *
 FROM (
-  SELECT '{ 
-      "guid": "9c36adc1-7fb5-4d5b-83b4-90356a46061a", 
-      "name": "Angela Barton", 
-      "is_active": true, 
-      "company": "Magnafone", 
-      "address": "178 Howard Place, Gulf, Washington, 702", 
-      "registered": "2009-11-07T08:53:22 +08:00", 
-      "latitude": 19.793713, 
-      "longitude": 86.513373, 
-      "tags": [ "enim", "aliquip", "qui" ] 
+  SELECT '{
+      "guid": "9c36adc1-7fb5-4d5b-83b4-90356a46061a",
+      "name": "Angela Barton",
+      "is_active": true,
+      "company": "Magnafone",
+      "address": "178 Howard Place, Gulf, Washington, 702",
+      "registered": "2009-11-07T08:53:22 +08:00",
+      "latitude": 19.793713,
+      "longitude": 86.513373,
+      "tags": [ "enim", "aliquip", "qui" ]
     }'::json
 );
 
@@ -518,12 +518,12 @@ SELECT '00:15:00'::TIME; // 00:15:00
 > 💡 오라클과의 차이점
 > - oracle : NVL(hire_date, SYSDATE) - 타입 불일치 시 묵시적 형변환 발생
 > - postgresql : COALESCE(hire_date, SYSDATE) - 컬럼타입 불일치 시 오류(상수는 OK)
-> 
+>
 > ```jsx
 > SELECT COALESCE(null, null, null, '빈 값') AS column1; // 빈값
 > SELECT COALESCE(null, 1); // 1
 > ```
-> 
+>
 > ```jsx
 > postgres=# SELECT * FROM test;
 > // 결과
@@ -536,7 +536,7 @@ SELECT '00:15:00'::TIME; // 00:15:00
 >   5
 >  null
 > (6개 행)
-> 
+>
 > postgres=# SELECT COALESCE(id, 0) AS col1 FROM test;
 > // 결과
 > col1
@@ -553,7 +553,7 @@ SELECT '00:15:00'::TIME; // 00:15:00
 ### 4. `NULLIF(<매개변수1>, <매개변수2>,...)`
 > 💡 <매개변수1> = <매개변수2> : NULL 반환
 > <매개변수1> != <매개변수2> : <매개변수1>반환
-> 
+>
 > ```jsx
 > SELECT NULLIF(20, 20); // NULL
 > SELECT NULLIF(22, 23); // 22
@@ -574,8 +574,8 @@ SELECT '00:15:00'::TIME; // 00:15:00
 | date_trunc() | 필요없는 날짜정보 제거 | SELECT date_trunc('month', now());<br>// "2021-03-01 00:00:00+09"<br>// (동작시점 : 2021-03-04) |
 
 - EXTRACT 필드 값
-    
-    
+
+
     | CENTURY | 세기 |
     | --- | --- |
     | QUARTER | 분기 |
@@ -612,12 +612,12 @@ WHERE [조건]
 	START WITH [최상위 조건]
 CONNECT BY [NOCYCLE][PRIOR 계층형 구조 조건];
 
-SELECT 
+SELECT
 	DEPT_NAME,
 	DEP_CD,
 	PARENT_CD,
 	LEVEL
-FROM DEP 
+FROM DEP
 	START WITH PARENT_CD IS NULL --최상위노드 설정,
 CONNECT BY PRIOR DEP_CD = PARENT_CD;--부모노드와 자식노드 연결
 ```
@@ -676,7 +676,7 @@ SELECT '[{"a":"a1"}, {"b": "b1"}, {"c":"c1"}]' :: json -> 1; // "{"b": "b1"}"
 ```jsx
 SELECT
 	'{"a":{"a":"c"}, "b":{"b":"d"}}' :: json ->> 'a' // "{"a":"c"}"
-; 
+;
 ```
 
 ### 3. `# >`
@@ -838,16 +838,16 @@ id |                           odr
 ```
 
 ```jsx
-SELECT 
+SELECT
 	json_object_agg(id, odr)
 FROM order3
 ;
 
 // 출력결과
 "{
- ""1"" : {""custormer"":""111"", ""books"":{""id"":""a"", ""name"":""aBook""}}, 
- ""2"" : {""custormer"":""222"", ""books"":{""id"":""b"", ""name"":""bBook""}}, 
- ""3"" : {""custormer"":""333"", ""books"":{""id"":""c"", ""name"":""cBook""}} 
+ ""1"" : {""custormer"":""111"", ""books"":{""id"":""a"", ""name"":""aBook""}},
+ ""2"" : {""custormer"":""222"", ""books"":{""id"":""b"", ""name"":""bBook""}},
+ ""3"" : {""custormer"":""333"", ""books"":{""id"":""c"", ""name"":""cBook""}}
  }"
 ```
 
@@ -866,36 +866,36 @@ id |                           odr
 ```
 
 ```jsx
-SELECT 
+SELECT
 	jsonb_object_agg(id, odr)
 FROM order3
 ;
 
 // 출력결과(JSONB)
 "{
- ""1"": {""books"": {""id"": ""a"", ""name"": ""aBook""}, ""custormer"": ""111""}, 
- ""2"": {""books"": {""id"": ""b"", ""name"": ""bBook""}, ""custormer"": ""222""}, 
+ ""1"": {""books"": {""id"": ""a"", ""name"": ""aBook""}, ""custormer"": ""111""},
+ ""2"": {""books"": {""id"": ""b"", ""name"": ""bBook""}, ""custormer"": ""222""},
  ""3"": {""books"": {""id"": ""c"", ""name"": ""cBook""}, ""custormer"": ""333""}
  }"
 
 // 출력결과(JSON)
 "{
- ""1"" : {""custormer"":""111"", ""books"":{""id"":""a"", ""name"":""aBook""}}, 
- ""2"" : {""custormer"":""222"", ""books"":{""id"":""b"", ""name"":""bBook""}}, 
- ""3"" : {""custormer"":""333"", ""books"":{""id"":""c"", ""name"":""cBook""}} 
+ ""1"" : {""custormer"":""111"", ""books"":{""id"":""a"", ""name"":""aBook""}},
+ ""2"" : {""custormer"":""222"", ""books"":{""id"":""b"", ""name"":""bBook""}},
+ ""3"" : {""custormer"":""333"", ""books"":{""id"":""c"", ""name"":""cBook""}}
  }"
 ```
 
 ## 2) 조인
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/23.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/23.png)
 
 ### INNER JOIN
 
 다음 예시는 모두 결과가 같으며, 성능 상 차이는 없다.
 
 ```jsx
-SELECT 
+SELECT
 	pg_database.dattablespace AS dtspcoid, datname, pg_database.oid,
 	pg_tablespace.oid AS spcoid, spcname, spcowner
 FROM pg_database, pg_tablespace WHERE pg_database.dattablespace = pg_tablespace.oid;
@@ -914,7 +914,7 @@ dtspcoid |  datname  |  oid  | spcoid |   spcname    | spcowner
      1663 | newuserdb | 16774 |   1663 | pg_default   |       10
 (9개 행)
 
-SELECT 
+SELECT
 	pg_database.dattablespace AS dtspcoid, datname, pg_database.oid,
 	pg_tablespace.oid AS spcoid, spcname, spcowner
 FROM pg_database INNER JOIN pg_tablespace ON pg_database.dattablespace = pg_tablespace.oid;
@@ -933,7 +933,7 @@ dtspcoid |  datname  |  oid  | spcoid |   spcname    | spcowner
      1663 | newuserdb | 16774 |   1663 | pg_default   |       10
 (9개 행)
 
-SELECT 
+SELECT
 	pg_database.dattablespace AS dtspcoid, datname, pg_database.oid,
 	pg_tablespace.oid AS spcoid, spcname, spcowner
 FROM (
@@ -961,7 +961,7 @@ dtspcoid |  datname  |  oid  | spcoid |   spcname    | spcowner
 
 ```jsx
 EXPLAIN ([ANALYZE]) --추가
-SELECT 
+SELECT
 	pg_database.dattablespace AS dtspcoid, datname, pg_database.oid,
 	pg_tablespace.oid AS spcoid, spcname, spcowner
 FROM (
@@ -981,20 +981,20 @@ QUERY PLAN
 
 🔰 PgAdmin
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/24.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/24.png)
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/25.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/25.png)
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/26.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/26.png)
 
 ### LEFT OUTER JOIN
 
 명령어 앞에 쓰인 테이블을 기준으로 뒤에 쓰인 테이블과 연결되는 정보를 불러오고, 만약 연결된 정보가 없다면 NULL 값 출력.
 
 ```jsx
-SELECT 
+SELECT
 	pg_tablespace.oid AS spcoid,
-	spcname, 
+	spcname,
 	spcowner
 FROM pg_tablespace;
 
@@ -1011,7 +1011,7 @@ spcoid |   spcname    | spcowner
 ```
 
 ```jsx
-SELECT 
+SELECT
 	pg_database.dattablespace AS dtspcoid,
 	datname, pg_database.oid
 FROM pg_database;
@@ -1036,7 +1036,7 @@ dtspcoid |  datname  |  oid
 </aside>
 
 ```jsx
-SELECT 
+SELECT
 	pg_database.dattablespace AS dtspcoid, datname, pg_database.oid,
 	pg_tablespace.oid AS spcoid, spcname, spcowner
 FROM pg_tablespace LEFT JOIN pg_database ON pg_database.dattablespace = pg_tablespace.oid;
@@ -1067,7 +1067,7 @@ dtspcoid |  datname  |  oid  | spcoid |   spcname    | spcowner
 </aside>
 
 ```jsx
-SELECT 
+SELECT
 	pg_database.dattablespace AS dtspcoid, datname, pg_database.oid,
 	pg_tablespace.oid AS spcoid, spcname, spcowner
 FROM pg_tablespace RIGHT JOIN pg_database ON pg_database.dattablespace = pg_tablespace.oid;
@@ -1091,7 +1091,7 @@ dtspcoid |  datname  |  oid  | spcoid |   spcname    | spcowner
 연결된 로우는 서로 연결하여 출력하고, 서로 연결되지 않은 로우는 연결되지 않은 부분의 정보를 NULL 값으로 비워둔 채 출력한다.
 
 ```jsx
-SELECT 
+SELECT
 	pg_database.dattablespace AS dtspcoid, datname, pg_database.oid,
 	pg_tablespace.oid AS spcoid, spcname, spcowner
 FROM pg_tablespace FULL OUTER JOIN pg_database ON pg_database.dattablespace = pg_tablespace.oid;
@@ -1123,7 +1123,7 @@ dtspcoid |  datname  |  oid  | spcoid |   spcname    | spcowner
 
 ### B-Tree 인덱스
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/27.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/27.png)
 
 - 자식 노드의 최대 숫자가 2보다 큰 트리 구조.
 - 각 노드에 있는 키들은 전부 정렬되어 있으며, 부모-자식 노드가 연결되어 있다.
@@ -1139,7 +1139,7 @@ dtspcoid |  datname  |  oid  | spcoid |   spcname    | spcowner
 CREATE INDEX [index_name] ON [table_name] USING btree ([column_name]);
 -- `복합 칼럼 인덱스` : 두 개 이상의 컬럼 값을 갖는 방식.
 -- (두 컬럼의 값 중 어떤 것을 우선으로 설정할지 정해주어야 함)
-CREATE INDEX [index_name] 
+CREATE INDEX [index_name]
 	ON [table_name] ([column_name1] [ASC|DESC], [column_name2] [ASC|DESC]);
 -- `부분 인덱스` : 컬럼의 모든 값이 아닌, 특정 조건에 맞는 값에 대해서만 인덱스 생성.
 CREATE INDEX [index_name] ON [table_name]([column_name]) WHERE [condition]
@@ -1149,7 +1149,7 @@ CREATE INDEX [index_name] ON [table_name]([column_name]) WHERE [condition]
 ```jsx
 // 생성된 인덱스 확인
 -- 생성문과 함께 확인
-SELECT * FROM pg_indexes WHERE tablename='[table_name]'; 
+SELECT * FROM pg_indexes WHERE tablename='[table_name]';
 -- 인덱스 테이블 용량과 함께 확인
 \di+
 
@@ -1179,11 +1179,11 @@ CREATE INDEX [index_name] ON [table_name] UNING HASH([column_name]);
 - 원래의 값 내에 포함된 문자열을 검색하는 데 유용함.
 
 > 💡 B-Tree와 GIN 인덱스의 차이점
-> `B-tree 인덱스` 
+> `B-tree 인덱스`
 > - 인덱스를 적용하는 컬럼의 값을 변형하지 않고 원래의 값을 이용
 > - 연산과 같은 값 자체에 대한 탐색에는 효과적이지만 %LIKE% 연산과 같이 검색어가 데이터 값에 포함 되었는지 여부를 확인하는 것에는 적용되기 어려움.
 > `GIN (Generalized Inverted Index) 인덱스`
-> - 인덱스를 적용하는 컬럼의 값을 일정한 규칙에 따라 쪼개고(split), 이렇게 쪼갠 요소들을 사용. 
+> - 인덱스를 적용하는 컬럼의 값을 일정한 규칙에 따라 쪼개고(split), 이렇게 쪼갠 요소들을 사용.
 > - 이에 따라 포함 여부를 확인하는 경우 보다 효과적으로 동작할 수 있음.
 
 ```jsx
@@ -1196,10 +1196,10 @@ CREATE INDEX gin_name_idx ON patients USING gin (to_tsvector(['Language'], [colu
 
 > 💡 `to_tsvector` : 벡터로 변환해 주는 함수.
 > tsvector로 긴 글을 변환하면 의미를 갖는 단어만 남게 된다. a, the, on과 같은 연결하는 단어는 추출되지 않는다. 변환된 내용에서 단어를 검색하기 위해선 to_tsquery라는 함수를 사용한다.
-> 
+>
 > **(예시) content 칼럼 속 영어로 된 긴 글을 벡터라이징 한 후 단어 검색**
 > ```jsx
-> SELECT id, title FROM boards 
+> SELECT id, title FROM boards
 > WHERE to_tsvector('english', content) @@ to_tsquery('time');
 > ```
 
@@ -1210,7 +1210,7 @@ CREATE INDEX gin_name_idx ON patients USING gin (to_tsvector(['Language'], [colu
 
 ```jsx
 // 뷰 생성(생성된 뷰를 참조하는 뷰 생성 방법도 동일)
-CREATE VIEW [view_name] AS 
+CREATE VIEW [view_name] AS
 	SELECT * FROM [table_name];
 
 // 뷰 삭제
@@ -1286,7 +1286,7 @@ DO $$
 DECLARE
   a integer := 20;
   b integer := 40;
-BEGIN 
+BEGIN
   IF a > b THEN
     RAISE NOTICE 'a가 b보다 더 큽니다.';
   ELSE
@@ -1401,28 +1401,28 @@ SELECT * FROM sub_number; // 3
 ```
 
 > 💡 **프로시저 함수, 트리거, 사용자 정의 함수의 차이**
-> 
+>
 > `프로시저`
-> 
+>
 > - 어떤 작업에 대한 절차적 일괄처리 작업에 사용.
 > - 반복적인 트랜잭션을 수행할 수 있는 PL/SQL 블록.
 > - DB내에 미리 컴파일되어 저장되어 있다가 필요할 시 매번 사용 가능.
-> 
+>
 > `트리거`
-> 
+>
 > - 지정된 이벤트 발생시 자동으로 실행되는 프로시저와 같은 것.
 > - 명시적으로 호출 필요없이 DDL, DML 또는 일부 DB 작업(LOGOFF, SHUTDOWN)에 대한 응답으로 호출 가능.
->     Ex) 입고 테이블에 insert 트리거를 작성하면, 테이블에 자료 추가될 때 
+>     Ex) 입고 테이블에 insert 트리거를 작성하면, 테이블에 자료 추가될 때
 >     상품 테이블에 재고 수량이 되도록 트리거를 작성한다.
-> 
+>
 > `사용자정의함수`
-> 
-> - 프로시저와 차이는 리턴값의 유무. 
+>
+> - 프로시저와 차이는 리턴값의 유무.
 > - 프로시저는 수행하는 절차가 목적이라 리턴값이 없어도 되지만,  함수는 결과 도출이 목적이기에 리턴값이 존재한다. 단 하나의 리턴값만 있어야 한다.
 
 # 10. 질문과 보충사항
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/28.png)
+![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/28.png)
 
 > 💡 감사합니다. 질문과 보충했으면 좋을 것 같은 사항들을 말씀해주세요.
 
@@ -1437,7 +1437,7 @@ SELECT * FROM sub_number; // 3
     - `Reliable(신뢰성) : 소프트웨어 품질 목표 중 옳고 일관된 결과를 얻기 위해 요구된 기능을 수행할 수 있는 정도를 나타냄(=주어진 시간동안 주어진 기능을 오류 없이 수행하는 정도)
     - `ACID` : 원자성, 일관성, 고립성, 지속성
     - MVCC(다중 버전 동시성 제어)
-        
+
         [[1]](https://mangkyu.tistory.com/53)Multi-Version Concurrency Control, 동시 접근을 허용하는 데이터베이스에서 동시성을 제어하기 위해 사용하는 방법 중 하나. [[2]](http://www.datanet.co.kr/news/articleView.html?idxno=116534)DBMS에서 쓰기세션-읽기세션이 서로를 블로킹하지 않고, 서로 다른 세션이 동일 데이터에 접근했을 때 각각의 스냅샷 이미지를 보장해주는 메커니즘. 변경된 내용은 UNDO영역에 기록되며, 사용자는 마지막 버전의 데이터를 읽게 됨.
     - [로우 레벨 락킹(Row Level Locking)](https://offbyone.tistory.com/225) : Table Locking은 Table에 대하여 Query문이 수행될 때, 그 Table전체에 대해 Locking을 거는 방식. Row Level Locking(행 수준 잠금)은 데이터를 수정하는 경우 해당 Row에만 Locking을 거는 것.
     - [로킹(Locking)](https://raisonde.tistory.com/entry/%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4-%EB%A1%9C%ED%82%B9Locking-%EA%B8%B0%EB%B2%95%EA%B3%BC-%EB%A1%9C%ED%82%B9-%EB%8B%A8%EC%9C%84) : 한 번에 한명만 사용할 수 있게 하는 단위.
@@ -1445,14 +1445,14 @@ SELECT * FROM sub_number; // 3
     - [전체 텍스트 검색(Full-text search)](https://jomuljomul.tistory.com/entry/%EB%B2%88%EC%97%AD-PostgreSQL-Full-Text-Search-%ED%85%8D%EC%8A%A4%ED%8A%B8-%EA%B2%80%EC%83%89-1-Introduction) : document를 전처리하여 빠르게 검색이 가능하도록 하는 기능[document를 token으로 해체(단어 분리)-token을 lexem으로 변환(정규화)-전처리된 document를 검색하기 좋은 형태로 저장(정렬된 배열로 표현)][(예시)](https://webcache.googleusercontent.com/search?q=cache:AItqchvrsA8J:https://postgresql.kr/blog/korean_full_textsearch.html+&cd=2&hl=ko&ct=clnk&gl=kr&client=firefox-b-e)
     - [테이블 파티셔닝](https://gmlwjd9405.github.io/2018/09/24/db-partitioning.html) : DB 시스템의 용량과 성능 관리를 위해, 대용량 테이블을 파티션이라는 작은 단위로 나누어 관리하는 것(PostgreSQL 10 [[1]](https://semode.tistory.com/466), [[2]](https://browndwarf.tistory.com/36), [[공식]](https://www.postgresql.org/docs/11/ddl-partitioning.html))
     - `테이블 스페이스`
-        
+
         [[1]](https://blogger.pe.kr/504?category=144029) 오라클과 PostgreSQL에서만 사용되는 개념. psql에서 DB는 PGDATA라는 환경변수에 지정된 디렉토리를 통째로 DB로 사용하는데, 그 하위에 테이블이 파일로 생성된다. 즉, 테이블 스페이스를 따로 생성하지 않아도 DB에 사용자 테이블을 만들 수 있다. 결론적으로, DB로 지정된 디렉토리 전체가 하나의 기본 테이블 스페이스로 인식된다. (*DB관리자에 의해 데이터베이스의 객체가 저장될 수 있는 파일시스템의 경로) [[2]](https://hotte.tistory.com/1)데이터베이스 객체가 파일 시스템상에 저장되는 물리적인 공간. Table Space를 이용하여 데이터베이스의 목적에 따라 저장소를 다르게 사용하는 운영이 가능해지며, 장애 대응 및 복구 등의 용도로도 활용이 가능. [[공식]](https://postgresql.kr/docs/9.6/manage-ag-tablespaces.html)데이터베이스 관리자가 데이터베이스 객체를 나타내는 파일을 저장할 수 있는 파일 시스템의 위치를 정의할 수 있게 하는 것.
     - 호스트 기반 인증(host-based authentication) : 호스트(IP주소를 갖는 시스템, 네트워크에 연결되어 있는 컴퓨터) 기반 인증[[1]](https://heaven9598.tistory.com/entry/SSH-Secure-Shell)[[2]](https://webcache.googleusercontent.com/search?q=cache:yMPnxh0r2pcJ:https://postgresql.kr/docs/9.6/auth-pg-hba-conf.html+&cd=2&hl=ko&ct=clnk&gl=kr&client=firefox-b-e)[[3]](https://info-lab.tistory.com/51)
     - [호스트 기반 침입 탐지 시스템(Host-based Intrusion Detection System, HIDS)](https://ko.wikipedia.org/wiki/%ED%98%B8%EC%8A%A4%ED%8A%B8_%EA%B8%B0%EB%B0%98_%EC%B9%A8%EC%9E%85_%ED%83%90%EC%A7%80_%EC%8B%9C%EC%8A%A4%ED%85%9C) : 컴퓨터 시스템의 내부를 감시하고 분석하는 데 더 중점을 둔다
     - [Object-level 권한](https://bylee5.tistory.com/76) : 오브젝트(table, column, view, foreign table, sequence, database, foreign-data wrapper, foreign server, function, procedural language, schema, tablespace) 단위로 접근이 허용 또는 거부
     - `SSL(Secure Socket Layer)통신` : 보안 프로토콜이며, 일반적으로 https://형태
     - 스트리밍 복제(Streaming Replication)
-        
+
         [[1]](https://postgresql.kr/docs/9.3/warm-standby.html#STREAMING-REPLICATION)레코드 기반 로그 전달 방식. TCP 연결 방식을 이용해서 운영 서버와 직접 연결하고, 커밋된 트랜잭션을 즉시 대기 서버로 반영한다. WAL 세그먼트 파일 전달 방식보다 운영 서버의 자료 상태를 거의 실시간으로 동기화하는 방식이다. [[2]](https://idchowto.com/?p=44332)[[3]](https://browndwarf.tistory.com/4)WAL Log를 거의 실시간성으로 전달함으로써(물론 DB 서버 사이에는 Network에 문제가 없어야 한다.) 별다른 지연 없이 모든 DB가 동일한 값을 저장할 수 있게 하는 것. [[복제의 한 종류]](https://www.postgresql.org/docs/9.6/different-replication-solutions.html)
     - [Hot Standby(상시대기)](https://postgresql.kr/docs/9.4/hot-standby.html) : 서버가 아카이브 파일로 복구 작업 중이거나 대기 모드일 때도 클라이언트가 그 서버로 접속할 수 있으며, 읽기 전용 쿼리를 실행할 수 있는 기능. 현재 운용장비와 예비 운용장비의 구성을 항상 같은 상태로 해두는 것
     - `Warm Standby` : [[1]](https://brownbears.tistory.com/85)서버 다중화 요소 중 한 쪽은 사용할 수 없는 Active-Standby(↔ Active-Active)의 세 종류 중 하나. [[2]](https://kangprog.tistory.com/11)가동 후 즉시 이용은 불가능 하지만, 어느정도 준비가 갖추어져있는 정도.
@@ -1487,12 +1487,12 @@ SELECT * FROM sub_number; // 3
     - `Rule System` : PostgreSQL 규칙 시스템의 CREATE RULE은 지정된 테이블 또는 보기에 적용되는 새 규칙을 정의함. CREATE OR REPLACE RULE는 새 규칙을 만들거나 동일한 테이블에 대해 동일한 이름의 기존 규칙을 바꿈.
     - `B-트리`: B트리란 Balanced Tree로, 자식을 두개만 가질 수 있던 Binary tree(이진 트리)의 확장개념. 자식 노드의 개수가 2개 이상이고, 데이터를 정렬하여 탐색, 삽입, 삭제 및 순차 접근이 가능하도록 유지하는 트리형 자료구조.[[1][](https://beelee.tistory.com/37)[2]](https://hyungjoon6876.github.io/jlog/2018/07/20/btree.html)
     - `R-트리`
-        
+
         [[1]](http://seb.kr/w/R_%ED%8A%B8%EB%A6%AC)다차원의 공간 데이터를 효과적으로 저장하고 지리정보와 관련된 질의를 빠르게 수행 할 수 있는 트리 자료 구조. [[2]](https://ko.wikipedia.org/wiki/R_%ED%8A%B8%EB%A6%AC)다차원의 공간 데이터를 저장하는 색인. 이를테면, 지리학에서 R 트리는 "현재 위치에서 200km 이내의 모든 도시를 찾아라"와 같은 질의에 대해 빠르게 답을 줄 수 있다.
     - [해시 인덱스](https://najuung.tistory.com/45) : 검색하고자 하는 값을 찾기 위해 해시함수를 거쳐 키값이 포함된 버켓을 찾아내는 방식
     - `버킷` : 인덱스 각 키값과 레코드의 주소값등의 정보를 두는 공간[[1]](https://dev-woo.tistory.com/28)[[2]](https://maengdev.tistory.com/31)
     - `GiST(Generalized Search Tree) 인덱스`
-        
+
         [[1]](https://bitnine.tistory.com/m/entry/PostgreSQLs-Indexes)GiST는 어떤 운영 클래스가 적용되는지에 따라 다른 인덱스 전략을 사용할 수 있는 균형 잡힌 트리 구조 인덱스 액세스 방식. 이 기능의 경우 인덱스의 유형이 아닌 인프라로 볼 수 있음. 기하학 데이터, 텍스트 검색 문서 등 다양한 GiST 연산자 클래스를 제공. [[2]](https://postgis.net/docs/manual-3.0/postgis-ko_KR.html#gist_indexes) "일반화된 검색 트리"의 줄임말로, 인덱스 작업의 포괄적인 형태. 일반 B-Tree 인덱스 작업으로는 쓸 수 없는 온갖 종류의 비정규 데이터 구조(정수 배열, 분광 데이터 등등)에 대한 검색 속도를 향상시키는 데 GiST를 이용.
     - [PostgreSQL INDEX](https://webcache.googleusercontent.com/search?q=cache:teayQF99WcsJ:https://postgresql.kr/docs/11/sql-createindex.html+&cd=5&hl=ko&ct=clnk&gl=kr&client=firefox-b-e)
     - [절차 언어](https://deftkang.tistory.com/125) : 순서를 명확한 계산법으로서 쉽게 표현할 수 있는 문제 지향 언어로서, 컴퓨터에 처리시키고자 할 때 그 순서를 명확하게 기술함으로써 처리를 쉽게 실행하는 프로그래밍 언어.
@@ -1507,13 +1507,13 @@ SELECT * FROM sub_number; // 3
     - `hstore` : [[1]](https://www.postgresql.org/docs/9.0/hstore.html)[[2]](http://www.gisdeveloper.co.kr/?p=2082)PostgresSQL에서 기본적으로 제공되는 기능. Key / Value라는 단순한 구조를 갖는 테이블을 정의할 수 있는 확장.
     - 테이블 상속(Table inheritance) : [[1]](https://corekms.tistory.com/entry/table-inheritance%EC%83%81%EC%86%8D)[[2]](https://www.postgresql.org/docs/10/tutorial-inheritance.html)
 - 6) 경쟁 제품들과의 비교
-    - `마이그레이션` : 서비스 중인 한 어플리케이션 또는 모듈 등을 전혀 다른 환경(OS, 미들웨어, 하드웨어 등) 에서도 돌아갈 수 있도록 전환하는 것을 의미. 예를 들어, C로 개발된 솔라리스 OS 기반 프로그램을 시스템이 노후화되어 리눅스 기반의 새로운 시스템에서 돌아갈 수 있도록 하려면 솔라리스 OS에서 참조하던 라이브러리, API(함수) 등에 대해 동일한 역할을 하는 리눅스 기반의 그것으로 1:1 변환/매핑하는 작업이 필요함. 이런 것이 단순하게 바라본 마이그레이션의 의미.   
+    - `마이그레이션` : 서비스 중인 한 어플리케이션 또는 모듈 등을 전혀 다른 환경(OS, 미들웨어, 하드웨어 등) 에서도 돌아갈 수 있도록 전환하는 것을 의미. 예를 들어, C로 개발된 솔라리스 OS 기반 프로그램을 시스템이 노후화되어 리눅스 기반의 새로운 시스템에서 돌아갈 수 있도록 하려면 솔라리스 OS에서 참조하던 라이브러리, API(함수) 등에 대해 동일한 역할을 하는 리눅스 기반의 그것으로 1:1 변환/매핑하는 작업이 필요함. 이런 것이 단순하게 바라본 마이그레이션의 의미.
 
 ### 2. ORACLE vs PostgreSQL
   - [오라클과 포스트그레스큐엘 비교](https://db-engines.com/en/system/Oracle%3BPostgreSQL)
   - [BSD](https://ko.wikipedia.org/wiki/BSD) : 라이센스 종류
   - `horizontal partitioning`
-      
+
       [[1]](https://ko.wikipedia.org/wiki/%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4_%EB%B6%84%ED%95%A0)하나의 테이블을 특정 분할 기준(ex. 여, 남)에 따라 수평 분할(레코드로 분할)하는 것. [[2]](https://jack-of-all-trades.tistory.com/95) 오라클 파티셔닝 : 대용량 테이블을 물리적인 n개 테이블로 나누는 것(논리적으로 1개 테이블, 물리적으로 n개 테이블)[[예제]](https://coding-factory.tistory.com/422)
   - [이기종 시스템 아키텍처(Heterogeneous System Architecture, HSA)](https://m.blog.naver.com/PostView.nhn?blogId=cyonic&logNo=207955491&proxyReferer=https:%2F%2Fwww.google.com%2F) : 컴퓨팅 자원을 최대한 활용해 비용 대비 높은 생산성을 얻을 수 있는 효율적인 설계 방식. 쉽게 말해 CPU와 GPU의 벽을 허물고 소프트웨어가 두 부품의 컴퓨팅 자원을 자유롭게 활용한다는 의미. 기업을 예로 들면, 부처 간의 벽을 허물고 하나의 목표를 이루기 위해 모든 인력과 자원을 공유해 업무 효율을 높이는 것.
   - [Multi-source replication(다중 소스 복제)](https://docs.oracle.com/cd/B12037_01/server.101/b10728/repmultd.htm) : 스트림을 사용하여 세 개의 Oracle 데이터베이스 중 스키마에 대한 데이터를 복제하는 방법.
@@ -1536,8 +1536,8 @@ SELECT * FROM sub_number; // 3
   - 계층형 구조에 대한 쿼리[[1]](https://coding-factory.tistory.com/461)[[2]](https://www.postgresql.org/docs/9.1/queries-with.html)[[3]](https://sas-study.tistory.com/165)
   - [CLOB](https://www.cubrid.com/tutorial/3794112) : 사이즈가 큰 데이터를 외부 파일로 저장하기 위한 데이터 타입(오라클)
   - [조인](https://felixgrayson.wordpress.com/2015/06/18/left-join-right-join-inner-join-and-outer-join/)
-    ![Untitled](https://raw.githubusercontent.com/abarthdew/DBMS-for-dev/main/PostgreSQL/images/29.png)
-  
+    ![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/29.png)
+
   - [GIN인덱스](https://medium.com/vuno-sw-dev/postgresql-gin-%EC%9D%B8%EB%8D%B1%EC%8A%A4%EB%A5%BC-%ED%86%B5%ED%95%9C-like-%EA%B2%80%EC%83%89-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0-3c6b05c7e75f)
   - [to_tsvector](https://daesuni.github.io/postgres-fulltext-search/)
 
