@@ -268,13 +268,10 @@ public class TestApplication {
 // 222
 ```
 
-<aside>
-😨 **잘못 사용한 스레드 풀
--** newCachedThreadPool
-**→** 1 client * 7 request ⇒ 1 + 7 (threads)
-**→** 300 client * 7 request ⇒ 300 + 2100(threads)
-
-</aside>
+> 😨 잘못 사용한 스레드 풀<br>
+> - newCachedThreadPool<br>
+> → 1 client * 7 request ⇒ 1 + 7 (threads)<br>
+> → 300 client * 7 request ⇒ 300 + 2100(threads)
 
 ### 🔰 비동기 개발에 사용한 API(2) - CompletableFuture(JDK8)
 
@@ -444,10 +441,7 @@ public class TestApplication {
 
 ### 🔰 NIO(New IO | Native IO | Non Blocking IO)
 
-<aside>
-❓ Thread Pool 에 FULL이 나는 현상 : 서킷 브레이커 패턴, 서버 증설로 해결하지만, 더 좋은 방법이 없을까? ⇒ `Non Blocking`
-
-</aside>
+> ❓ Thread Pool 에 FULL이 나는 현상 : 서킷 브레이커 패턴, 서버 증설로 해결하지만, 더 좋은 방법이 없을까? ⇒ `Non Blocking`
 
 - **`NIO`**
     - jdk 1.4 nio

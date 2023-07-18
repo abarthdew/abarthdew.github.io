@@ -1030,10 +1030,7 @@ dtspcoid |  datname  |  oid
      1663 | newuserdb | 16774
 ```
 
-<aside>
-✅ pg_tablespace테이블을 기준으로 pg_database의 정보들이 조건에 맞게 매칭되고, 매칭 값이 없는 pg_tablespace의 칼럼은 NULL 값으로 출력.
-
-</aside>
+> ✅ pg_tablespace테이블을 기준으로 pg_database의 정보들이 조건에 맞게 매칭되고, 매칭 값이 없는 pg_tablespace의 칼럼은 NULL 값으로 출력.
 
 ```jsx
 SELECT
@@ -1061,10 +1058,7 @@ dtspcoid |  datname  |  oid  | spcoid |   spcname    | spcowner
 
 명령어 뒤에 쓰인 테이블을 기준으로 앞에 쓰인 테이블과 연결되는 정보를 불러오고, 만약 연결된 정보가 없다면 NULL 값 출력.
 
-<aside>
-✅ pg_database테이블을 기준으로 pg_tablespace의 정보들이 조건에 맞게 매칭되고, 매칭 값이 없는 pg_tablespace의 칼럼은 NULL 값으로 출력. 이 경우 매칭 값이 없는 경우가 없기 때문에, pg_database 테이블을 기준으로 각 칼럼 모두 매칭된 값이 출력되게 됨.
-
-</aside>
+> ✅ pg_database테이블을 기준으로 pg_tablespace의 정보들이 조건에 맞게 매칭되고, 매칭 값이 없는 pg_tablespace의 칼럼은 NULL 값으로 출력. 이 경우 매칭 값이 없는 경우가 없기 때문에, pg_database 테이블을 기준으로 각 칼럼 모두 매칭된 값이 출력되게 됨.
 
 ```jsx
 SELECT

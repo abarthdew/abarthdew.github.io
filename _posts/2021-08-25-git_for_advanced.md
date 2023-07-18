@@ -255,10 +255,7 @@ To https://github.com/ABarthDew/test0.git
 
 ### ❓ —allow-unrelated-histories
 
-<aside>
-💡 **remote : kskim, branch : master2, main2**
-
-</aside>
+> 💡 remote : kskim, branch : master2, main2
 
 - git head가 바라보는 branch 변경(main2 → master2)
 
@@ -349,10 +346,7 @@ To https://github.com/ABarthDew/test0.git
 
 ### 🔰 git 에서 이미 내용과 브랜치가 존재하는 Repository를 pull 받을 때
 
-<aside>
-💡 **branch : master2(✔), main2, master, test**
-
-</aside>
+> 💡 branch : master2(✔), main2, master, test
 
 - `git branch -M [branch_name]`을 해도 기본 브랜치 내용이 pull 받아짐
     
