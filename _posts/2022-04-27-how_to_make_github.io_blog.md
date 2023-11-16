@@ -1,6 +1,6 @@
 ---
 title: How to make github.io Blog
-date: 2022-07-27
+date: 2022-04-27
 categories: [git, pages]
 tags: [git, pages]
 ---

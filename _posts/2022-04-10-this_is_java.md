@@ -1,6 +1,6 @@
 ---
 title: 0. This is Java - List
-date: 2022-09-10
+date: 2022-04-10
 categories: [Back, Java]
 tags: [Back, Java]
 ---

@@ -1,6 +1,6 @@
 ---
 title: What is different between Spring Core and Spring MVC?
-date: 2023-03-09
+date: 2023-05-09
 categories: [Back, Spring]
 tags: [Back, Spring]
 ---

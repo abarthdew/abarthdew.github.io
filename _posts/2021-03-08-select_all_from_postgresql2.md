@@ -7,49 +7,50 @@ tags: [DB, PostgreSQL]
 
 # 2. ORACLE vs PostgreSQL
 
-| 속성 | ORACLE | PostgreSQL |
-| --- | --- | --- |
-| 소개 | RDBMS | 오픈소스 RDBMS<br>🚩 <small>객체 지향 DBMS(Postgres)로<br> 개발됨, SQL과 같은 <br> 표준으로 점차 향상</small> |
-| RDBMS인가? | O | O <br>🚩 <small>객체지향확장<br> (사용자 정의 유형/ <br> 상속 및 상속),<br> hstore 모듈을 사용한 키값 처리</small> |
-| 점유순위 | 1위 | 4위 |
-| 공식 문서 | [링크](http://docs.oracle.com/%C2%ADen/%C2%ADdatabase) | [링크](http://www.postgresql.org/%C2%ADdocs) |
-| 서비스 제공 | Oracle | PostgreSQL Global <br> Development Group |
-| 서비스 시작 | 1980 | 1989 |
-| 라이센스 | 기업용 / 무료버전 있음 | 오픈소스(BSD) |
-| 클라우드 기반 전용 | X | X |
-| 구현언어 | C, C++ | C |
-| 서버 운영 체제 | AIX, HP-UX, Linux, OS X,<br>Solaris, Windows, z/OS | FreeBSD, HP-UX, Linux,<br>NetBSD, OpenBSD, OS X,<br>Solaris, Unix, Windows |
-| 데이터 스키마 | O | O |
-| XML 지원 | O | O |
-| [🚩](#1-보조인덱스) 보조인덱스 | O | O |
-| SQL | O(전매 표준) | O(많은 확장의 표준) |
-| API 및 기타<br>액세스 방법 | JDBC, ODBC, ODP.NET,<br>Oracle Call Interface (OCI) | ADO.NET, JDBC,<br>native C library, ODBC,<br>streaming API for large objects |
-| 지원 언어 | C, C#, C++, Clojure, Cobol,<br>Delphi, Eiffel, Erlang,<br>Fortran, Groovy, Haskell,<br>Java, JavaScript, Lisp,<br>Objective C, OCaml, Perl,<br>PHP, Python, R, Ruby,<br>Scala, Tcl, Visual Basic | .Net, C, C++, Delphi,<br>Java info, JavaScript,<br>Node.js, Perl, PHP,<br>Python, Tcl |
-| 서버 사이드<br>스크립트 | PL/SQL<br>(자바에서 가능한<br>저장 프로시저 포함) | 사용자 정의 함수<br>(PL/pgSQL 또는 Perl,<Br>Python, TCL 등과 같은<br>공통 언어로 구현) |
-| 트리거 | O | O |
-| [🚩](#2-파티셔닝-방법) 파티셔닝 방법 | Sharding<br>= horizontal partitioning | partitioning by range,<br>list and (since PostgreSQL 11)<br>by hash |
-| [🚩](#3-복제-방법) 복제 방법 | Multi-source replication<br>(다중 소스 복제)<br>Source-replica replication<br>(원본 복제) | Source-replica replication<br>(원본 복제)<br>🚩 <small>타사 확장을 사용하여 <br> 가능한 기타 방법</small> |
-| [🚩](#4-맵리듀스) 맵리듀스 | X | X |
-| 일관성 개념 | Immediate Consistency<br>(즉각적) | Immediate Consistency<br>(즉각적) |
-| 외래키 | O | O |
-| 트랜잭션 개념 | ACID<br>(정보 격리 수준<br>매개 변수화 가능) | ACID |
-| [🚩](#5-동시성) 동시성 | O | O |
-| [🚩](#6-지속성) 지속성 | O | O |
-| [🚩](#7-메모리-내-기능) 메모리 내 기능 | O<br>🚩 <small>버전 12c에서 새로운 옵션<br> 'Oracle Database <br> In-Memory' 도입</small> | X |
-| [🚩](#8-사용자-개념) 사용자 개념 | SQL 표준에 따라 세분화된<br>액세스 권한 | SQL 표준에 따라 세분화된<br>액세스 권한 |
+## 6) Comparison with Competing Products
 
-### 1. `보조인덱스`
+| Attribute | ORACLE | PostgreSQL |
+| --- | --- | --- |
+| Introduction | RDBMS | Open-source RDBMS<br>🚩 <small>Developed as an Object-Relational DBMS (Postgres)<br> gradually improving towards standards like SQL</small> |
+| Is it an RDBMS? | Yes | Yes <br>🚩 <small>Object-oriented extension<br> (User-defined types/inheritance and inheritance),<br> key-value processing using the hstore module</small> |
+| Market Share | 1st | 4th |
+| Official Documentation | [Link](http://docs.oracle.com/%C2%ADen/%C2%ADdatabase) | [Link](http://www.postgresql.org/%C2%ADdocs) |
+| Service Provider | Oracle | PostgreSQL Global<br>Development Group |
+| Service Start Year | 1980 | 1989 |
+| License | Enterprise /<br>Free version available | Open source (BSD) |
+| Cloud-exclusive | No | No |
+| Implementation Language | C, C++ | C |
+| Supported Server OS | AIX, HP-UX, Linux, OS X,<br>Solaris, Windows, z/OS | FreeBSD, HP-UX, Linux,<br>NetBSD, OpenBSD, OS X,<br>Solaris, Unix, Windows |
+| Data Schema | Yes | Yes |
+| XML Support | Yes | Yes |
+| [🚩](#1-Secondary-Indexes) Secondary Indexes | Yes | Yes |
+| SQL | Yes (Preeminent Standard) | Yes (Standard with many extensions) |
+| API and Other Access Methods | JDBC, ODBC, ODP.NET,<br>Oracle Call Interface (OCI) | ADO.NET, JDBC,<br>native C library, ODBC,<br>streaming API for large objects |
+| Supported Languages | C, C#, C++, Clojure, Cobol,<br>Delphi, Eiffel, Erlang,<br>Fortran, Groovy, Haskell,<br>Java, JavaScript, Lisp,<br>Objective C, OCaml, Perl,<br>PHP, Python, R, Ruby,<br>Scala, Tcl, Visual Basic | .Net, C, C++, Delphi,<br>Java info, JavaScript,<br>Node.js, Perl, PHP,<br>Python, Tcl |
+| Server-Side Scripting | PL/SQL<br>(Includes stored procedures<br> possible in Java) | User-defined functions<br>(Implemented in a common language<br> such as PL/pgSQL or Perl,<br>Python, TCL, etc.) |
+| Triggers | Yes | Yes |
+| [🚩](#2-Partitioning-Methods) Partitioning Methods | Sharding<br>= Horizontal Partitioning | Partitioning by range,<br>list, and (since PostgreSQL 11)<br>by hash |
+| [🚩](#3-Replication-Methods) Replication Methods | Multi-source replication<br>(Multi-source replication)<br>Source-replica replication<br>(Source replication) | Source-replica replication<br>(Source replication)<br>🚩 <small>Other methods possible using third-party extensions</small> |
+| [🚩](#4-MapReduce) MapReduce | No | No |
+| Consistency Concept | Immediate Consistency | Immediate Consistency |
+| Foreign Keys | Yes | Yes |
+| Transaction Concept | ACID<br>(Isolation level<br>parameterizable) | ACID |
+| [🚩](#5-Concurrency) Concurrency | Yes | Yes |
+| [🚩](#6-Durability) Durability | Yes | Yes |
+| [🚩](#7-In-Memory-Features) In-Memory Features | Yes<br>🚩 <small>New option introduced<br>in version 12c:<br>'Oracle Database In-Memory'</small> | No |
+| [🚩](#8-User-Concepts) User Concepts | Access privileges<br>according to SQL standards | Access privileges<br>according to SQL standards |
+
+### 1. `Secondary Indexes`
 > 💡 Secondary indexes
 
-### 2. `파티셔닝 방법`
-
-> 💡 하나의 테이블을 특정 분할 기준(ex. 여, 남, 날짜)에 따라 수평 분할(레코드로 분할)하는 것
-> ### 오라클 파티션 테이블
-> 오라클 파티션 기능은 `STANDARD`버전일 경우 불가(`PERSONAL`, `ENTERPRISE EDITION` 만 가능)
-> - (1) Range : 범위 단위로 나누어진 테이블(ex. 날짜)
+### 2. `Partitioning Methods`
+> 💡 Dividing a table based on specific partitioning criteria (e.g., gender, date) into horizontal partitions (partitioning by records)
+> ### Oracle Partitioned Table
+> Partitioning functionality in Oracle is not available in the `STANDARD` version (`PERSONAL`, `ENTERPRISE EDITION` only)
+> - (1) Range: Divides the table into units based on a range (e.g., date)
 >
 > ```jsx
-> -- 파티션 기준 설정 & 테이블 생성
+> -- Set partition criteria and create table
 > CREATE TABLE mypart (
 > 		 my_no NUMBER,
 >      my_year INT NOT NULL,
@@ -63,7 +64,7 @@ tags: [DB, PostgreSQL]
 >     PARTITION my_q3 VALUES LESS THAN (2017, 07, 01) TABLESPACE TEST_TBS3
 >    );
 >
-> -- 데이터 삽입
+> -- Insert data
 > INSERT INTO mypart VALUES(1, 2016, 01, 03, 'scott');
 > INSERT INTO mypart VALUES(2, 2017, 05, 17, 'jones');
 > INSERT INTO mypart VALUES(3, 2017, 01, 12, 'miller');
@@ -72,16 +73,16 @@ tags: [DB, PostgreSQL]
 > INSERT INTO mypart VALUES(6, 2016, 12, 21, 'tiger');
 > COMMIT;
 >
-> -- 데이터 조회
+> -- Query data
 > SELECT my_value FROM mypart PARTITION (my_q1); -- scott, ford
 > SELECT my_value FROM mypart PARTITION (my_q2); -- lion, tiger
 > SELECT my_value FROM mypart PARTITION (my_q3); -- jones, miller
 > ```
 >
-> - (2) List : 특정 컬럼 값을 기준으로 파티셔닝을 수행
+> - (2) List: Perform partitioning based on specific column values
 >
 > ```jsx
-> -- 생성
+> -- Create
 > CREATE TABLE emp_list_pt (
 > 		EMPNO NUMBER NOT NULL,
 >     ENAME VARCHAR2(10),
@@ -91,13 +92,13 @@ tags: [DB, PostgreSQL]
 >     SAL NUMBER(7, 2),
 >     COMM NUMBER(7, 2),
 >     DEPTNO NUMBER(2))
-> PARTITION BY LIST (JOB) – 특정 컬럼 지정.
+> PARTITION BY LIST (JOB) – Specify specific column.
 > 	(PARTITION emp_list_pt1 VALUES ('MANAGER') TABLESPACE TEST_TBS1,
 > 	PARTITION emp_list_pt2 VALUES ('SALESMAN') TABLESPACE TEST_TBS2,
 > 	PARTITION emp_list_pt3 VALUES ('ANALYST') TABLESPACE TEST_TBS3,
 > 	PARTITION emp_list_pt4 VALUES ('PRESIDENT', 'CLERK') TABLESPACE TEST_TBS4);
 >
-> -- 데이터 삽입
+> -- Insert data
 > INSERT INTO emp_list_pt VALUES(1, 'SMITH',  'CLERK',     7902, SYSDATE,  800, NULL, 20);
 > INSERT INTO emp_list_pt VALUES(2, 'ALLEN',  'SALESMAN',  7698, SYSDATE, 1600,  300, 30);
 > INSERT INTO emp_list_pt VALUES(3, 'WARD',   'SALESMAN',  7698, SYSDATE, 1250,  500, 30);
@@ -114,16 +115,16 @@ tags: [DB, PostgreSQL]
 > INSERT INTO emp_list_pt VALUES(14, 'MILLER', 'CLERK',     7782,  SYSDATE, 1300, NULL, 10);
 > COMMIT;
 >
-> -- emp_list_pt1의 데이터 조회
+> -- Select emp_list_pt1 Data
 > SELECT ename FROM emp_list_pt PARTITION (emp_list_pt1); -- JONES, BLAKE, CLAR
 > ```
 >
-> - (3) Hash : 데이터를 해시 알고리즘에 의해 무작위로 분산시켜 삽입
+> - (3) Hash: Distribute data randomly using a hash algorithm during insertion
 >
-> ### 포스트그레스큐엘 파티션 테이블
-> 10 버전 이전에는 상속을 이용한 구현으로 상속 하는 테이블과 받는 테이블 사이에 `trigger`를 걸어서 서로를 연결하는 번거로운 방법을 사용해야 했지만, 10버전 이후 `parent-child` 형태로 단순하게 사용이 가능해짐
+> ### PostgreSQL Partition Table
+> Before version 10, it required a cumbersome method using inheritance, using triggers to connect the tables that inherit and receive. However, from version 10, it became simpler to use the `parent-child` relationship.
 >
-> - (1) 파티션 PARENT 생성
+> - (1) Create partition PARENT
 > ```jsx
 > CREATE TABLE test.test_partitioned (
 >       dt        timestamp,
@@ -133,14 +134,14 @@ tags: [DB, PostgreSQL]
 > 					-- [RANGE | LIST | HASH]
 > ```
 > ![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/12.png){: width="150" style="margin-bottom: 40px; margin-right: 10px;" .left}
-> - `PARTITION BY RANGE(id)` : id 범위를 기준으로 한 RANGE  Partition
->    partition_bound_spec 설정 예 : FOR VALUES FROM (1) to (1000)
-> - `PARTITION BY LIST(class)` : class column을 기준으로 한 LIST Partition
->    partition_bound_spec 설정 예 : FOR VALUES IN ('G', 'V')
-> - `PARTITION BY HASH(id)` : id column을 기준으로 한 HASH Partition
->    partition_bound_spec 설정 예 : FOR VALUES WITH (MODULUS 10, REMAINDER 5)
+> - `PARTITION BY RANGE(id)`: RANGE Partition based on the id range
+>    Example of partition_bound_spec setting: FOR VALUES FROM (1) to (1000)
+> - `PARTITION BY LIST(class)`: LIST Partition based on the class column
+>    Example of partition_bound_spec setting: FOR VALUES IN ('G', 'V')
+> - `PARTITION BY HASH(id)`: HASH Partition based on the id column
+>    Example of partition_bound_spec setting: FOR VALUES WITH (MODULUS 10, REMAINDER 5)
 >
-> - (2) CHILD 테이블 생성
+> - (2) Create CHILD table
 >
 > ```jsx
 > CREATE TABLE test.test_2019_01
@@ -160,116 +161,116 @@ tags: [DB, PostgreSQL]
 >
 > ![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/13.png){: width="400"}
 >
-> - (3) 데이터 삽입
+> - (3) Insert data
 >
 > ```jsx
 > INSERT INTO test.test_partitioned VALUES ('2019-01-10', 'message...', 10);
 > ```
 >
-> - (4) 파티션 삭제
+> - (4) Delete partition
 >
 > ```jsx
 > ALTER TABLE test.test_partitioned DETACH PARTITION test.test_2019_02;
 > ```
 >
-> 💡 [[오라클]](https://m.blog.naver.com/PostView.nhn?blogId=whdahek&logNo=220796458477&proxyReferer=https:%2F%2Fwww.google.com%2F)> [포스트그레스큐엘[[1]](https://semode.tistory.com/466)[[2]](https://browndwarf.tistory.com/36)[(공식)](https://www.postgresql.org/docs/10/> ddl-partitioning.html)[(상속-트리거 방식)](https://antop.tistory.com/entry/Postgresql-Partitioning)]
+> 💡 [[Oracle]](https://m.blog.naver.com/PostView.nhn?blogId=whdahek&logNo=220796458477&proxyReferer=https:%2F%2Fwww.google.com%2F)> [PostgreSQL[[1]](https://semode.tistory.com/466)[[2]](https://browndwarf.tistory.com/36)[(Official)](https://www.postgresql.org/docs/10/> ddl-partitioning.html)[(Inheritance-trigger method)](https://antop.tistory.com/entry/Postgresql-Partitioning)]
 >
 
-### 3. `복제 방법`
-> 💡 여러 노드에 데이터를 중복 저장하는 방법
+### 3. `Replication method`
+> 💡 Method of duplicating data across multiple nodes
 
-### 4. `맵리듀스`
-> 💡 구글에서 대용량 데이터 처리를 분산 병렬 컴퓨팅에서 처리하기 위한 목적으로 제작하여 2004년 발표한 소프트웨어 프레임워크.
-> 맵(Map)+리듀스(Reduce)로 이루어져 있으며,<br>
-> `Input`(데이터 입력)<br>
-> → `Splitting`(데이터를 쪼개 HDFS에 저장)<br>
+### 4. `MapReduce`
+> 💡 A software framework introduced by Google in 2004 for distributed parallel computing, designed to handle large-scale data processing.
+> It consists of Map and Reduce processes:<br>
+> `Input` (Data Input)<br>
+> → `Splitting` (Breaking down data and storing it in HDFS)<br>
 > → `Mapping`<br>
-> → `Shuffling`(맵 함수의 결과 취합을 위해 리듀스 함수로 데이터 전달)<br>
-> → `Reducing`(모든 값을 합쳐 원하는 값 추출)<br>
-> → `Final Result`과 같은 과정을 거친다.<br>
-> [[출처]](https://songsunbi.tistory.com/5)
+> → `Shuffling` (Transferring data from Map function to Reduce function for aggregation of results from Map functions)<br>
+> → `Reducing` (Combining all values to extract the desired result)<br>
+> → `Final Result` - This process is followed for large-scale data processing.<br>
+> [[Source]](https://songsunbi.tistory.com/5)
 
-### 5. `동시성`
-> 💡 동시 데이터 조작 지원
+### 5. `Concurrency`
+> 💡 Support for simultaneous data manipulation
 
-### 6. `지속성`
-> 💡 지속적인 데이터 생성 지원
+### 6. `Durability`
+> 💡 Support for persistent data generation
 
-### 7. `메모리 내 기능`
-> 💡 일부 또는 모든 구조를 메모리에만 보관할 수 있는 옵션이 있는지
+### 7. `In-Memory Features`
+> 💡 Option to store some or all structures only in memory
 
-### 8. `사용자 개념`
-> 💡 접근 제어
+### 8. `User Concepts`
+> 💡 Access control
 
-# 3. 설치
-> [PostgreSQL 설치하기](https://www.postgresql.org/download/windows/)
+# 3. Installation
+> [Install PostgreSQL](https://www.postgresql.org/download/windows/)
 {: .prompt-info }
 
-🔰 **PostgreSQ\ data 디렉토리 내부에 설치되는 파일**
+🔰 **Files Installed Inside the PostgreSQL Data Directory**
 
-- `base` : pg_default 테이블스페이스 : 데이터베이스 별로 디렉토리 생성하여 데이터 저장한다.
-- `global` : pg_global 테이블스페이스 : Cluster 레벨에서 관리하는 데이터 저장한다.
-- `pg_hba.conf` : PostgreSQL에 접속을 관리하는 파일이다.
-- `pg_log : log` 파일 생성 디렉토리이다.
-- `pg_tblspc` : 사용자 테이블스페이스 : 테이블스페이스 디렉토리 symbolic link를 생성한다.
-- `postgresql.auto.conf` : ALTER SYSTEM 명령어로 파라미터 수정시 기록한다.
-- `postgresql.conf` : 주요 설정파일이다.
+- `base`: pg_default tablespace, stores data for each database in separate directories.
+- `global`: pg_global tablespace, manages data at the cluster level.
+- `pg_hba.conf`: Manages connections to PostgreSQL.
+- `pg_log`: Directory for log files.
+- `pg_tblspc`: User tablespace, creates symbolic links to tablespace directories.
+- `postgresql.auto.conf`: Records modifications to parameters made with the ALTER SYSTEM command.
+- `postgresql.conf`: Primary configuration file.
 
-# 4. 환경 변수 설정
+# 4. Environment Variable Configuration
 
-- 제어판 > 시스템 > 고급 시스템 설정 > 환경 변수 > 시스템변수 > path편집
+- Control Panel > System > Advanced System Settings > Environment Variables > System Variables > Edit Path
 
 ![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/14.png)
 
-# 5. 접속
+# 5. Connection
 
-1. SQL Shell(psql)
-2. 명령 프롬프트
+1. SQL Shell (psql)
+2. Command Prompt
   ```jsx
-  $ psql -U (postgre[name]) // 접속
-  $ psql --version // 버전 조회
+  $ psql -U (postgres_name) // Connect
+  $ psql --version // Check version
   ```
 
-3. pgAdmin4(전용 GUI 툴)
+3. pgAdmin4 (Dedicated GUI tool)
 
 ![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/15.png)
 
 # 6. CRUD
 
-| 명령어 | 설명 | 예시코드 |
+| Command | Description | Example |
 | --- | --- | --- |
-| \q | psql 종료 | - |
-| \l | 데이터베이스 조회 | - |
-| \c | 입력한 데이터베이스로 이동 | \c [dbName] |
-| \e | 외부편집기 사용 | - |
-| \dt | 현재 데이터베이스 테이블 확인 | - |
-| \db | 테이블 스페이스 확인 | - |
+| \q | Exit psql | - |
+| \l | List databases | - |
+| \c | Connect to a database | \c [dbName] |
+| \e | Use an external editor | - |
+| \dt | List tables in the current database | - |
+| \db | List tablespaces | - |
 
-### 1) CREATE | `CREATE TABLE [tb_name] ([컬럼명][자료형],...);`
+### 1) CREATE | `CREATE TABLE [tb_name] ([column_name] [data_type], ...);`
 
 ![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/16.png)
 
-1. SQL shell에 차례대로 입력 *구문 오류가 있을 시, 오류 문구가 출력됨
-2. \e 명령어 입력
-3. 외부 편집기로 쿼리 수정 후 저장
+1. Enter the following commands in SQL shell *If there are syntax errors, an error message will be displayed
+2. Enter the command \e
+3. Modify the query in an external editor and save it
 
 ![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/17.png)
 
 ```jsx
--- 기존 테이블 복사 후 생성(칼럼, 레코드 데이터 복사됨)
+-- Created after copying existing table (column and record data copied)
 CREATE TABLE [new_table_name] AS
 	SELECT * FROM [old_table_name]
 ```
 
 ```jsx
--- 예시
+-- Example
 SELECT * FROM AddressBook;
-// 결과
+// Result
 id |  name  |                             attributes
 ----+--------+---------------------------------------------------------------------
   1 | 김가가 | "age"=>"38", "email"=>"111@aaa.co.kr", "telephone"=>"010-1111-1111"
   2 | 김나나 | "age"=>"29", "email"=>"222@bbb.co.kr", "telephone"=>"N/A"
-(2개 행)
+(2 rows)
 
 CREATE TABLE book AS SELECT * FROM AddressBook;
 SELECT * FROM book;
@@ -278,7 +279,7 @@ id |  name  |                             attributes
 ----+--------+---------------------------------------------------------------------
   1 | 김가가 | "age"=>"38", "email"=>"111@aaa.co.kr", "telephone"=>"010-1111-1111"
   2 | 김나나 | "age"=>"29", "email"=>"222@bbb.co.kr", "telephone"=>"N/A"
-(2개 행)
+(2 rows)
 ```
 
 ---
@@ -293,11 +294,11 @@ id |  name  |                             attributes
 
 ```jsx
 INSERT INTO [tb_name] ([column]) VALUES ([values]);
--- 여러 개 추가
+-- Add multiple
 INSERT INTO book VALUES (1, 2, 3), (4, 5, 6), ..., (7, 8, 9);
 
 UPDATE [tb_name] SET [column] = [values] WHERE [condition] [RETURNING *];
--- RETURNING * : 수정한 내용 바로 조회
+-- RETURNING * : View modified information immediately
 ```
 
 ![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/19.png)
@@ -308,61 +309,61 @@ UPDATE [tb_name] SET [column] = [values] WHERE [condition] [RETURNING *];
 
 ![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/20.png)
 
-# 7. 자료형
+# 7. Data Types
 
-| 데이터 타입 | 별칭 | 설명 | 용량 |
+| Data Type | Alias | Description | Size |
 | --- | --- | --- | --- |
-| bigint | int8 | 부호 있는 8바이트<br>정수형 |  |
-| bigserial | serial8 | 자동 증가 8바이트<br>정수형 |  |
-| bit [ (n) ] |   | 고정 길이 비트<br>문자열 |  |
-| bit varying [ (n) ] | varbit | 가변 길이 비트<br>문자열 |  |
-| boolean | bool | 논리 불린형 (참/거짓) |  |
-| box |   | 평면 위 직각사각형 |  |
-| bytea |   | 이진자료 ("바이트 배열") |  |
-| character [ (n) ] | char [ (n) ] | 고정 길이 문자열 |  |
-| character varying<br>[ (n) ] | varchar [ (n) ] | 가변 결이 문자열 |  |
-| cidr |   | IPv4 또는 IPv6<br>네트워크 주소 |  |
-| circle |   | 평면 위 원 |  |
-| date |   | 달력 날짜 (년, 월, 일) | 4 |
-| double precision | float8 | 2배 정밀 부동 소수형<br>(8 바이트) | 8 |
-| inet |   | IPv4 또 IPv6<br>호스트 주소 |  |
-| integer | int, int4,<br>numeric(n)[숫자<br>자리수 제한] | 부호 있는 4바이트<br>정수형 | 4 |
-| interval<br>[ fields ] [ (p) ] |   | 시간 간격 |  |
-| line |   | 평면 위 무한 직선 |  |
-| lseg |   | 평면 위 선분 |  |
-| macaddr |   | MAC (매체 접근 제어)<br>주소 |  |
-| money |   | 화폐형 |  |
-| numeric<br>[ (p, s) ] | decimal [ (p, s) ] | 정밀도 선택 가능한<br>숫자형 | 가변적 |
-| path |   | 평면 위 기하학적<br>경로 |  |
-| point |   | 평면 위 기하학적<br>위치 |  |
-| polygon |   | 평면 위 기하학적<br>닫힌 경로 |  |
-| real | float4 | 부동소수형<br>(4 바이트) | 4 |
-| serial | serial4 | 자동 증가 4바이트<br>정수형 | 4 |
-| smallint | int2 | 부호있는 2바이트<br>정수형 |  |
-| text |   | 가변 길이 문자열 |  |
-| time [ (p) ]<br>[ without time zone ] |   | 시각 (지역시간대 없음) | 8 |
-| time [ (p) ]<br>with time zone | timetz | 지역시간대 포함한<br>시각 | 12 |
-| timestamp [ (p) ]<br>[ without time zone ] |   | 날짜와 시각<br>지역시간대 없음) | 8 |
-| timestamp [ (p) ]<br>with time zone | timestamptz | 지역시간대를 포함한<br>날짜와 시각(GMT+9) | 8 |
-| tsquery |   | 텍스트 검색 쿼리 |  |
-| tsvector |   | 텍스트 검색 문서 |  |
-| txid_snapshot |   | 사용자 수준<br>트랜잭션 ID 스냅샷 |  |
-| uuid |   | 범용 고유 식별자 |  |
-| xml |   | XML 자료 |  |
+| bigint | int8 | Signed 8-byte integer |  |
+| bigserial | serial8 | Autoincrementing 8-byte integer |  |
+| bit [ (n) ] |   | Fixed-length bit string |  |
+| bit varying [ (n) ] | varbit | Variable-length bit string |  |
+| boolean | bool | Logical Boolean (true/false) |  |
+| box |   | Rectangular box on a plane |  |
+| bytea |   | Binary data ("byte array") |  |
+| character [ (n) ] | char [ (n) ] | Fixed-length character string |  |
+| character varying<br>[ (n) ] | varchar [ (n) ] | Variable-length character string |  |
+| cidr |   | IPv4 or IPv6 network address |  |
+| circle |   | Circle on a plane |  |
+| date |   | Calendar date (year, month, day) | 4 |
+| double precision | float8 | Double precision floating-point (8 bytes) | 8 |
+| inet |   | IPv4 or IPv6 host address |  |
+| integer | int, int4,<br>numeric(n)[numeric<br>with a limit on the number of digits] | Signed 4-byte integer | 4 |
+| interval<br>[ fields ] [ (p) ] |   | Time interval |  |
+| line |   | Infinite line on a plane |  |
+| lseg |   | Line segment on a plane |  |
+| macaddr |   | MAC (Media Access Control)<br>address |  |
+| money |   | Currency amount |  |
+| numeric<br>[ (p, s) ] | decimal [ (p, s) ] | User-specified precision,<br>exact numeric type | Variable |
+| path |   | Geometric path on a plane |  |
+| point |   | Geometric point on a plane |  |
+| polygon |   | Closed geometric path on a plane |  |
+| real | float4 | Single precision floating-point (4 bytes) | 4 |
+| serial | serial4 | Autoincrementing 4-byte integer | 4 |
+| smallint | int2 | Signed 2-byte integer |  |
+| text |   | Variable-length character string |  |
+| time [ (p) ]<br>[ without time zone ] |   | Time of day (no time zone) | 8 |
+| time [ (p) ]<br>with time zone | timetz | Time of day with time zone | 12 |
+| timestamp [ (p) ]<br>[ without time zone ] |   | Date and time (no time zone) | 8 |
+| timestamp [ (p) ]<br>with time zone | timestamptz | Date and time with time zone (GMT+9) | 8 |
+| tsquery |   | Text search query |  |
+| tsvector |   | Text search document |  |
+| txid_snapshot |   | User-level transaction ID snapshot |  |
+| uuid |   | Universally unique identifier |  |
+| xml |   | XML data |  |
 
 ### timestamp [ (p) ] with time zone
 
 ```jsx
--- 시간대 정보 출력
+-- Print time zone information
 SHOW TIMEZONE;
 
--- 시간 설정
+-- Time setting
 SET TIMEZONE = 'America/Los_Angeles';
 ```
 
-### 그 외 자료형
+### Other data types
 
-🔰 배열형 : `Array[]`
+🔰 Array type : `Array[]`
 
 ```jsx
 CREATE TABLE info3 (
@@ -377,7 +378,7 @@ INSERT INTO info3 VALUES (002, 'POST2', '{01011111111, 01022222222}');
 
 ![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/21.png)
 
-🔰 JSON형 : `JOSN` / `JSONB`
+🔰 JSON type : `JOSN` / `JSONB`
 
 ```jsx
 SELECT '{"bar": "baz",           "balanc   e": 7.77, "active":false}'::json;
@@ -387,7 +388,7 @@ SELECT '{"bar": "baz",            "balanc   e": 7.77, "active":false}'::jsonB;
 // "{""bar"": ""baz"", ""active"": false, ""balanc   e"": 7.77}"
 ```
 
-`JSON`은 들어온 그대로 값을 저장한다. 그런데 `JSONB`는 그대로 저장하지 않는다. 문자열 사이의 공백을 제거하고, KEY 순서를 보장하지 않는다
+`JSON` stores values exactly as they are received. However, `JSONB` does not store them as is. It removes spaces between strings and does not guarantee the order of keys.
 
 ```jsx
 CREATE TABLE order3 (
@@ -403,27 +404,27 @@ INSERT INTO order3 VALUES
 
 ![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/22.png)
 
-# 8. 활용
+# 8. Uses
 
-## 1) 연산자 및 함수
+## 1) Operators and Functions
 
 | PostgreSQL | ORACLE |
 | --- | --- |
 | SELECT 1; | SELECT 1 FROM dual; |
 | NEXTVAL.[sequence_name] | [sequence_name].NEXTVAL |
-| CAST(표현식 AS 바꿀 데이터 타입) | TO_CHAR, TO_NUMBER 등 형변환 함수 |
-| COALESCE(<매개변수1>, <매개변수2>,...) | NVL(컬럼, 치환할 값) |
-| NULLIF(<매개변수1>, <매개변수2>,...) | NULLIF(<매개변수1>, <매개변수2>,...) |
-| now(), CURRENT_DATE 등 날짜, 시간 함수 | SYSDATE, SYSTIMESTAMP |
+| CAST(expression AS target_data_type) | TO_CHAR, TO_NUMBER, etc., for type conversion |
+| COALESCE(<parameter1>, <parameter2>,...) | NVL(column, substitute_value) |
+| NULLIF(<parameter1>, <parameter2>,...) | NULLIF(<parameter1>, <parameter2>,...) |
+| now(), CURRENT_DATE, etc., for date and time functions | SYSDATE, SYSTIMESTAMP |
 | CASE columns1 when val1 <br> then result1 ... <br> else default END | DECODE(column1, val1, result1, ..., default) |
 | WITH RECURSIVE | CONNECT BY |
-| TEXT(데이터 타입) | CLOB |
+| TEXT(data_type) | CLOB |
 
 ### 1. `SELECT 1;`
 
-### 인라인 뷰
+### Inline view
 
-FROM 절에 사용하는 서브 쿼리를 인라인 뷰라고 함. 인라인 뷰를 사용할 때는 별칭을 붙여줘야 함.
+An inline view refers to a subquery used in the FROM clause. When using an inline view, it is necessary to provide an alias.
 
 ```jsx
 SELECT *
@@ -441,7 +442,7 @@ FROM (
     }'::json
 ) AS test_table;
 
-// 결과
+// Result
 {
   "guid": "9c36adc1-7fb5-4d5b-83b4-90356a46061a",
   "name": "Angela Barton",
@@ -453,7 +454,7 @@ FROM (
   "longitude": 86.513373,
   "tags": [ "enim", "aliquip", "qui" ]
 }
-// 결과(SHELL)
+// Result(SHELL)
 json
 ---------------------------------------------------------
 {                                                       +
@@ -467,7 +468,7 @@ json
   "longitude": 86.513373,                               +
   "tags": [ "enim", "aliquip", "qui" ]                  +
 }
-(1개 행)
+(1 row)
 
 SELECT *
 FROM (
@@ -484,14 +485,14 @@ FROM (
     }'::json
 );
 
-// 결과
-ERROR: 오류:  FROM 절 내의 subquery 에는 반드시 alias 를 가져야만 합니다
+// Result
+ERROR: error:  In the FROM clause, a subquery must always have an alias.
 LINE 2: FROM (
              ^
-HINT:  예, FROM (SELECT ...) [AS] foo.
+HINT:  example, FROM (SELECT ...) [AS] foo.
 ```
 
-### 단일행 서브쿼리
+### Single row subquery
 
 ```jsx
 SELECT address
@@ -499,17 +500,17 @@ SELECT address
 WHERE phone = (SELECT phone FROM p_table WEHRE name = 'test_name');
 ```
 
-### 2. `CAST(표현식 AS 바꿀 데이터 타입)`
+### 2. `CAST(Expression AS Data type to change)`
 
 ```jsx
 SELECT CAST('3000' AS INTEGER); // 3000
 
 SELECT CAST('2020-08-11' AS TEXT), CAST('2020-08-11' AS DATE);
-// 결과
+// Result
 text    |    date
 ------------+------------
  2020-08-11 | 2020-08-11
-(1개 행)
+(1 row)
 
 SELECT '00:15:00'::TIME; // 00:15:00
 ```
