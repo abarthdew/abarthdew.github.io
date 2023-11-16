@@ -515,19 +515,19 @@ text    |    date
 SELECT '00:15:00'::TIME; // 00:15:00
 ```
 
-### 3. `COALESCE(<매개변수1>, <매개변수2>,...)`
-> 💡 오라클과의 차이점
-> - oracle : NVL(hire_date, SYSDATE) - 타입 불일치 시 묵시적 형변환 발생
-> - postgresql : COALESCE(hire_date, SYSDATE) - 컬럼타입 불일치 시 오류(상수는 OK)
+### 3. `COALESCE(<parameter1>, <parameter2>,...)`
+> 💡 Difference with Oracle
+> - Oracle: NVL(hire_date, SYSDATE) - Implicit type conversion occurs if types do not match
+> - PostgreSQL: COALESCE(hire_date, SYSDATE) - Error if column types do not match (constants are OK)
 >
 > ```jsx
-> SELECT COALESCE(null, null, null, '빈 값') AS column1; // 빈값
+> SELECT COALESCE(null, null, null, 'empty value') AS column1; // empty value
 > SELECT COALESCE(null, 1); // 1
 > ```
 >
 > ```jsx
 > postgres=# SELECT * FROM test;
-> // 결과
+> // Result
 >  id
 > ----
 >   1
@@ -536,10 +536,10 @@ SELECT '00:15:00'::TIME; // 00:15:00
 >   4
 >   5
 >  null
-> (6개 행)
+> (6 rows)
 >
 > postgres=# SELECT COALESCE(id, 0) AS col1 FROM test;
-> // 결과
+> // Result
 > col1
 > ------
 >     1
@@ -548,70 +548,70 @@ SELECT '00:15:00'::TIME; // 00:15:00
 >     4
 >     5
 >     0
-> (6개 행)
+> (6 rows)
 > ```
 
-### 4. `NULLIF(<매개변수1>, <매개변수2>,...)`
-> 💡 <매개변수1> = <매개변수2> : NULL 반환
-> <매개변수1> != <매개변수2> : <매개변수1>반환
+### 4. `NULLIF(<parameter1>, <parameter2>,...)`
+> 💡 Returns NULL if <parameter1> equals <parameter2>,
+> Returns <parameter1> if <parameter1> does not equal <parameter2>.
 >
 > ```jsx
 > SELECT NULLIF(20, 20); // NULL
 > SELECT NULLIF(22, 23); // 22
 > ```
 
-### 5. `now(), CURRENT_DATE 등 날짜, 시간 함수`
+### 5. `now(), CURRENT_DATE, and other Date/Time Functions`
 
-| 함수 | 설명 | 예시 |
+| Function | Description | Example |
 | --- | --- | --- |
-| CURRENT_DATE | 현재 날짜 정보 반환 | SELECT CURRNET_DATE; |
-| CURRENT_TIME | 현재 시간+시간대 정보 반환 | SELECT CURRENT_TIME(2); |
-| CURRENT_TIMESTAMP |  현재 날짜 시간+시간대 정보 반환 | SELECT CURRENT_TIMESTAMP(2); |
-| LOCALTIME |  시간 정보 반환 | SELECT LOCALTIME(2); |
-| LOCALTIMESTAMP |  현재 날짜 및 시간 정보 반환 | SELECT LOCALTIMESTMAP; |
-| age(<TIMESTAMP) | 현재 날짜 - <TIMESTAMP>날짜 남은 일 수 | SELECT age(timestamp '2020-03-01'); |
-| EXTRACT | 날짜 및 시간 데이터 타입에서<br>특정 정보만 추출 | SELECT EXTRACT<br>(MONTH FROM TIMESTAMP '2020-09-20');<br>// 9월 |
-| date_part() | EXTRACT와 유사<br>필드값을 문자열로 받음 | SELECT date_part('month', now());<br>// 3월 |
-| date_trunc() | 필요없는 날짜정보 제거 | SELECT date_trunc('month', now());<br>// "2021-03-01 00:00:00+09"<br>// (동작시점 : 2021-03-04) |
+| CURRENT_DATE | Returns current date | SELECT CURRENT_DATE; |
+| CURRENT_TIME | Returns current time with time zone | SELECT CURRENT_TIME(2); |
+| CURRENT_TIMESTAMP | Returns current date and time with time zone | SELECT CURRENT_TIMESTAMP(2); |
+| LOCALTIME | Returns current time | SELECT LOCALTIME(2); |
+| LOCALTIMESTAMP | Returns current date and time | SELECT LOCALTIMESTAMP; |
+| age(<TIMESTAMP>) | Returns the difference between current date and <TIMESTAMP> date | SELECT age(timestamp '2020-03-01'); |
+| EXTRACT | Extracts specific information from date and time data types | SELECT EXTRACT(MONTH FROM TIMESTAMP '2020-09-20');<br>// Returns 9 for September |
+| date_part() | Similar to EXTRACT, but the field value is received as a string | SELECT date_part('month', now());<br>// Returns 3 for March |
+| date_trunc() | Removes unnecessary date information | SELECT date_trunc('month', now());<br>// Returns "2021-03-01 00:00:00+09"<br>// (At the time of execution: 2021-03-04) |
 
-- EXTRACT 필드 값
+- EXTRACT field values
 
 
-    | CENTURY | 세기 |
+    | CENTURY | Century |
     | --- | --- |
-    | QUARTER | 분기 |
-    | YEAR | 연도 |
-    | MONTH | 월 |
-    | DAY | 일 |
-    | HOUR | 시간 |
-    | MINUTE | 분 |
-    | SECOND | 초 |
-    | ISODOW | 요일숫자(월(1) ~ 일(7)) |
-    | DOW | 요일숫자(일(0) ~ 토(6)) |
-    | TIMEZONE | 시간대 |
+    | QUARTER | Quarter |
+    | YEAR | Year |
+    | MONTH | Month |
+    | DAY | Day |
+    | HOUR | Hour |
+    | MINUTE | Minute |
+    | SECOND | Second |
+    | ISODOW | ISO day of the week (Monday(1) to Sunday(7)) |
+    | DOW | Day of the week (Sunday(0) to Saturday(6)) |
+    | TIMEZONE | Timezone |
 
 ### 6. `WITH RECURSIVE`
 
 ```jsx
--- 포스트그레스큐엘
-with recursive 뷰명 as(
-    초기 SQL
-    union all(or union)
-    반복할 SQL(+반복을 멈출 where절 포함)
+-- PostgreSQL
+with recursive VIEWNAME as(
+    -- Initial SQL
+    -- union all(or union)
+    -- Recursive SQL (+ condition to stop recursion)
 )select * from 뷰명;
 
 with recursive VIEWNAME as(
-    select 1 as num
-    union all
-    select num+1 from VIEWNAME where num < 10
+    SELECT 1 AS num
+    UNION ALL
+    SELECT num + 1 FROM VIEWNAME WHERE num < 10
 )select * from VIEWNAME;
 
--- 오라클
-SELECT [컬럼]...
-	FROM [테이블]
-WHERE [조건]
-	START WITH [최상위 조건]
-CONNECT BY [NOCYCLE][PRIOR 계층형 구조 조건];
+-- Oracle
+SELECT [columns]...
+	FROM [table]
+WHERE [condition]
+	START WITH [top-level condition]
+CONNECT BY [NOCYCLE] [PRIOR hierarchical condition];
 
 SELECT
 	DEPT_NAME,
@@ -619,51 +619,57 @@ SELECT
 	PARENT_CD,
 	LEVEL
 FROM DEP
-	START WITH PARENT_CD IS NULL --최상위노드 설정,
-CONNECT BY PRIOR DEP_CD = PARENT_CD;--부모노드와 자식노드 연결
+	START WITH PARENT_CD IS NULL -- Set the top-level node
+CONNECT BY PRIOR DEP_CD = PARENT_CD; -- Connect parent and child nodes
 ```
 
-### 7. `TEXT(데이터 타입)`
-> 💡 CLOB 이란?
-> - CUBRID의 매뉴얼에는 아래와 같이 나와 있다. 간단하게 설명하면, 사이즈가 큰 데이터를 외부 파일로 저장하기 위한 데이터 타입이다.
-> -  문자열 데이터를 DB 외부에 저장하기 위한 타입이다.
-> -  CLOB 데이터의 최대 길이는 외부 저장소에서 생성 가능한 파일 크기이다.
-> -  CLOB 타입은 SQL 문에서 문자열 타입으로 입출력 값을 표현한다. 즉, CHAR(n), VARCHAR(n), NCHAR(n), NCHAR VARYING(n) 타입과 호환된다. 단, 명시적 > 타입 변환만 허용되며, 데이터 길이가 서로 다른 경우에는 최대 길이가 작은 타입에 맞추어 절삭(truncate)된다.
-> -  CLOB 타입 값을 문자열 값으로 변환하는 경우, 변환된 데이터는 최대 1GB를 넘을 수 없다. 반대로 문자열을 CLOB 타입으로 변환하는 경우, 변환된 > 데이터는 CLOB 저장소에서 제공하는 최대 파일 크기를 넘을 수 없다.
+### 7. `TEXT(Data Type)`
+> 💡 What is CLOB?
+> - According to the CUBRID manual, it is described as follows: In simple terms, it is a data type for storing large-sized data in external files.
+> - Used for storing string data externally in the database.
+> - The maximum length of CLOB data is determined by the file size that can be generated in external storage.
+> - The CLOB type represents input and output values as string types in SQL statements. In other words, it is compatible with CHAR(n), VARCHAR(n), NCHAR(n), and NCHAR VARYING(n) types. However, only explicit type conversion is allowed, and in case of different data lengths, the maximum length is adjusted to the smaller type by truncation.
+> - When converting a CLOB type value to a string, the converted data cannot exceed 1GB. Conversely, when converting a string to a CLOB type, the converted data cannot exceed the maximum file size provided by the CLOB storage.
 
-## 그 외 연산자 및 함수의 사본
+### Additional Operators and Functions
 
-| 연산자/함수 | 설명 | 예시 | 예상결과 |
+#### Array Functions
+
+| Operator/Function | Description | Example | Expected Result |
 | --- | --- | --- | --- |
-| array_append() | - 배열 뒤에 원소 추가<br>- `1 || ARRAY[2, 3] = {1, 2, 3}` | `array_append(ARRAY[1, 2], 3)` | 배열 |
-| array_prepend() | 배열 앞에 원소 추가 | `array_prepend(1, ARRAY[2, 3])` | 배열 |
-| array_remove() | 배열 속 특정 원소 삭제 | `array_remove(배열, 원소)` | 배열 |
-| array_replace() | 배열 속 특정 원소를 다른 원소로 대체 | `array_replace(배열, 원소1, 원소2)` | 배열 |
-| array_cat() |  두 배열 병합 | `array_cat(배열1, 배열2)` | 배열 |
-| <@ 또는 @> | 포함관계 | `ARRAY[1, 2, 3] @> ARRAY[1, 3]` | boolean,NULL |
+| array_append() | - Append an element to the end of an array.<br>- `1 || ARRAY[2, 3] = {1, 2, 3}` | `array_append(ARRAY[1, 2], 3)` | Array |
+| array_prepend() | Prepend an element to the beginning of an array | `array_prepend(1, ARRAY[2, 3])` | Array |
+| array_remove() | Remove a specific element from an array | `array_remove(array, element)` | Array |
+| array_replace() | Replace a specific element in an array with another element | `array_replace(array, element1, element2)` | Array |
+| array_cat() | Concatenate two arrays | `array_cat(array1, array2)` | Array |
+| <@ or @> | Containment operator | `ARRAY[1, 2, 3] @> ARRAY[1, 3]` | boolean,NULL |
 
-| 연산자/함수 | 설명 | 예시 | 예상결과 |
-| --- | --- | --- | --- |
-| [🚩](#1---) - > | - JSON 오브젝트에서 키 값으로<br>밸류 값 불러오기<br>- JSON 배열에서 인덱스로<br>JSON 오브젝트 불러오기 | - `'{"a":"a1", "b":"b1", "c":"c1"}' :: json - > 'a'`<br>- `'[{"a":"a1"}, {"b": "b1"}, {"c":"c1"}]' :: json - > 1` | JSON |
-| [🚩](#2---) - >> | JSON 오브젝트, JSON 배열 속<br>데이터 텍스트로 불러오기 | `'{"a":{"a":"c"}, "b":{"b":"d"}}' :: json - >> 'a'` | TEXT |
-| [🚩](#3--) # > | 특정한 경로의 값을 가져옴 | `'{"a":{"b":{"c":"d"}}}' :: json #> '{"a", "b", "c"}'` | JSON |
-| [🚩](#4--) # >> | 특정한 경로의 값을<br>TEXT 데이터 타입으로 가져옴 | `'{"a":[{"b":"d"}, {"c":"f"}]}' :: json #>> '{"a", 0, "b"}'` | TEXT |
-| ? | JSONB에 해당 문자열을<br>키 값으로 존재하는지 판별 | `'{"a":0, "b":1}' :: jsonb ? 'a'` | boolean,NULL |
-| `?|` | JSONB에 배열 속 원소가<br>키 값으로 하나 이상 존재하는지 판별 | `'{"a":0, "b":1, "c":2}' :: jsonb ?| array['b', 'd']` | boolean,NULL |
-| ?& | JSONB에 배열 속 원소가<br>키 값으로 모두 존재하는지 판별 | `'{"a":0, "b":1, "c":2}' :: jsonb ?& array['b', 'd']` | boolean,NULL |
-| [🚩](#5--) - | - JSONB 오브젝트의 하나<br>이상의 원소를 삭제<br>- JSONB 배열의 해당<br>인덱스 번호의 원소를 삭제 | `'{"a":0, "b":1}' :: jsonb - 'b'` | JSONB |
+#### JSON and JSONB Functions
 
-| 연산자/함수 | 설명 | 예시 | 예상결과 |
+| Operator/Function | Description | Example | Expected Result |
 | --- | --- | --- | --- |
-| [🚩](#6-json_build_object) json_build_object() | JSON 오브젝트 생성함수 | `json_build_object("<키1>", "<값1>", "<키2>", "<값2>", ...)` | JSON |
-| [🚩](#7-json_build_array) json_build_array() | JSON 형식으로 JSON배열 생성함수 | `json_build_array("<원소1>", "<원소2>", "<원소3>", ...)` | JSON |
-| [🚩](#8-json_array_length) json_array_length() | JSON 배열 원소의 개수 | `json_array_length(<JSON>)` | INTEGER |
-| [🚩](#9-json_each) json_each() | 키, 밸류 값 쌍을<br>JSON 데이터 타입의 컬럼으로 정리 | `json_each(<JSON 오브젝트>)` | JSON |
-| [🚩](#10-json_array_elements) json_array_elements() | JSON 배열 속 원소를 컬럼으로 불러옴 | `json_array_elements(<JSON 배열>)` | JSON |
-| [🚩](#11-json_agg) json_agg() | null을 포함해 json 배열로 집계한 값 | 상세참조 | - |
-| [🚩](#12-jsonb_agg) jsonb_agg() | null을 포함해 jsonb배열로 집계한 값 | 상세참조 | - |
-| [🚩](#13-json_object_aggname-value) json_object_agg<br>(name, value) | name-value 쌍을 json 개체로 집계한 값<br>(value는 null포함, name은 미포함) | 상세참조 | - |
-| [🚩](#14-jsonb_object_aggname-value) jsonb_object_agg<br>(name, value) | name-value 쌍을 json 개체로 집계한 값<br>(value는 null 포함, name은 미포함) | 상세참조 | - |
+| -> | Retrieve a value from a JSON object using a key or index from a JSON array | `'{"a":"a1", "b":"b1", "c":"c1"}' :: json -> 'a'`<br>`'[{"a":"a1"}, {"b": "b1"}, {"c":"c1"}]' :: json -> 1` | JSON |
+| ->> | Retrieve data from JSON objects or JSON arrays as text | `'{"a":{"a":"c"}, "b":{"b":"d"}}' :: json ->> 'a'` | TEXT |
+| #> | Retrieve the value at a specific path | `'{"a":{"b":{"c":"d"}}}' :: json #> '{"a", "b", "c"}'` | JSON |
+| #>> | Retrieve the value at a specific path as TEXT data type | `'{"a":[{"b":"d"}, {"c":"f"}]}' :: json #>> '{"a", 0, "b"}'` | TEXT |
+| ? | Determine if a specified string exists as a key in JSONB | `'{"a":0, "b":1}' :: jsonb ? 'a'` | boolean,NULL |
+| `?|` | Determine if one or more elements in an array exist as keys in JSONB | `'{"a":0, "b":1, "c":2}' :: jsonb ?| array['b', 'd']` | boolean,NULL |
+| ?& | Determine if all elements in an array exist as keys in JSONB | `'{"a":0, "b":1, "c":2}' :: jsonb ?& array['b', 'd']` | boolean,NULL |
+| - | - Remove one or more elements from a JSONB object.<br>- Remove the element at the specified index from a JSONB array | `'{"a":0, "b":1}' :: jsonb - 'b'` | JSONB |
+
+#### JSON and JSONB Functions
+
+| Operator/Function | Description | Example | Expected Result |
+| --- | --- | --- | --- |
+| json_build_object() | JSON object creation function | `json_build_object("<key1>", "<value1>", "<key2>", "<value2>", ...)` | JSON |
+| json_build_array() | Function to create a JSON-formatted JSON array | `json_build_array("<element1>", "<element2>", "<element3>", ...)` | JSON |
+| json_array_length() | Number of elements in a JSON array | `json_array_length(<JSON>)` | INTEGER |
+| json_each() | Organize key-value pairs as columns in the JSON data type | `json_each(<JSON object>)` | JSON |
+| json_array_elements() | Retrieve elements from a JSON array as columns | `json_array_elements(<JSON array>)` | JSON |
+| json_agg() | Aggregate values into a JSON array, including null values | See details | - |
+| jsonb_agg() | Aggregate values into a JSONB array, including null values | See details | - |
+| json_object_agg(name, value) | Aggregate name-value pairs into a JSON object<br>(value includes null, name excludes null) | See details | - |
+| jsonb_object_agg(name, value) | Aggregate name-value pairs into a JSONB object<br>(value includes null, name excludes null) | See details | - |
 
 ### 1. `- >`
 
@@ -735,12 +741,12 @@ SELECT * FROM
 	json_each('{"JAMES":"HANDSOME", "JASON":"UGLY"}')
 ;
 
-// 결과
+// Result
 key  |   value
 -------+------------
  JAMES | "HANDSOME"
  JASON | "UGLY"
-(2개 행)
+(2 rows)
 ```
 
 ### 10. `json_array_elements()`
@@ -750,14 +756,14 @@ SELECT * FROM
 	json_array_elements('[1, "a", {"b":"c"}, ["d", 2, 3]]')
 ;
 
-// 결과
+// Result
 value
 -------------
  1
  "a"
  {"b":"c"}
  ["d", 2, 3]
-(4개 행)
+(4 rows)
 ```
 
 ### 11. `json_agg()`
@@ -765,27 +771,27 @@ value
 ```jsx
 SELECT * FROM order3;
 
-// 결과
+// Result
 id |                           odr
 ----+---------------------------------------------------------
   1 | {"custormer":"111", "books":{"id":"a", "name":"aBook"}}
   2 | {"custormer":"222", "books":{"id":"b", "name":"bBook"}}
   3 | {"custormer":"333", "books":{"id":"c", "name":"cBook"}}
-(3개 행)
+(3 rows)
 ```
 
 ```jsx
--- id 칼럼을 그룹으로 지정, odr칼럼 내 데이터를 집계
+-- Designate the id column as a group and aggregate data in the odr column
 
 SELECT id, json_agg(odr) FROM order3 GROUP BY 1;
 
-// 결과
+// Result
 id |                         json_agg
 ----+-----------------------------------------------------------
   3 | [{"custormer":"333", "books":{"id":"c", "name":"cBook"}}]
   1 | [{"custormer":"111", "books":{"id":"a", "name":"aBook"}}]
   2 | [{"custormer":"222", "books":{"id":"b", "name":"bBook"}}]
-(3개 행)
+(3 rows)
 ```
 
 ### 12. `jsonb_agg()`
@@ -793,35 +799,35 @@ id |                         json_agg
 ```jsx
 SELECT * FROM order3;
 
-// 결과
+// Result
 id |                           odr
 ----+---------------------------------------------------------
   1 | {"custormer":"111", "books":{"id":"a", "name":"aBook"}}
   2 | {"custormer":"222", "books":{"id":"b", "name":"bBook"}}
   3 | {"custormer":"333", "books":{"id":"c", "name":"cBook"}}
-(3개 행)
+(3 rows)
 ```
 
 ```jsx
--- id 칼럼을 그룹으로 지정, odr칼럼 내 데이터를 집계
+-- Designate the id column as a group and aggregate data in the odr column
 
 SELECT id, jsonb_agg(odr) FROM order3 GROUP BY 1;
 
-// 결과(JSONB)
+// Result(JSONB)
 id |                           jsonb_agg
 ----+---------------------------------------------------------------
   3 | [{"books": {"id": "c", "name": "cBook"}, "custormer": "333"}]
   1 | [{"books": {"id": "a", "name": "aBook"}, "custormer": "111"}]
   2 | [{"books": {"id": "b", "name": "bBook"}, "custormer": "222"}]
-(3개 행)
+(3 rows)
 
-// 결과(JSON)
+// Result(JSON)
 id |                         json_agg
 ----+-----------------------------------------------------------
   3 | [{"custormer":"333", "books":{"id":"c", "name":"cBook"}}]
   1 | [{"custormer":"111", "books":{"id":"a", "name":"aBook"}}]
   2 | [{"custormer":"222", "books":{"id":"b", "name":"bBook"}}]
-(3개 행)
+(3 rows)
 ```
 
 ### 13. `json_object_agg(name, value)`
@@ -829,13 +835,13 @@ id |                         json_agg
 ```jsx
 SELECT * FROM order3;
 
-// 결과
+// Result
 id |                           odr
 ----+---------------------------------------------------------
   1 | {"custormer":"111", "books":{"id":"a", "name":"aBook"}}
   2 | {"custormer":"222", "books":{"id":"b", "name":"bBook"}}
   3 | {"custormer":"333", "books":{"id":"c", "name":"cBook"}}
-(3개 행)
+(3 rows)
 ```
 
 ```jsx
@@ -844,7 +850,7 @@ SELECT
 FROM order3
 ;
 
-// 출력결과
+// Print Result
 "{
  ""1"" : {""custormer"":""111"", ""books"":{""id"":""a"", ""name"":""aBook""}},
  ""2"" : {""custormer"":""222"", ""books"":{""id"":""b"", ""name"":""bBook""}},
@@ -857,13 +863,13 @@ FROM order3
 ```jsx
 SELECT * FROM order3;
 
-// 결과
+// Result
 id |                           odr
 ----+---------------------------------------------------------
   1 | {"custormer":"111", "books":{"id":"a", "name":"aBook"}}
   2 | {"custormer":"222", "books":{"id":"b", "name":"bBook"}}
   3 | {"custormer":"333", "books":{"id":"c", "name":"cBook"}}
-(3개 행)
+(3 rows)
 ```
 
 ```jsx
@@ -872,14 +878,14 @@ SELECT
 FROM order3
 ;
 
-// 출력결과(JSONB)
+// Print Result(JSONB)
 "{
  ""1"": {""books"": {""id"": ""a"", ""name"": ""aBook""}, ""custormer"": ""111""},
  ""2"": {""books"": {""id"": ""b"", ""name"": ""bBook""}, ""custormer"": ""222""},
  ""3"": {""books"": {""id"": ""c"", ""name"": ""cBook""}, ""custormer"": ""333""}
  }"
 
-// 출력결과(JSON)
+// Print Result(JSON)
 "{
  ""1"" : {""custormer"":""111"", ""books"":{""id"":""a"", ""name"":""aBook""}},
  ""2"" : {""custormer"":""222"", ""books"":{""id"":""b"", ""name"":""bBook""}},
@@ -887,13 +893,13 @@ FROM order3
  }"
 ```
 
-## 2) 조인
+## 2) Join
 
 ![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/23.png)
 
 ### INNER JOIN
 
-다음 예시는 모두 결과가 같으며, 성능 상 차이는 없다.
+The results in the following examples are all the same, and there is no difference in performance.
 
 ```jsx
 SELECT
@@ -901,7 +907,7 @@ SELECT
 	pg_tablespace.oid AS spcoid, spcname, spcowner
 FROM pg_database, pg_tablespace WHERE pg_database.dattablespace = pg_tablespace.oid;
 
-// 결과
+// Result
 dtspcoid |  datname  |  oid  | spcoid |   spcname    | spcowner
 ----------+-----------+-------+--------+--------------+----------
      1663 | postgres  | 13442 |   1663 | pg_default   |       10
@@ -913,14 +919,14 @@ dtspcoid |  datname  |  oid  | spcoid |   spcname    | spcowner
     16748 | mytest2   | 16749 |  16748 | tbs2         |       10
      1663 | testdb    | 16757 |   1663 | pg_default   |       10
      1663 | newuserdb | 16774 |   1663 | pg_default   |       10
-(9개 행)
+(9 rows)
 
 SELECT
 	pg_database.dattablespace AS dtspcoid, datname, pg_database.oid,
 	pg_tablespace.oid AS spcoid, spcname, spcowner
 FROM pg_database INNER JOIN pg_tablespace ON pg_database.dattablespace = pg_tablespace.oid;
 
-// 결과
+// Result
 dtspcoid |  datname  |  oid  | spcoid |   spcname    | spcowner
 ----------+-----------+-------+--------+--------------+----------
      1663 | postgres  | 13442 |   1663 | pg_default   |       10
@@ -932,7 +938,7 @@ dtspcoid |  datname  |  oid  | spcoid |   spcname    | spcowner
     16748 | mytest2   | 16749 |  16748 | tbs2         |       10
      1663 | testdb    | 16757 |   1663 | pg_default   |       10
      1663 | newuserdb | 16774 |   1663 | pg_default   |       10
-(9개 행)
+(9 rows)
 
 SELECT
 	pg_database.dattablespace AS dtspcoid, datname, pg_database.oid,
@@ -941,7 +947,7 @@ FROM (
 	pg_database JOIN pg_tablespace ON pg_database.dattablespace = pg_tablespace.oid
 );
 
-// 결과
+// Result
 dtspcoid |  datname  |  oid  | spcoid |   spcname    | spcowner
 ----------+-----------+-------+--------+--------------+----------
      1663 | postgres  | 13442 |   1663 | pg_default   |       10
@@ -953,15 +959,15 @@ dtspcoid |  datname  |  oid  | spcoid |   spcname    | spcowner
     16748 | mytest2   | 16749 |  16748 | tbs2         |       10
      1663 | testdb    | 16757 |   1663 | pg_default   |       10
      1663 | newuserdb | 16774 |   1663 | pg_default   |       10
-(9개 행)
+(9 rows)
 ```
 
-### 조인 구조 (시각적으로)확인하기
+### Checking the join structure (visually)
 
 🔰 SHELL
 
-```jsx
-EXPLAIN ([ANALYZE]) --추가
+```sql
+EXPLAIN ([ANALYZE]) -- Added
 SELECT
 	pg_database.dattablespace AS dtspcoid, datname, pg_database.oid,
 	pg_tablespace.oid AS spcoid, spcname, spcowner
@@ -969,7 +975,7 @@ FROM (
 	pg_database JOIN pg_tablespace ON pg_database.dattablespace = pg_tablespace.oid
 );
 
-// 결과
+// Result
 QUERY PLAN
 --------------------------------------------------------------------------
  Nested Loop  (cost=0.00..2.09 rows=2 width=144)
@@ -977,7 +983,7 @@ QUERY PLAN
    ->  Seq Scan on pg_database  (cost=0.00..1.02 rows=2 width=72)
    ->  Materialize  (cost=0.00..1.03 rows=2 width=72)
          ->  Seq Scan on pg_tablespace  (cost=0.00..1.02 rows=2 width=72)
-(5개 행)
+(5 rows)
 ```
 
 🔰 PgAdmin
@@ -990,7 +996,7 @@ QUERY PLAN
 
 ### LEFT OUTER JOIN
 
-명령어 앞에 쓰인 테이블을 기준으로 뒤에 쓰인 테이블과 연결되는 정보를 불러오고, 만약 연결된 정보가 없다면 NULL 값 출력.
+The command retrieves information based on the table mentioned first, connecting it with the table mentioned later. If there is no connected information, it outputs NULL values.
 
 ```jsx
 SELECT
@@ -999,7 +1005,7 @@ SELECT
 	spcowner
 FROM pg_tablespace;
 
-// 결과(6개 행)
+// Result(6 rows)
 spcoid |   spcname    | spcowner
 --------+--------------+----------
    1663 | pg_default   |       10
@@ -1017,7 +1023,7 @@ SELECT
 	datname, pg_database.oid
 FROM pg_database;
 
-// 결과(9개 행)
+// Result(9 rows)
 dtspcoid |  datname  |  oid
 ----------+-----------+-------
      1663 | postgres  | 13442
@@ -1031,7 +1037,7 @@ dtspcoid |  datname  |  oid
      1663 | newuserdb | 16774
 ```
 
-> ✅ pg_tablespace테이블을 기준으로 pg_database의 정보들이 조건에 맞게 매칭되고, 매칭 값이 없는 pg_tablespace의 칼럼은 NULL 값으로 출력.
+> ✅ The information from the `pg_tablespace` table is matched with the information from the `pg_database` table based on certain conditions. Columns in `pg_tablespace` without matching values are output as NULL.
 
 ```jsx
 SELECT
@@ -1039,7 +1045,7 @@ SELECT
 	pg_tablespace.oid AS spcoid, spcname, spcowner
 FROM pg_tablespace LEFT JOIN pg_database ON pg_database.dattablespace = pg_tablespace.oid;
 
-// 결과(11개 행)
+// Result(11 rows)
 dtspcoid |  datname  |  oid  | spcoid |   spcname    | spcowner
 ----------+-----------+-------+--------+--------------+----------
      1663 | postgres  | 13442 |   1663 | pg_default   |       10
@@ -1057,9 +1063,9 @@ dtspcoid |  datname  |  oid  | spcoid |   spcname    | spcowner
 
 ### RIGHT OUTER JOIN
 
-명령어 뒤에 쓰인 테이블을 기준으로 앞에 쓰인 테이블과 연결되는 정보를 불러오고, 만약 연결된 정보가 없다면 NULL 값 출력.
+Retrieve information from the table specified after the command, based on the conditions, and match it with the table specified before the command. If there is no matching information, display NULL values.
 
-> ✅ pg_database테이블을 기준으로 pg_tablespace의 정보들이 조건에 맞게 매칭되고, 매칭 값이 없는 pg_tablespace의 칼럼은 NULL 값으로 출력. 이 경우 매칭 값이 없는 경우가 없기 때문에, pg_database 테이블을 기준으로 각 칼럼 모두 매칭된 값이 출력되게 됨.
+> ✅ Based on the `pg_database` table, retrieve information from `pg_tablespace` where the conditions are met, and display NULL values for columns in `pg_tablespace` where there is no matching value. In this case, since there are no instances without matching values, all columns from `pg_tablespace` are displayed with their corresponding matched values from the `pg_database` table.
 
 ```jsx
 SELECT
@@ -1067,7 +1073,7 @@ SELECT
 	pg_tablespace.oid AS spcoid, spcname, spcowner
 FROM pg_tablespace RIGHT JOIN pg_database ON pg_database.dattablespace = pg_tablespace.oid;
 
-// 결과(9개 행)
+// Result(9 rows)
 dtspcoid |  datname  |  oid  | spcoid |   spcname    | spcowner
 ----------+-----------+-------+--------+--------------+----------
      1663 | postgres  | 13442 |   1663 | pg_default   |       10
@@ -1083,7 +1089,7 @@ dtspcoid |  datname  |  oid  | spcoid |   spcname    | spcowner
 
 ### FULL OUTER JOIN
 
-연결된 로우는 서로 연결하여 출력하고, 서로 연결되지 않은 로우는 연결되지 않은 부분의 정보를 NULL 값으로 비워둔 채 출력한다.
+Connect the rows that are linked and display them together. For the rows that are not linked, output the information for the unlinked parts with NULL values.
 
 ```jsx
 SELECT
@@ -1091,7 +1097,7 @@ SELECT
 	pg_tablespace.oid AS spcoid, spcname, spcowner
 FROM pg_tablespace FULL OUTER JOIN pg_database ON pg_database.dattablespace = pg_tablespace.oid;
 
-// 결과(11개 행)
+// Result(11 rows)
 dtspcoid |  datname  |  oid  | spcoid |   spcname    | spcowner
 ----------+-----------+-------+--------+--------------+----------
      1663 | postgres  | 13442 |   1663 | pg_default   |       10
@@ -1107,143 +1113,143 @@ dtspcoid |  datname  |  oid  | spcoid |   spcname    | spcowner
    (NULL) |  (NULL)   | (NULL)|   1664 | pg_global    |       10
 ```
 
-## 3) 인덱스
+## 3) Index
 
-### 특징
+### Feature
 
-- 쿼리를 수행할 때 인덱스가 없다면 모든 로우를 일일이 조회해야 한다. 인덱스는 쿼리 작업을 매우 효율적으로 만들어준다.
-- 인덱스가 생성된 상태에서 새로운 로우를 삽입하거나 제거하는 작업을 빈번하게 할 때, 매번 인덱스를 업데이트해야 하기 때문에 속도 저하가 발생할 수 있다.
-- 단순 인덱스를 만들면 해당 컬럼만 조회할 때 사용 가능하며, 다수의 컬럼을 대상으로 조회할 대는 복합 인덱스가 효율적이다.
-- 복합 인덱스는 순서가 중요하다.
+- When executing a query without an index, it is necessary to individually retrieve all rows. Indexing makes query operations very efficient.
+- If new rows are frequently inserted or removed with an existing index, performance degradation may occur because the index needs to be updated each time.
+- Simple indexes can be used when querying a specific column, while composite indexes are efficient when querying multiple columns.
+- The order of columns is crucial in composite indexes.
 
-### B-Tree 인덱스
+### B-Tree Index
 
 ![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/27.png)
 
-- 자식 노드의 최대 숫자가 2보다 큰 트리 구조.
-- 각 노드에 있는 키들은 전부 정렬되어 있으며, 부모-자식 노드가 연결되어 있다.
-- 부모- 자식간 연결된 노드는 두 키 값 사이의 값들만 가져야 한다.
-- 이런 식으로 정렬된 상태에서 노드를 거슬러 가며 값을 대조하는 방식으로 검색할 수 있다.
-- PK 키를 생성하면 자동으로 생성되는 방식의 인덱스.
+- A tree structure where the maximum number of child nodes is greater than 2.
+- All keys in each node are sorted, and parent-child nodes are connected.
+- Connected nodes between parent and child should contain only values between the two key values.
+- In this sorted state, you can search by comparing values by traversing nodes.
+- Automatically generated index when creating a PK key.
 
-> 💡 `단점` : 자식 노드가 많아지거나, 반대로 하나의 노드에 키 값이 적게 들어있게 된다면 검색 효율이 떨어지게 된다. 그래서 검색할 때 가장 적은 횟수의 조회를 하도록 정해진 규칙에 맞춰 인덱스를 정리해야 할 필요가 있다(균형 맞춤).
+> 💡 `Drawback`: If the number of child nodes increases or, conversely, if a node contains few key values, the search efficiency may decrease. Therefore, it is necessary to organize the index according to rules that ensure the fewest number of queries during the search (balance adjustment).
 
 ```jsx
-// B-tree 인덱스 생성 : 옵션을 기재하지 않아도 기본값이 B-Tree 방식임.
--- `단일 칼럼 인덱스` : 한 가지 종류의 인덱스 컬럼 값을 갖는 방식(ex. PK)
+// B-tree Index Creation: The default is B-Tree even if no options are specified.
+-- `Single-column index`: a method where an index column has a single type of value (e.g., PK).
 CREATE INDEX [index_name] ON [table_name] USING btree ([column_name]);
--- `복합 칼럼 인덱스` : 두 개 이상의 컬럼 값을 갖는 방식.
--- (두 컬럼의 값 중 어떤 것을 우선으로 설정할지 정해주어야 함)
+-- `Composite-column index` : a method where two or more columns have multiple values.
+-- (You need to decide which of the two column values to prioritize)
 CREATE INDEX [index_name]
 	ON [table_name] ([column_name1] [ASC|DESC], [column_name2] [ASC|DESC]);
--- `부분 인덱스` : 컬럼의 모든 값이 아닌, 특정 조건에 맞는 값에 대해서만 인덱스 생성.
+-- `Partial Index` : Creating an index only for values that meet specific conditions rather than all values in a column.
 CREATE INDEX [index_name] ON [table_name]([column_name]) WHERE [condition]
 -- ex) CREATE INDEX male_index ON male(isHandsome) WHERE isHandsome is not null;
 ```
 
 ```jsx
-// 생성된 인덱스 확인
--- 생성문과 함께 확인
+// Check the created index
+-- along with its creation statement
 SELECT * FROM pg_indexes WHERE tablename='[table_name]';
--- 인덱스 테이블 용량과 함께 확인
+-- Check the size of the index table
 \di+
 
-// 인덱스 수정
-ALTER INDEX <인덱스명> RENAME TO <새로운 인덱스명>;
+// Modify an index
+ALTER INDEX <index_name> RENAME TO <new_index_name>;
 
-// 생성된 인덱스 제거
-DROP INDEX <인덱스명>;해시 인덱스
+// Drop a created index
+DROP INDEX <index_name>;
 ```
 
-### 해시 인덱스
+### Hash Index
 
-- 해시화 함수를 통해 값을 더 작은 크기로 변형한 뒤 이 값을 기준으로 B-Tree 구조를 만듦.
-- B-Tree 구조만 사용했을 때보다 인덱스 크기가 훨씬 작아짐. 메모리 캐싱, 검색 속도 면에서 좋음.
+- A B-Tree structure is created based on values transformed into a smaller size through a hash function.
+- The index size is much smaller compared to using only the B-Tree structure, making it efficient in terms of memory caching and search speed.
 
-> 💡 `단점` : 해시화 함수를 거치며 원래의 값을 변형하기 때문에, 인덱스한 컬럼 값 사이의 크기 비교가 불가능. 정렬, 비교 연산에 인덱스 활용 불가. 등호 사용으로 값 일치여부만 가능. 때문에, 일반적으로 사용하지 않는 인덱싱 방식.
+> 💡 `Drawback`: Since the original values are transformed through a hash function, it is not possible to compare the size between indexed column values. Sorting and comparison operations are not possible with index usage. Only equality comparisons are possible using the equal sign. Therefore, it is not a commonly used indexing method.
 
 ```jsx
-// 해시 인덱스 생성
+// Create Hash Index
 CREATE INDEX [index_name] ON [table_name] UNING HASH([column_name]);
 ```
 
-### GIN
+### GIN Index (Generalized Inverted Index)
 
-- Generalized Inverted Index, 전문 검색(Full Text Search)를 주 목적으로 하는 인덱스.
-- 주로 긴 문자열이 들어가는 칼럼에 설정.
-- 원래의 값 내에 포함된 문자열을 검색하는 데 유용함.
+- Primarily designed for Full Text Search (FTS) purposes, known as a Generalized Inverted Index.
+- Typically applied to columns containing long strings.
+- Useful for searching strings contained within the original values.
 
-> 💡 B-Tree와 GIN 인덱스의 차이점
-> `B-tree 인덱스`
-> - 인덱스를 적용하는 컬럼의 값을 변형하지 않고 원래의 값을 이용
-> - 연산과 같은 값 자체에 대한 탐색에는 효과적이지만 %LIKE% 연산과 같이 검색어가 데이터 값에 포함 되었는지 여부를 확인하는 것에는 적용되기 어려움.
-> `GIN (Generalized Inverted Index) 인덱스`
-> - 인덱스를 적용하는 컬럼의 값을 일정한 규칙에 따라 쪼개고(split), 이렇게 쪼갠 요소들을 사용.
-> - 이에 따라 포함 여부를 확인하는 경우 보다 효과적으로 동작할 수 있음.
+> 💡 Difference between B-Tree and GIN Index
+> `B-tree Index`
+> - Utilizes the original value without transforming the values of the indexed column.
+> - Effective for searches involving operations on the value itself, such as equality comparisons, but less applicable to operations like %LIKE%, which check if the search term is contained in the data value.
+> `GIN (Generalized Inverted Index) Index`
+> - Divides (splits) the values of the indexed column according to certain rules.
+> - Can operate more effectively when checking for inclusion, compared to cases where such checks are less applicable with B-Tree indexes.
 
-```jsx
-// GIN 인덱스 (pg_trgm) 생성
+```sql
+-- Create GIN Index (pg_trgm)
 CREATE EXTENSION pg_trgm;
 CREATE INDEX gin_pid_idx ON patients USING gin ([column_name]);
--- GIN 인덱스는 전문 검색을 위해 tsvector라는 데이터 형식을 사용해야 함.
+-- GIN Index requires using the tsvector data type for full-text search.
 CREATE INDEX gin_name_idx ON patients USING gin (to_tsvector(['Language'], [column_name]));
 ```
 
-> 💡 `to_tsvector` : 벡터로 변환해 주는 함수.
-> tsvector로 긴 글을 변환하면 의미를 갖는 단어만 남게 된다. a, the, on과 같은 연결하는 단어는 추출되지 않는다. 변환된 내용에서 단어를 검색하기 위해선 to_tsquery라는 함수를 사용한다.
+> 💡 `to_tsvector` :  A function that converts to a vector.
+> When a long text is converted to a tsvector, only meaningful words remain. Connecting words such as "a," "the," "on," and the like are not extracted. To search for words in the converted content, the function to_tsquery is used.
 >
-> **(예시) content 칼럼 속 영어로 된 긴 글을 벡터라이징 한 후 단어 검색**
+> **(Example) Vectorizing a long text in English from the 'content' column and searching for words afterward.**
 > ```jsx
 > SELECT id, title FROM boards
 > WHERE to_tsvector('english', content) @@ to_tsquery('time');
 > ```
 
-## 4) 뷰
+## 4) View
 
-- 실제하지 않는 가상의 테이블.
-- 뷰가 생성되면 참조한 테이블과 연결, 뷰가 존재하는 테이블을 삭제하려면 뷰 먼저 삭제하거나 CASCADE 명령 사용.
+- A virtual table that does not exist physically.
+- Once a view is created, it is connected to the referenced table. To delete the table on which the view exists, either delete the view first or use the CASCADE command.
 
 ```jsx
-// 뷰 생성(생성된 뷰를 참조하는 뷰 생성 방법도 동일)
+// Creating a view (the method is the same for creating a view that references an already created view)
 CREATE VIEW [view_name] AS
 	SELECT * FROM [table_name];
 
-// 뷰 삭제
-DROP VIEW <뷰이름>;
+// Drop View
+DROP VIEW <view_name>;
 ```
 
 ```jsx
-// 뷰가 존재하는 테이블 삭제하기
+// Deleting the table on which the view exists
 DROP TABLE order2;
-// 그냥 테이블을 삭제하면 오류 출력
-ERROR: 오류:  기타 다른 개체들이 이 개체에 의존하고 있어, order2 테이블 삭제할 수 없음
-DETAIL:  view_order2 뷰 의존대상: order2 테이블
-HINT:  이 개체와 관계된 모든 개체들을 함께 삭제하려면 DROP ... CASCADE 명령을 사용하십시오
+// Attempting to delete the table directly results in an error
+ERROR: error: cannot drop table order2 because other objects depend on it
+DETAIL: view_order2 view depends on table order2
+HINT: To delete this object and all its dependencies, use the DROP ... CASCADE command.
 
-// 뷰를 삭제하거나, CASCADE 명령 사용
+// Deleting the view or using the CASCADE command
 DROP TABLE order2 CASCADE;
-// 알림:  view_order2 뷰 개체가 덩달아 삭제됨
+// Notice: The view_order2 view object is deleted as a result
 SELECT * FROM view_order2;
-//ERROR: 오류:  "view_order2" 이름의 릴레이션(relation)이 없습니다
+// ERROR: error: relation "view_order2" does not exist
 LINE 1: SELECT * FROM view_order2;
                       ^
 ```
 
-# 9. 프로시저 함수 & 트리거
+# 9. Stored Procedures & Triggers
 
-## 1) 프로시저 함수
+## 1) Stored Procedures
 
-- 프로시저 언어 : 함수와 트리거를 만드는 데 사용하며, 복잡한 연산 처리가 용이.
-- 종류 : PL/pgSQL, PL/TCL, PL/Perl, PL/Python 등.
+- **Procedure Language:** Used to create functions and triggers, facilitating easy handling of complex operations.
+- **Types:** PL/pgSQL, PL/TCL, PL/Perl, PL/Python, etc.
 
-> 💡 프로시저 사용을 위해서는 다음과 같이 언어를 설치하는 과정이 필요(DB접속 후 설치)
+> 💡 To use stored procedures, the following language installation process is required (after connecting to the DB):
 > ```jsx
-> CREATE LANGUAGE <언어 이름>
+> CREATE LANGUAGE <language name>;
 > ```
 
-### 형식
+### Format
 
-- `$$...$$` 은 `'...'`로 대체 가능.
+- `$$...$$` can be replaced with `'...'`.
 
 ```jsx
 CREATE [OR REPLACE] FUNCTION function_name(param1 type, param2 type)
@@ -1254,10 +1260,8 @@ CREATE [OR REPLACE] FUNCTION function_name(param1 type, param2 type)
 $$ LANGUAGE language_name;
 ```
 
-### 예제
-
 ```jsx
-// 1. 두 정수 a, b를 곱을 리턴
+-- Example 1: Return the product of two integers, a and b
 CREATE FUNCTION mul(a INTEGER, b INTEGER)
   RETURNS INTEGER AS $$
     BEGIN
@@ -1265,34 +1269,34 @@ CREATE FUNCTION mul(a INTEGER, b INTEGER)
     END;
 $$ LANGUAGE PLpgSQL;
 
-// 실행
+-- Execution
 SELECT mul(2, 3);
 
-// 결과
+-- Result
 mul
 -----
    6
-(1개 행)
+(1 row)
 ```
 
 ```jsx
-// 2. Message로 출력
+-- Example 2: Output a message based on a condition
 DO $$
 DECLARE
   a integer := 20;
   b integer := 40;
 BEGIN
   IF a > b THEN
-    RAISE NOTICE 'a가 b보다 더 큽니다.';
+    RAISE NOTICE 'a is greater than b.';
   ELSE
-    RAISE NOTICE 'a가 b보다 더 크지 않습니다.';
+    RAISE NOTICE 'a is not greater than b.';
   END IF;
 END $$;
-// 알림:  a가 b보다 더 크지 않습니다.
+-- Notice:  a is not greater than b.
 ```
 
 ```jsx
-// 3. 조건에 따라 테이블에 반복 삽입
+-- Example 3: Insert into a table based on a condition using a loop
 CREATE OR REPLACE FUNCTION adder(n INTEGER)
   RETURNS INTEGER AS $$
   DECLARE
@@ -1302,77 +1306,77 @@ CREATE OR REPLACE FUNCTION adder(n INTEGER)
           RAISE NOTICE 'Iterator: %', i;
           result := result + i;
             IF i%2 = 0 THEN
-              INSERT INTO info3 VALUES (i, '짝수입니다.', null);
+              INSERT INTO info3 VALUES (i, 'Even', null);
             ELSE
-               INSERT INTO info3 VALUES (i, '홀수입니다.', null);
+               INSERT INTO info3 VALUES (i, 'Odd', null);
             END IF;
       END LOOP;
       RETURN result;
     END;
 $$ LANGUAGE plpgsql;
 
-// 실행
+-- Execution
 SELECT adder(10);
 
-// 결과
--- info3 테이블
-cont_id |    name     | tel
----------+-------------+-----
-       1 | 홀수입니다. |
-       2 | 짝수입니다. |
-       3 | 홀수입니다. |
-       4 | 짝수입니다. |
-       5 | 홀수입니다. |
-       6 | 짝수입니다. |
-       7 | 홀수입니다. |
-       8 | 짝수입니다. |
-       9 | 홀수입니다. |
-      10 | 짝수입니다. |
-(10개 행)
+-- Result
+-- Table info3
+cont_id |  name  | tel
+---------+--------+-----
+       1 | Odd    |
+       2 | Even   |
+       3 | Odd    |
+       4 | Even   |
+       5 | Odd    |
+       6 | Even   |
+       7 | Odd    |
+       8 | Even   |
+       9 | Odd    |
+      10 | Even   |
+(10 rows)
 
--- RETURN 값
+-- RETURN value
 adder
 -------
     55
-(1개 행)
+(1 row)
 
--- Message
-알림:  Iterator: 1
-알림:  Iterator: 2
-알림:  Iterator: 3
-알림:  Iterator: 4
-알림:  Iterator: 5
-알림:  Iterator: 6
-알림:  Iterator: 7
-알림:  Iterator: 8
-알림:  Iterator: 9
-알림:  Iterator: 10
+-- Messages
+NOTICE:  Iterator: 1
+NOTICE:  Iterator: 2
+NOTICE:  Iterator: 3
+NOTICE:  Iterator: 4
+NOTICE:  Iterator: 5
+NOTICE:  Iterator: 6
+NOTICE:  Iterator: 7
+NOTICE:  Iterator: 8
+NOTICE:  Iterator: 9
+NOTICE:  Iterator: 10
 ```
 
-## 2) 트리거
+## 2) Triggers
 
-- 어떤 행동이나 작업을 했을 때, 미리 저장해 놓은 작업이 자동으로 실행되도록 하는 것.
+- Triggers allow predefined actions to be automatically executed when a certain event or operation occurs.
 
-### 예제
+### Example
 
-🔰 구독자가 구독 버튼을 누르면 자동으로 구독자 수가 갱신되는 시스템을 트리거로 생성.
+🔰 Creating a system where the subscriber count is automatically updated when a subscriber presses the subscribe button using a trigger.
 
 ```jsx
-// 구독자 테이블 생성
+-- Create the subscriber table
 CREATE TABLE subscriber(
-  subs_id   INTEGER,    --구독자 아이디
-  subs_name VARCHAR(80) -- 구독자 이름
+  subs_id   INTEGER,    -- Subscriber ID
+  subs_name VARCHAR(80) -- Subscriber name
 );
 
-// 구독자 수 테이블 생성
+-- Create the subscriber count table
 CREATE TABLE sub_number(
   subs_num INTEGER
 );
 
-// 구독자 수를 0으로 초기화하기 위해 값을 넣어줌
+-- Initialize the subscriber count to 0
 INSERT INTO sub_number VALUES(0);
 
-// 구독자가 삽입(insert)되면 구독자수를 자동으로 늘리는 트리거 생성
+-- Create a trigger function to increment the subscriber count when a subscriber is inserted
 CREATE OR REPLACE FUNCTION sub_like()
   RETURNS TRIGGER AS $$
     BEGIN
@@ -1381,207 +1385,217 @@ CREATE OR REPLACE FUNCTION sub_like()
     END;
 $$ LANGUAGE PLpgSQL;
 
-// 트리거 실행
+-- Execute the trigger
 CREATE TRIGGER sub_trigger AFTER INSERT ON subscriber
-  -- 트리거를 실행시킬 것임을 알려주는 명령어 입력. 삽입 후 트리거 실행이므로 INSERT.
-FOR EACH ROW EXECUTE PROCEDURE sub_like()
-  -- 이후 트리거 실행 시 실행할 함수 sub_like()를 수행하는 코드 입력
-;
+  FOR EACH ROW EXECUTE PROCEDURE sub_like();
 
-// 구독자 테이블에 데이터 입력
+-- Insert data into the subscriber table
 INSERT INTO subscriber VALUES (1, 'A'), (2, 'B'), (3, 'C');
 
-// 구독자 테이블에 데이터가 늘어날 때마다 구독자 수 테이블도 트리거에 의해 숫자가 하나씩 증가
-SELECT * FROM sub_number; // 3
+-- Each time data is added to the subscriber table, the subscriber count is incremented by the trigger
+SELECT * FROM sub_number; -- Output: 3
 ```
 
-> 💡 **프로시저 함수, 트리거, 사용자 정의 함수의 차이**
+> 💡 **Differences between Stored Procedures, Triggers, and User-Defined Functions**
 >
-> `프로시저`
+> **Stored Procedure**
 >
-> - 어떤 작업에 대한 절차적 일괄처리 작업에 사용.
-> - 반복적인 트랜잭션을 수행할 수 있는 PL/SQL 블록.
-> - DB내에 미리 컴파일되어 저장되어 있다가 필요할 시 매번 사용 가능.
+> - Used for procedural batch processing tasks.
+> - A PL/SQL block that can perform repetitive transactions.
+> - Pre-compiled and stored in the database, making it available for use whenever needed.
 >
-> `트리거`
+> **Trigger**
 >
-> - 지정된 이벤트 발생시 자동으로 실행되는 프로시저와 같은 것.
-> - 명시적으로 호출 필요없이 DDL, DML 또는 일부 DB 작업(LOGOFF, SHUTDOWN)에 대한 응답으로 호출 가능.
->     Ex) 입고 테이블에 insert 트리거를 작성하면, 테이블에 자료 추가될 때
->     상품 테이블에 재고 수량이 되도록 트리거를 작성한다.
+> - Similar to a procedure that automatically executes when a specified event occurs.
+> - Can be invoked without explicit calls, triggered in response to DDL, DML, or certain DB operations (LOGOFF, SHUTDOWN).
+>     Example: Creating an insert trigger on the incoming table would automatically update the inventory quantity in the product table when data is added to the table.
 >
-> `사용자정의함수`
+> **User-Defined Function**
 >
-> - 프로시저와 차이는 리턴값의 유무.
-> - 프로시저는 수행하는 절차가 목적이라 리턴값이 없어도 되지만,  함수는 결과 도출이 목적이기에 리턴값이 존재한다. 단 하나의 리턴값만 있어야 한다.
+> - The main difference from procedures is the presence of a return value.
+> - While procedures are focused on the procedure being executed and may not have a return value, functions aim to derive results, hence they have a return value. Only one return value is allowed.
+>
+> # 10. Questions and Supplementary Information
+>
+> ![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/28.png)
+>
+> 💡 Thank you. Please feel free to ask any questions or provide additional information that you think would be helpful.
 
-# 10. 질문과 보충사항
+# 11. Indexing and Sources
+### 1. Features
+- 1) What is PostgreSQL?
+    - `ORACLE`, `MySQL`, `MS SQL Server`, `PostgreSQL`: Types of RDBMS
+- 2) History
+    - [IngresDB](https://en.wikipedia.org/wiki/Ingres_(database)): A dedicated SQL relational database management system designed in C to support large-scale commercial and government applications.
+- 3) Keywords
+    - [ANSI/ISO SQL Standards](https://duni-world.tistory.com/16): Standardization of SQL is carried out by two standardization organizations, ANSI (American National Standards Institute) and ISO (International Organization for Standardization).
+    - `Reliable`: Indicates the degree to which software can perform the required functionality to obtain correct and consistent results as part of the software quality objectives (= the degree to perform the required functionality without errors within a given time).
+    - `ACID`: Atomicity, Consistency, Isolation, Durability
+    - MVCC (Multi-Version Concurrency Control)
 
-![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/28.png)
+        [[1]](https://mangkyu.tistory.com/53)Multi-Version Concurrency Control, one of the methods used to control concurrency in databases that allow simultaneous access. [[2]](http://www.datanet.co.kr/news/articleView.html?idxno=116534)A mechanism that ensures write sessions and read sessions do not block each other and guarantees snapshot images when different sessions access the same data. The changed content is recorded in the UNDO area, and users read the last version of the data.
+    - [Row Level Locking](https://offbyone.tistory.com/225): Table Locking involves locking the entire table when a query is performed, while Row Level Locking involves locking only the row when data is modified.
+    - [Locking](https://raisonde.tistory.com/entry/%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4-%EB%A1%9C%ED%82%B9Locking-%EA%B8%B0%EB%B2%95%EA%B3%BC-%EB%A1%9C%ED%82%B9-%EB%8B%A8%EC%9C%84): A unit that allows only one person to use at a time.
+    - [Blocking](https://chrisjune-13837.medium.com/db-lock-%EB%9D%BD%EC%9D%B4%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%B8%EA%B0%80-d908296d0279)
+    - [Full-text Search](https://jomuljomul.tistory.com/entry/%EB%B2%88%EC%97%AD-PostgreSQL-Full-Text-Search-%ED%85%8D%EC%8A%A4%ED%8A%B8-%EA%B2%80%EC%83%89-1-Introduction): A feature that preprocesses documents for fast searches [breaking down documents into tokens (word separation) - converting tokens into lexemes (normalization) - storing preprocessed documents in a search-friendly format (sorted array)][(Example)](https://webcache.googleusercontent.com/search?q=cache:AItqchvrsA8J:https://postgresql.kr/blog/korean_full_textsearch.html+&cd=2&hl=ko&ct=clnk&gl=kr&client=firefox-b-e)
+    - [Table Partitioning](https://gmlwjd9405.github.io/2018/09/24/db-partitioning.html): Managing large tables as smaller units (partitions) for capacity and performance management in DB systems (PostgreSQL 10 [[1]](https://semode.tistory.com/466), [[2]](https://browndwarf.tistory.com/36), [[Official]](https://www.postgresql.org/docs/11/ddl-partitioning.html))
+    - `Table Space`
 
-> 💡 감사합니다. 질문과 보충했으면 좋을 것 같은 사항들을 말씀해주세요.
+        [[1]](https://blogger.pe.kr/504?category=144029) A concept used only in Oracle and PostgreSQL. In psql, the DB uses the directory specified in the PGDATA environment variable as the DB, and tables are created as files under it. In other words, even without creating a separate table space, you can create user tables in the directory specified as the DB. In conclusion, the entire directory specified as the DB is recognized as a default table space. (*The path in the file system where the objects of the database can be stored by the DB administrator) [[2]](https://hotte.tistory.com/1)Physical space where database objects are stored on the file system. By using Table Space, it is possible to use storage differently according to the purpose of the database, and it can also be used for purposes such as disaster response and recovery. [[Official]](https://postgresql.kr/docs/9.6/manage-ag-tablespaces.html)Allows the database administrator to define the location of the file system where the file representing the database object can be stored.
+    - Host-based Authentication: Authentication based on the host (a computer connected to the network with an IP address) [[1]](https://heaven9598.tistory.com/entry/SSH-Secure-Shell)[[2]](https://webcache.googleusercontent.com/search?q=cache:yMPnxh0r2pcJ:https://postgresql.kr/docs/9.6/auth-pg-hba-conf.html+&cd=2&hl=ko&ct=clnk&gl=kr&client=firefox-b-e)[[3]](https://info-lab.tistory.com/51)
+    - [Host-based Intrusion Detection System (HIDS)](https://en.wikipedia.org/wiki/Host-based_intrusion_detection_system): Emphasizes monitoring and analyzing the internal activities of a computer system.
 
-# 11. 색인과 출처
-### 1. 특징
-- 1) 포스트그레스큐엘이란?
-    - `ORACLE`, `MySQL`, `MS SQL Server`, `PostgreSQL` : RDBMS의 종류
-- 2) 역사
-    - [IngresDB](https://en.wikipedia.org/wiki/Ingres_(database)) : 대규모 상용 및 정부 애플리케이션을 지원하기 위한 전용 SQL 관계형 데이터베이스 관리 시스템, C로 작성됨
-- 3) 키워드
-    - [ANSI/ISO 규격의 SQL](https://duni-world.tistory.com/16) : SQL의 표준화는 ANSI(미국규격협회)와 ISO(국제표준화기구)의 2개 표준화 단체에 의해 진행되고 있다
-    - `Reliable(신뢰성) : 소프트웨어 품질 목표 중 옳고 일관된 결과를 얻기 위해 요구된 기능을 수행할 수 있는 정도를 나타냄(=주어진 시간동안 주어진 기능을 오류 없이 수행하는 정도)
-    - `ACID` : 원자성, 일관성, 고립성, 지속성
-    - MVCC(다중 버전 동시성 제어)
+    - [Object-level Permissions](https://bylee5.tistory.com/76): Grants or denies access at the object level (table, column, view, foreign table, sequence, database, foreign-data wrapper, foreign server, function, procedural language, schema, tablespace).
 
-        [[1]](https://mangkyu.tistory.com/53)Multi-Version Concurrency Control, 동시 접근을 허용하는 데이터베이스에서 동시성을 제어하기 위해 사용하는 방법 중 하나. [[2]](http://www.datanet.co.kr/news/articleView.html?idxno=116534)DBMS에서 쓰기세션-읽기세션이 서로를 블로킹하지 않고, 서로 다른 세션이 동일 데이터에 접근했을 때 각각의 스냅샷 이미지를 보장해주는 메커니즘. 변경된 내용은 UNDO영역에 기록되며, 사용자는 마지막 버전의 데이터를 읽게 됨.
-    - [로우 레벨 락킹(Row Level Locking)](https://offbyone.tistory.com/225) : Table Locking은 Table에 대하여 Query문이 수행될 때, 그 Table전체에 대해 Locking을 거는 방식. Row Level Locking(행 수준 잠금)은 데이터를 수정하는 경우 해당 Row에만 Locking을 거는 것.
-    - [로킹(Locking)](https://raisonde.tistory.com/entry/%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4-%EB%A1%9C%ED%82%B9Locking-%EA%B8%B0%EB%B2%95%EA%B3%BC-%EB%A1%9C%ED%82%B9-%EB%8B%A8%EC%9C%84) : 한 번에 한명만 사용할 수 있게 하는 단위.
-    - [블로킹](https://chrisjune-13837.medium.com/db-lock-%EB%9D%BD%EC%9D%B4%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%B8%EA%B0%80-d908296d0279)
-    - [전체 텍스트 검색(Full-text search)](https://jomuljomul.tistory.com/entry/%EB%B2%88%EC%97%AD-PostgreSQL-Full-Text-Search-%ED%85%8D%EC%8A%A4%ED%8A%B8-%EA%B2%80%EC%83%89-1-Introduction) : document를 전처리하여 빠르게 검색이 가능하도록 하는 기능[document를 token으로 해체(단어 분리)-token을 lexem으로 변환(정규화)-전처리된 document를 검색하기 좋은 형태로 저장(정렬된 배열로 표현)][(예시)](https://webcache.googleusercontent.com/search?q=cache:AItqchvrsA8J:https://postgresql.kr/blog/korean_full_textsearch.html+&cd=2&hl=ko&ct=clnk&gl=kr&client=firefox-b-e)
-    - [테이블 파티셔닝](https://gmlwjd9405.github.io/2018/09/24/db-partitioning.html) : DB 시스템의 용량과 성능 관리를 위해, 대용량 테이블을 파티션이라는 작은 단위로 나누어 관리하는 것(PostgreSQL 10 [[1]](https://semode.tistory.com/466), [[2]](https://browndwarf.tistory.com/36), [[공식]](https://www.postgresql.org/docs/11/ddl-partitioning.html))
-    - `테이블 스페이스`
+    - `SSL (Secure Socket Layer) Communication`: A secure protocol, typically in the form of https://.
 
-        [[1]](https://blogger.pe.kr/504?category=144029) 오라클과 PostgreSQL에서만 사용되는 개념. psql에서 DB는 PGDATA라는 환경변수에 지정된 디렉토리를 통째로 DB로 사용하는데, 그 하위에 테이블이 파일로 생성된다. 즉, 테이블 스페이스를 따로 생성하지 않아도 DB에 사용자 테이블을 만들 수 있다. 결론적으로, DB로 지정된 디렉토리 전체가 하나의 기본 테이블 스페이스로 인식된다. (*DB관리자에 의해 데이터베이스의 객체가 저장될 수 있는 파일시스템의 경로) [[2]](https://hotte.tistory.com/1)데이터베이스 객체가 파일 시스템상에 저장되는 물리적인 공간. Table Space를 이용하여 데이터베이스의 목적에 따라 저장소를 다르게 사용하는 운영이 가능해지며, 장애 대응 및 복구 등의 용도로도 활용이 가능. [[공식]](https://postgresql.kr/docs/9.6/manage-ag-tablespaces.html)데이터베이스 관리자가 데이터베이스 객체를 나타내는 파일을 저장할 수 있는 파일 시스템의 위치를 정의할 수 있게 하는 것.
-    - 호스트 기반 인증(host-based authentication) : 호스트(IP주소를 갖는 시스템, 네트워크에 연결되어 있는 컴퓨터) 기반 인증[[1]](https://heaven9598.tistory.com/entry/SSH-Secure-Shell)[[2]](https://webcache.googleusercontent.com/search?q=cache:yMPnxh0r2pcJ:https://postgresql.kr/docs/9.6/auth-pg-hba-conf.html+&cd=2&hl=ko&ct=clnk&gl=kr&client=firefox-b-e)[[3]](https://info-lab.tistory.com/51)
-    - [호스트 기반 침입 탐지 시스템(Host-based Intrusion Detection System, HIDS)](https://ko.wikipedia.org/wiki/%ED%98%B8%EC%8A%A4%ED%8A%B8_%EA%B8%B0%EB%B0%98_%EC%B9%A8%EC%9E%85_%ED%83%90%EC%A7%80_%EC%8B%9C%EC%8A%A4%ED%85%9C) : 컴퓨터 시스템의 내부를 감시하고 분석하는 데 더 중점을 둔다
-    - [Object-level 권한](https://bylee5.tistory.com/76) : 오브젝트(table, column, view, foreign table, sequence, database, foreign-data wrapper, foreign server, function, procedural language, schema, tablespace) 단위로 접근이 허용 또는 거부
-    - `SSL(Secure Socket Layer)통신` : 보안 프로토콜이며, 일반적으로 https://형태
-    - 스트리밍 복제(Streaming Replication)
+    - Streaming Replication: [[1]](https://postgresql.kr/docs/9.3/warm-standby.html#STREAMING-REPLICATION) Records-based log delivery method. Uses TCP connections to directly connect to the operating server and immediately reflects committed transactions to the standby server. It synchronizes the data state of the operating server almost in real-time, compared to the WAL segment file delivery method. [[2]](https://idchowto.com/?p=44332)[[3]](https://browndwarf.tistory.com/4)Allows all databases to store the same value without significant delay by delivering WAL Logs almost in real-time (assuming no network issues between DB servers). [[Replication Types]](https://www.postgresql.org/docs/9.6/different-replication-solutions.html)
 
-        [[1]](https://postgresql.kr/docs/9.3/warm-standby.html#STREAMING-REPLICATION)레코드 기반 로그 전달 방식. TCP 연결 방식을 이용해서 운영 서버와 직접 연결하고, 커밋된 트랜잭션을 즉시 대기 서버로 반영한다. WAL 세그먼트 파일 전달 방식보다 운영 서버의 자료 상태를 거의 실시간으로 동기화하는 방식이다. [[2]](https://idchowto.com/?p=44332)[[3]](https://browndwarf.tistory.com/4)WAL Log를 거의 실시간성으로 전달함으로써(물론 DB 서버 사이에는 Network에 문제가 없어야 한다.) 별다른 지연 없이 모든 DB가 동일한 값을 저장할 수 있게 하는 것. [[복제의 한 종류]](https://www.postgresql.org/docs/9.6/different-replication-solutions.html)
-    - [Hot Standby(상시대기)](https://postgresql.kr/docs/9.4/hot-standby.html) : 서버가 아카이브 파일로 복구 작업 중이거나 대기 모드일 때도 클라이언트가 그 서버로 접속할 수 있으며, 읽기 전용 쿼리를 실행할 수 있는 기능. 현재 운용장비와 예비 운용장비의 구성을 항상 같은 상태로 해두는 것
-    - `Warm Standby` : [[1]](https://brownbears.tistory.com/85)서버 다중화 요소 중 한 쪽은 사용할 수 없는 Active-Standby(↔ Active-Active)의 세 종류 중 하나. [[2]](https://kangprog.tistory.com/11)가동 후 즉시 이용은 불가능 하지만, 어느정도 준비가 갖추어져있는 정도.
-    - [Cold Standby](https://bae-juk.tistory.com/26) : 예비 운용장비를 평소에는 사용하지 않고, 현재 운용장비에 장애가 발생하면 그 때 예비 운용장비에 연결하는 운용체제를 말한다.
-    - [다중화](https://starkying.tistory.com/entry/11-%EB%8B%A4%EC%A4%91%ED%99%94%EC%9D%98-%EA%B8%B0%EB%B3%B8) : 장애가 발생하더라도 예비 운용장비로 시스템의 기능을 계속할 수 있도록 하는 것.
-    - [Active-Active / Active-Standby](https://travislife.tistory.com/47) : (A-A)부하분산(로드밸런싱)을 통해 기능 또는 성격에 따라 1번 또는 2번 서버로 나누어서 처리하도록 구상. (A-S)서버를 이중화하여 구성하지만 장애 시에 서비스를 이전하여 운영하는 형태로 구성. 운영(메인)서버 장애 시 서비스 장애를 즉시 인지하여 서브 서버로 서비스를 이전함.
-    - `WAL(write ahead log, 선행기입로그) 아카이빙` : [[1]](https://goodlife-coding.tistory.com/entry/Postgresql-WALWrite-Ahead-Logging-%EC%95%84%EC%B9%B4%EC%9D%B4%EB%B8%8C-%EB%B0%8F-%ED%92%80-%EB%B0%B1%EC%97%85%EA%B3%BC-%EB%B3%B5%EA%B5%AC)PostgreSQL에서는 미리 쓰기 기록을 데이터베이스 클러스터 디렉토리 안 pg_xlog/디렉토리에서 관리함. 이 로그는 데이터베이스의 데이터 파일에 대한 모든 조작 기록을 보관함. 서버가 갑자기 중지되었을 경우, 미처리 작업을 로그에서 읽어서 다시 복구한 후 작업을 완료하기 위함. 어떤 데이터베이스에 쿼리를 날려 변경 이벤트를 실행할 때, 데이터를 변경하기 전에 해당 변경 내용을 로그에 미리 담아두고 이후에 변경한다는 개념. [[2]](https://browndwarf.tistory.com/4)Database 변경 사항만을 저장한 Log
-    - [Hot Backup(열린백업)](https://ktdsoss.tistory.com/219) : 데이터베이스가 오픈된 상태에서 백업 가능, 백업 중에도 DB서비스를 제공할 수 있다(↔Cold Backup, 닫힌백업)
-    - Point in time recovery(시점복구) : [[1]](https://onedaystudy.tistory.com/66)DB 손실, 장애, 과거 데이터 조회 필요성에 의해 특정 시점으로 데이터베이스를 복원해야할 때 행하는 방법. 과거의 특정 시점(Point in Time)으로 복구한다는 의미. [[2]](https://webcache.googleusercontent.com/search?q=cache:1-4MlOYDD6IJ:https://postgresql.kr/docs/9.4/continuous-archiving.html+&cd=2&hl=ko&ct=clnk&gl=kr&client=firefox-b-e)
-    - [pg_upgrade](https://stackframe.tistory.com/3) : PostgreSQL에서 제공해주는 업그레이드 명령어[[공식]](https://postgresql.kr/docs/11/upgrading.html)
-    - [C/S기반](http://blog.naver.com/PostView.nhn?blogId=pcs1535&logNo=220758702587&parentCategoryNo=&categoryNo=81&viewDate=&isShowPopularPosts=true&from=search) : Application 방식으로 PC에 app을 깔아서 프로그램을 실행해 접근(↔Web 방식)
-- 4) 내부 구조[[1]](https://waspro.tistory.com/146)[[2]](https://kimdubi.github.io/postgresql/psql_architecture/)[[3]](https://blog.goodusdata.com/12)[[4]](https://mangkyu.tistory.com/71)[[5]](https://www.youtube.com/watch?v=Hm_Q4_mz3UA)[[6]](https://kwomy.tistory.com/6?category=851266)
-    - [DATABASE 구조](http://www.gurubee.net/lecture/2942)
-    - [template 테이블](https://daewonyoon.tistory.com/158)
-    - [스키마](https://kimdubi.github.io/postgresql/pg_schema/)
-    - `MASTER DB - SLAVE DB` [[1]](https://www.toptal.com/mysql/mysql-master-slave-replication-tutorial)[[2]](https://kamang-it.tistory.com/entry/MySQLReplication%EC%9C%BC%EB%A1%9C-DB-Master-Slave%EA%B5%AC%EC%A1%B0-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%84%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%8F%99%EA%B8%B0%ED%99%94-%ED%95%98%EA%B8%B0feat-docker-shell-script)
-    - 권한[[1]](https://wiki.kldp.org/KoreanDoc/html/PgSQL_Extension-KLDP/PgSQL_Extension-KLDP-2.html)[[공식]](https://www.postgresql.org/docs/9.1/sql-revoke.html)
-    - 연결 초기화(Initialize connection)
-    - [Postmaster](https://younghk.github.io/etc/2020-04-01---postgresql-tips/) : PostgreSQL server
-    - [Deamon](https://haruhiism.tistory.com/9) : 멀티태스킹 운영 체제에서 데몬은 사용자가 직접적으로 제어하지 않고, 백그라운드에서 돌면서 여러 작업을 하는 프로그램을 말한다
-    - [데몬과 배치 차이점](https://brownbears.tistory.com/446) : 배치는 특정 시간에 작업을 실행하는 프로세스. 지정된 시간 이후에는 자원을 거의 소비하지 않음 / 데몬은 특정 서비스를 위해 백그라운드 상태에서 계속 실행되는 서버 프로세스. 서버가 죽을 때까지 자원을 점유.
-    - `Postgres Server`
-    - [캐시](https://ko.wikipedia.org/wiki/%EC%BA%90%EC%8B%9C) : 데이터나 값을 미리 복사해 놓는 임시 장소
-    - `Dirty Buffer` : [[1]](http://www.gurubee.net/lecture/1887)[[2]](http://wiki.gurubee.net/pages/viewpage.action?pageId=26739627)버퍼에 캐시된 이후 변경이 발생했지만, 아직 디스크에 기록되지 않아 데이터 파일 블록과 동기화가 필요한 버퍼 블록.
-- 5) 세부 기능 및 제한점
-    - `Nested transactions` : 중첩된 트랜잭션
-    - `Savepoints` : 저장점
-    - [온라인 백업(Online Backup)/열린 백업(Hot Backup)](http://m.1day1.org/cubrid/manual/admin/admin_br_backuppolicy.htm) : 운영 중인 데이터베이스에 대해 백업을 수행하는 방식
-    - `Point in time recovery` : 시점 복구
-    - `Hot Backup` : 열린 백업
-    - 병렬복구(Parallel restore) : 다중 백업(multi-thread backup), 동시 백업을 수행하는 방식
-    - `Rule System` : PostgreSQL 규칙 시스템의 CREATE RULE은 지정된 테이블 또는 보기에 적용되는 새 규칙을 정의함. CREATE OR REPLACE RULE는 새 규칙을 만들거나 동일한 테이블에 대해 동일한 이름의 기존 규칙을 바꿈.
-    - `B-트리`: B트리란 Balanced Tree로, 자식을 두개만 가질 수 있던 Binary tree(이진 트리)의 확장개념. 자식 노드의 개수가 2개 이상이고, 데이터를 정렬하여 탐색, 삽입, 삭제 및 순차 접근이 가능하도록 유지하는 트리형 자료구조.[[1][](https://beelee.tistory.com/37)[2]](https://hyungjoon6876.github.io/jlog/2018/07/20/btree.html)
-    - `R-트리`
+    - [Hot Standby](https://postgresql.kr/docs/9.4/hot-standby.html): Allows clients to connect to a server even when it is in archive file recovery or standby mode, enabling the execution of read-only queries. It maintains the configuration of both the current and standby operating equipment in the same state.
 
-        [[1]](http://seb.kr/w/R_%ED%8A%B8%EB%A6%AC)다차원의 공간 데이터를 효과적으로 저장하고 지리정보와 관련된 질의를 빠르게 수행 할 수 있는 트리 자료 구조. [[2]](https://ko.wikipedia.org/wiki/R_%ED%8A%B8%EB%A6%AC)다차원의 공간 데이터를 저장하는 색인. 이를테면, 지리학에서 R 트리는 "현재 위치에서 200km 이내의 모든 도시를 찾아라"와 같은 질의에 대해 빠르게 답을 줄 수 있다.
-    - [해시 인덱스](https://najuung.tistory.com/45) : 검색하고자 하는 값을 찾기 위해 해시함수를 거쳐 키값이 포함된 버켓을 찾아내는 방식
-    - `버킷` : 인덱스 각 키값과 레코드의 주소값등의 정보를 두는 공간[[1]](https://dev-woo.tistory.com/28)[[2]](https://maengdev.tistory.com/31)
-    - `GiST(Generalized Search Tree) 인덱스`
+    - `Warm Standby`: [[1]](https://brownbears.tistory.com/85) One of the three types of server duplication elements, including Active-Standby (↔ Active-Active). [[2]](https://kangprog.tistory.com/11)Not immediately available after startup but prepared to some extent.
 
-        [[1]](https://bitnine.tistory.com/m/entry/PostgreSQLs-Indexes)GiST는 어떤 운영 클래스가 적용되는지에 따라 다른 인덱스 전략을 사용할 수 있는 균형 잡힌 트리 구조 인덱스 액세스 방식. 이 기능의 경우 인덱스의 유형이 아닌 인프라로 볼 수 있음. 기하학 데이터, 텍스트 검색 문서 등 다양한 GiST 연산자 클래스를 제공. [[2]](https://postgis.net/docs/manual-3.0/postgis-ko_KR.html#gist_indexes) "일반화된 검색 트리"의 줄임말로, 인덱스 작업의 포괄적인 형태. 일반 B-Tree 인덱스 작업으로는 쓸 수 없는 온갖 종류의 비정규 데이터 구조(정수 배열, 분광 데이터 등등)에 대한 검색 속도를 향상시키는 데 GiST를 이용.
-    - [PostgreSQL INDEX](https://webcache.googleusercontent.com/search?q=cache:teayQF99WcsJ:https://postgresql.kr/docs/11/sql-createindex.html+&cd=5&hl=ko&ct=clnk&gl=kr&client=firefox-b-e)
-    - [절차 언어](https://deftkang.tistory.com/125) : 순서를 명확한 계산법으로서 쉽게 표현할 수 있는 문제 지향 언어로서, 컴퓨터에 처리시키고자 할 때 그 순서를 명확하게 기술함으로써 처리를 쉽게 실행하는 프로그래밍 언어.
-    - [PL/pgSQL](https://webcache.googleusercontent.com/search?q=cache:7-vrIVEn_FgJ:https://postgresql.kr/docs/9.6/plpgsql-overview.html+&cd=2&hl=ko&ct=clnk&gl=kr&client=firefox-b-e) : PostgreSQL 데이터베이스 시스템에서 로드가능한 프로시저 언어이자, 절차적 언어라는 특징을 가지고 있음
-    - [정보 스키마(Information Schema)](https://www.postgresql.org/docs/9.1/information-schema.html) : 현재 데이터베이스에 정의된 개체에 대한 정보를 포함하는 보기 집합으로 구성[[2]](https://kimdubi.github.io/postgresql/pg_schema/)
-    - 국제화(I18N) : 응용 프로그램을 다양한 지역에 맞게 조정하는 시스템
-    - 현지화(L10N) : 문화, 지역 또는 언어가 다양한 대상 고객을 위해 쉽게 현지화할 수 있는 디자인 및 개발
-    - [데이터베이스 및 열별 데이터 정렬(Database & Column level collation)](https://www.postgresql.org/docs/9.1/collation.html)
-    - [Array, XML, UUID type](https://www.postgresql.org/docs/9.5/datatype.html)
-    - [Auto-increment (sequences)](https://aspdotnet.tistory.com/2401)
-    - [SSL, IPv6](https://postgresql.kr/docs/9.6/auth-pg-hba-conf.html)
-    - `hstore` : [[1]](https://www.postgresql.org/docs/9.0/hstore.html)[[2]](http://www.gisdeveloper.co.kr/?p=2082)PostgresSQL에서 기본적으로 제공되는 기능. Key / Value라는 단순한 구조를 갖는 테이블을 정의할 수 있는 확장.
-    - 테이블 상속(Table inheritance) : [[1]](https://corekms.tistory.com/entry/table-inheritance%EC%83%81%EC%86%8D)[[2]](https://www.postgresql.org/docs/10/tutorial-inheritance.html)
-- 6) 경쟁 제품들과의 비교
-    - `마이그레이션` : 서비스 중인 한 어플리케이션 또는 모듈 등을 전혀 다른 환경(OS, 미들웨어, 하드웨어 등) 에서도 돌아갈 수 있도록 전환하는 것을 의미. 예를 들어, C로 개발된 솔라리스 OS 기반 프로그램을 시스템이 노후화되어 리눅스 기반의 새로운 시스템에서 돌아갈 수 있도록 하려면 솔라리스 OS에서 참조하던 라이브러리, API(함수) 등에 대해 동일한 역할을 하는 리눅스 기반의 그것으로 1:1 변환/매핑하는 작업이 필요함. 이런 것이 단순하게 바라본 마이그레이션의 의미.
+    - [Cold Standby](https://bae-juk.tistory.com/26): A system where the standby equipment is not used regularly, and connection to the standby equipment occurs only when a failure occurs in the current operating equipment.
+
+    - [Redundancy](https://starkying.tistory.com/entry/11-%EB%8B%A4%EC%A4%91%ED%99%94%EC%9D%98-%EA%B8%B0%EB%B3%B8): Ensures that the system can continue its functionality with standby equipment in case of a failure.
+
+    - [Active-Active / Active-Standby](https://travislife.tistory.com/47): (A-A) Divides processing between servers 1 and 2 based on load balancing. (A-S) Configures servers in a duplicated manner but operates by transferring services to the standby server in the event of a failure, immediately detecting and transferring services in case of a failure in the main server.
+
+    - `WAL (Write Ahead Log) Archiving`: [[1]](https://goodlife-coding.tistory.com/entry/Postgresql-WALWrite-Ahead-Logging-%EC%95%84%EC%B9%B4%EC%9D%B4%EB%B8%8C-%EB%B0%8F-%ED%92%80-%EB%B0%B1%EC%97%85%EA%B3%BC-%EB%B3%B5%EA%B5%AC)In PostgreSQL, the pre-write record is managed in the pg_xlog/ directory within the database cluster directory. This log preserves all operations on the database's data files. In the event of a sudden server shutdown, the server reads and recovers the unprocessed operations from the log to complete them. When a query is executed on a database to perform a change event, the concept is to pre-store the change in the log before making the actual change. [[2]](https://browndwarf.tistory.com/4)Logs that store only database change information.
+
+    - [Hot Backup](https://ktdsoss.tistory.com/219): Allows backup while the database is open, and provides DB services even during backup (↔ Cold Backup, closed backup).
+
+    - Point in Time Recovery: [[1]](https://onedaystudy.tistory.com/66)A method used when it is necessary to restore the database to a specific point in time due to DB loss, failure, or the need to query past data. It restores the database to a specific point in the past (Point in Time). [[2]](https://webcache.googleusercontent.com/search?q=cache:1-4MlOYDD6IJ:https://postgresql.kr/docs/9.4/continuous-archiving.html+&cd=2&hl=ko&ct=clnk&gl=kr&client=firefox-b-e)
+
+    - [pg_upgrade](https://stackframe.tistory.com/3): An upgrade command provided by PostgreSQL [[Official Documentation]](https://postgresql.kr/docs/11/upgrading.html).
+
+    - [C/S-based](http://blog.naver.com/PostView.nhn?blogId=pcs1535&logNo=220758702587&parentCategoryNo=&categoryNo=81&viewDate=&isShowPopularPosts=true&from=search): Application method where an app is installed on a PC to execute programs (↔ Web-based).
+### 4) Internal Structure
+- [Internal Structure](https://waspro.tistory.com/146)[[2]](https://kimdubi.github.io/postgresql/psql_architecture/)[[3]](https://blog.goodusdata.com/12)[[4]](https://mangkyu.tistory.com/71)[[5]](https://www.youtube.com/watch?v=Hm_Q4_mz3UA)[[6]](https://kwomy.tistory.com/6?category=851266)
+  - [DATABASE Structure](http://www.gurubee.net/lecture/2942)
+  - [template Table](https://daewonyoon.tistory.com/158)
+  - [Schema](https://kimdubi.github.io/postgresql/pg_schema/)
+  - `MASTER DB - SLAVE DB` [[1]](https://www.toptal.com/mysql/mysql-master-slave-replication-tutorial)[[2]](https://kamang-it.tistory.com/entry/MySQLReplication%EC%9C%BC%EB%A1%9C-DB-Master-Slave%EA%B5%AC%EC%A1%B0-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%84%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%8F%99%EA%B8%B0%ED%99%94-%ED%95%98%EA%B8%B0feat-docker-shell-script)
+  - [Permissions](https://wiki.kldp.org/KoreanDoc/html/PgSQL_Extension-KLDP/PgSQL_Extension-KLDP-2.html)[[Official]](https://www.postgresql.org/docs/9.1/sql-revoke.html)
+  - Initialize Connection
+  - [Postmaster](https://younghk.github.io/etc/2020-04-01---postgresql-tips/): PostgreSQL server
+  - [Daemon](https://haruhiism.tistory.com/9): In multitasking operating systems, a daemon is a program that performs various tasks in the background without direct user control.
+  - [Difference Between Daemon and Batch](https://brownbears.tistory.com/446): Batch is a process that runs tasks at specific times, consuming minimal resources after a designated time. Daemon is a server process that continues to run in the background for a specific service until the server is shut down, occupying resources until then.
+  - `Postgres Server`
+  - [Cache](https://ko.wikipedia.org/wiki/%EC%BA%90%EC%8B%9C): Temporary storage where data or values are pre-copied.
+  - `Dirty Buffer` : [[1]](http://www.gurubee.net/lecture/1887)[[2]](http://wiki.gurubee.net/pages/viewpage.action?pageId=26739627)A buffer block that has been cached but has changed since, not yet written to disk, requiring synchronization with the data file block.
+
+### 5) Detailed Features and Limitations
+- `Nested transactions`
+- `Savepoints`
+- [Online Backup / Hot Backup](http://m.1day1.org/cubrid/manual/admin/admin_br_backuppolicy.htm): Backup method for performing backups on a live database.
+- `Point in time recovery`
+- `Hot Backup`: Open backup
+- Parallel Restore: Performing multiple-threaded or concurrent backups.
+- `Rule System`: PostgreSQL's CREATE RULE defines new rules applying to specified tables or views. CREATE OR REPLACE RULE creates a new rule or modifies an existing one with the same name for the same table.
+- `B-Tree`: Balanced Tree, an extension of the Binary tree allowing more than two children, maintaining sorted data for search, insertion, deletion, and sequential access. [[1]](https://beelee.tistory.com/37)[[2]](https://hyungjoon6876.github.io/jlog/2018/07/20/btree.html)
+- `R-Tree`: A tree data structure effective for storing multidimensional spatial data, facilitating fast queries related to geographical information. [[1]](http://seb.kr/w/R_%ED%8A%B8%EB%A6%AC)[[2]](https://ko.wikipedia.org/wiki/R_%ED%8A%B8%EB%A6%AC)
+- [Hash Index](https://najuung.tistory.com/45): Indexing method where a hash function is used to find a bucket containing the key value to be searched.
+- `Bucket`: A space where information such as index key values and record addresses is stored. [[1]](https://dev-woo.tistory.com/28)[[2]](https://maengdev.tistory.com/31)
+- `GiST (Generalized Search Tree) Index`: A balanced tree structure index access method that can use different index strategies depending on the applied operator class. Enhances search speed for various non-regular data structures (e.g., integer arrays, spectral data). [[1]](https://bitnine.tistory.com/m/entry/PostgreSQLs-Indexes)[[2]](https://postgis.net/docs/manual-3.0/postgis-ko_KR.html#gist_indexes)
+- [PostgreSQL INDEX](https://webcache.googleusercontent.com/search?q=cache:teayQF99WcsJ:https://postgresql.kr/docs/11/sql-createindex.html+&cd=5&hl=ko&ct=clnk&gl=kr&client=firefox-b-e)
+- [Procedural Language](https://deftkang.tistory.com/125): A programming language that expresses a sequence of operations in a clear and easily understandable manner.
+- [PL/pgSQL](https://webcache.googleusercontent.com/search?q=cache:7-vrIVEn_FgJ:https://postgresql.kr/docs/9.6/plpgsql-overview.html+&cd=2&hl=ko&ct=clnk&gl=kr&client=firefox-b-e): A procedural language in PostgreSQL, loaded as a procedural language that features procedural programming.
+- [Information Schema](https://www.postgresql.org/docs/9.1/information-schema.html): A set of views that includes information about objects defined in the current database. [[2]](https://kimdubi.github.io/postgresql/pg_schema/)
+- Internationalization (I18N): A system to adjust applications to different regions.
+- Localization (L10N): Design and development to easily adapt to various target customers with diverse cultures, regions, or languages.
+- [Database & Column Level Collation](https://www.postgresql.org/docs/9.1/collation.html)
+- [Array, XML, UUID type](https://www.postgresql.org/docs/9.5/datatype.html)
+- [Auto-increment (sequences)](https://aspdotnet.tistory.com/2401)
+- [SSL, IPv6](https://postgresql.kr/docs/9.6/auth-pg-hba-conf.html)
+- `hstore`: [[1]](https://www.postgresql.org/docs/9.0/hstore.html)[[2]](http://www.gisdeveloper.co.kr/?p=2082)A feature provided by PostgreSQL by default.
+### 6) Comparison with Competing Products
+
+- **Migration:**
+  - **Definition:** The process of transitioning a live application or module to operate in a completely different environment (OS, middleware, hardware, etc.).
+  - **Example:** Converting a program developed in C for Solaris OS to run on a new system based on Linux, requiring mapping or converting references to libraries, APIs (functions), etc.
 
 ### 2. ORACLE vs PostgreSQL
-  - [오라클과 포스트그레스큐엘 비교](https://db-engines.com/en/system/Oracle%3BPostgreSQL)
-  - [BSD](https://ko.wikipedia.org/wiki/BSD) : 라이센스 종류
-  - `horizontal partitioning`
+- [Oracle and PostgreSQL Comparison](https://db-engines.com/en/system/Oracle%3BPostgreSQL)
+- **BSD License:** A type of open-source license.
+- **Horizontal Partitioning:**
+  - [[1]](https://ko.wikipedia.org/wiki/%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4_%EB%B6%84%ED%95%A0) Dividing one table into multiple tables based on specific partitioning criteria (e.g., male, female).
+  - [[2]](https://jack-of-all-trades.tistory.com/95) Oracle Partitioning: Dividing a large table into multiple physical tables (logically one table, physically n tables). [[Example]](https://coding-factory.tistory.com/422)
+- **Heterogeneous System Architecture (HSA):**
+  - Efficient design to maximize the use of computing resources for high productivity at a lower cost. Breaking down the barrier between CPU and GPU, allowing software to freely utilize the computing resources of both components.
+  - Example: In an enterprise, breaking down departmental barriers and sharing all resources and personnel to increase work efficiency towards a common goal.
+- [Multi-source Replication:](https://docs.oracle.com/cd/B12037_01/server.101/b10728/repmultd.htm)
+  - Replicating data for a schema from three Oracle databases using streams.
+- [Source-Replica Replication:](https://docs.oracle.com/cd/E17952_01/connector-j-8.0-en/connector-j-source-replica-replication-connection.html)
+- **Server-Side Scripting Language:**
+  - A scripting language used on the server side in web development.
+- [MapReduce:](https://songsunbi.tistory.com/5)
+  - A software framework introduced by Google in 2004 for distributed parallel computing to process large-scale data. Comprises Map (processing data) and Reduce (aggregating results) stages.
 
-      [[1]](https://ko.wikipedia.org/wiki/%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4_%EB%B6%84%ED%95%A0)하나의 테이블을 특정 분할 기준(ex. 여, 남)에 따라 수평 분할(레코드로 분할)하는 것. [[2]](https://jack-of-all-trades.tistory.com/95) 오라클 파티셔닝 : 대용량 테이블을 물리적인 n개 테이블로 나누는 것(논리적으로 1개 테이블, 물리적으로 n개 테이블)[[예제]](https://coding-factory.tistory.com/422)
-  - [이기종 시스템 아키텍처(Heterogeneous System Architecture, HSA)](https://m.blog.naver.com/PostView.nhn?blogId=cyonic&logNo=207955491&proxyReferer=https:%2F%2Fwww.google.com%2F) : 컴퓨팅 자원을 최대한 활용해 비용 대비 높은 생산성을 얻을 수 있는 효율적인 설계 방식. 쉽게 말해 CPU와 GPU의 벽을 허물고 소프트웨어가 두 부품의 컴퓨팅 자원을 자유롭게 활용한다는 의미. 기업을 예로 들면, 부처 간의 벽을 허물고 하나의 목표를 이루기 위해 모든 인력과 자원을 공유해 업무 효율을 높이는 것.
-  - [Multi-source replication(다중 소스 복제)](https://docs.oracle.com/cd/B12037_01/server.101/b10728/repmultd.htm) : 스트림을 사용하여 세 개의 Oracle 데이터베이스 중 스키마에 대한 데이터를 복제하는 방법.
-  - [Source-replica replication(원본 복제)](https://docs.oracle.com/cd/E17952_01/connector-j-8.0-en/connector-j-source-replica-replication-connection.html)
-  - [서버 사이드 스크립트 언어](https://ko.wikipedia.org/wiki/%EC%84%9C%EB%B2%84_%EC%82%AC%EC%9D%B4%EB%93%9C_%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8_%EC%96%B8%EC%96%B4) : 웹에서 사용되는 스크립트 언어 중 서버 사이드에서 실행되는 스크립트 언어.
-  - [맵리듀스](https://songsunbi.tistory.com/5) : 구글에서 대용량 데이터 처리를 분산 병렬 컴퓨팅에서 처리하기 위한 목적으로 제작하여 2004년 발표한 소프트웨어 프레임워크. 맵(Map)+리듀스(Reduce)로 이루어져 있으며, Input(데이터 입력) → Splitting(데이터를 쪼개 HDFS에 저장) → Mapping → Shuffling(맵 함수의 결과 취합을 위해 리듀스 함수로 데이터 전달) → Reducing(모든 값을 합쳐 원하는 값 추출) → Final Result과 같은 과정을 거친다.
+### 3. Installation
+- [Installing PostgreSQL](https://www.postgresql.org/download/windows/)
+- [List of Files in the Data Directory](https://waspro.tistory.com/146)
 
-### 3. 설치
-  - [PostgreSQL 설치하기](https://www.postgresql.org/download/windows/)
-  - [data 디렉토리 파일 목록](https://waspro.tistory.com/146)
-
-### 4. 환경 변수 설정
-### 5. 접속
+### 4. Environment Variable Configuration
+### 5. Connection
 ### 6. CRUD
-### 7. 자료형
-  - [자료형](https://webcache.googleusercontent.com/search?q=cache:WZNP5IfsJngJ:https://postgresql.kr/docs/8.4/datatype.html+&cd=5&hl=ko&ct=clnk&gl=kr&client=firefox-b-e)
-  - [JSON, JSONB](https://americanopeople.tistory.com/300)
+### 7. Data Types
+- [Data Types](https://webcache.googleusercontent.com/search?q=cache:WZNP5IfsJngJ:https://postgresql.kr/docs/8.4/datatype.html+&cd=5&hl=ko&ct=clnk&gl=kr&client=firefox-b-e)
+- [JSON, JSONB](https://americanopeople.tistory.com/300)
 
-### 8. 활용
-  - 계층형 구조에 대한 쿼리[[1]](https://coding-factory.tistory.com/461)[[2]](https://www.postgresql.org/docs/9.1/queries-with.html)[[3]](https://sas-study.tistory.com/165)
-  - [CLOB](https://www.cubrid.com/tutorial/3794112) : 사이즈가 큰 데이터를 외부 파일로 저장하기 위한 데이터 타입(오라클)
-  - [조인](https://felixgrayson.wordpress.com/2015/06/18/left-join-right-join-inner-join-and-outer-join/)
-    ![Untitled](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/29.png)
+### 8. Utilization
 
-  - [GIN인덱스](https://medium.com/vuno-sw-dev/postgresql-gin-%EC%9D%B8%EB%8D%B1%EC%8A%A4%EB%A5%BC-%ED%86%B5%ED%95%9C-like-%EA%B2%80%EC%83%89-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0-3c6b05c7e75f)
-  - [to_tsvector](https://daesuni.github.io/postgres-fulltext-search/)
+#### Hierarchical Structure Queries
+- [Hierarchical Structure Query](https://coding-factory.tistory.com/461)
+- [Hierarchical Queries](https://www.postgresql.org/docs/9.1/queries-with.html)
+- [Hierarchical Query Example](https://sas-study.tistory.com/165)
 
-### 9. 트리거 & 프로시저
-  - [프로시저 함수 형식 예제](http://www.gisdeveloper.co.kr/?p=4621)
-  - 프로시저 함수, 트리거, 사용자 정의 함수의 차이[[1]](https://keumjae.tistory.com/131)[[2]](https://velog.io/@minsuk/%ED%94%84%EB%A1%9C%EC%8B%9C%EC%A0%80-%ED%8A%B8%EB%A6%AC%EA%B1%B0-%EC%82%AC%EC%9A%A9%EC%9E%90%EC%A0%95%EC%9D%98%ED%95%A8%EC%88%98-%EC%B0%A8%EC%9D%B4)
+#### CLOB (Character Large Object)
+- [CLOB in Oracle](https://www.cubrid.com/tutorial/3794112)
+  
+#### Joins
+- [Join Types](https://felixgrayson.wordpress.com/2015/06/18/left-join-right-join-inner-join-and-outer-join/)
+  ![Join Types](https://raw.githubusercontent.com/abarthdew/dbms-for-dev/main/PostgreSQL/images/29.png)
 
-### 10. 질문과 보충사항
-### 그 외
-- `DB`
-  - https://serverstudy.tistory.com/73
-  - https://chrisjune-13837.medium.com/db-lock-%EB%9D%BD%EC%9D%B4%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%B8%EA%B0%80-d908296d0279
-  - https://nclee.tistory.com/entry/Oracle-DeadLock
-  - https://myjamong.tistory.com/181
-  - https://estenpark.tistory.com/341
-- `포스트그레스큐엘`
-  - http://www.gurubee.net/lecture/2914
-  - https://d2.naver.com/helloworld/227936
-  - https://rastalion.me/postgresql%EA%B3%BC-mariadb%EC%9D%98-%EC%82%AC%EC%9D%B4%EC%97%90%EC%84%9C%EC%9D%98-%EC%84%A0%ED%83%9D/
-- `오라클 & 포스트그레스큐엘 차이`
-  - https://kwomy.tistory.com/6?category=851266
-  - https://db-engines.com/en/system/Oracle%3BPostgreSQL
-  - https://ktdsoss.tistory.com/428
-  - https://velog.io/@jisoo1170/Oracle-MySQL-PostgreSQL-%EC%B0%A8%EC%9D%B4%EC%A0%90%EC%9D%80
-  - https://stricky.tistory.com/367
-  - https://tjdguqdl.tistory.com/6
-- `오라클`
-  - https://ssmsig.tistory.com/37
-  - https://bangu4.tistory.com/15
-  - https://garimoo.github.io/database/2018/04/16/oracle_db_structure.html
-- `오라클 파티셔닝`
-  - https://m.blog.naver.com/PostView.nhn?blogId=whdahek&logNo=220796458477&proxyReferer=https:%2F%2Fwww.google.com%2F
-  - https://umbum.dev/969
-- `함수 및 쿼리`
-  - http://www.gisdeveloper.co.kr/?p=4621
-  - https://sungtae-kim.tistory.com/40
-  - https://kwomy.tistory.com/9
-- `WEBFLUX`
-  - https://warpgate3.tistory.com/entry/Spring-Boot-Reactive-Postgresqlr2dbc
-- `설치 및 사용`
-  - https://dora-guide.com/postgresql-install/
-  - https://blog.naver.com/PostView.nhn?blogId=qbxlvnf11&logNo=221491667554&categoryNo=34&parentCategoryNo=0&viewDate=&currentPage=1&postListTopCurrentPage=1&from=postView
-- `nodeJS 연동`
-  - https://flaviocopes.com/sequelize/
-  - https://velog.io/@eddie_kim/Sequelize-cli%EC%99%80-PostgreSQL%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%B4%EC%84%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-Migration-%EB%B0%8F-Seed%ED%95%98%EA%B8%B0
-  - https://kentakang.com/136
-  - https://www.robinwieruch.de/postgres-express-setup-tutorial
-- `그 외`
-  - https://aws.amazon.com/ko/nosql/
-  - https://velog.io/@public_danuel/process-env-on-node-js
-  - https://www.postgresql.kr/
-  - https://db-engines.com/en/ranking
+#### GIN Index
+- [GIN Index for Improved LIKE Searches](https://medium.com/vuno-sw-dev/postgresql-gin-%EC%9D%B8%EB%8D%B1%EC%8A%A4%EB%A5%BC-%ED%86%B5%ED%95%9C-like-%EA%B2%80%EC%83%89-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0-3c6b05c7e75f)
+
+#### to_tsvector
+- [to_tsvector Function](https://daesuni.github.io/postgres-fulltext-search/)
+
+### 9. Triggers & Procedures
+- [Procedure Function Format Example](http://www.gisdeveloper.co.kr/?p=4621)
+- [Difference Between Procedure Function, Trigger, and User-Defined Function](https://keumjae.tistory.com/131)
+
+### 10. Questions and Supplementary Information
+
+### Additional Resources
+- **DB:**
+  - [DB Lock](https://chrisjune-13837.medium.com/db-lock-%EB%9D%BD%EC%9D%B4%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%B8%EA%B0%80-d908296d0279)
+  - [Oracle Deadlock](https://nclee.tistory.com/entry/Oracle-DeadLock)
+- **PostgreSQL:**
+  - [PostgreSQL Tutorial](https://www.postgresql.kr/docs/)
+  - [PostgreSQL vs. MariaDB](https://rastalion.me/postgresql%EA%B3%BC-mariadb%EC%9D%98-%EC%82%AC%EC%9D%B4%EC%97%90%EC%84%9C%EC%9D%98-%EC%84%A0%ED%83%9D/)
+- **Oracle & PostgreSQL Differences:**
+  - [Oracle & PostgreSQL Differences](https://kwomy.tistory.com/6?category=851266)
+  - [DB Engines Comparison](https://db-engines.com/en/system/Oracle%3BPostgreSQL)
+  - [Oracle and PostgreSQL Feature Comparison](https://ktdsoss.tistory.com/428)
+- **Oracle:**
+  - [Oracle DB Structure](https://garimoo.github.io/database/2018/04/16/oracle_db_structure.html)
+- **Oracle Partitioning:**
+  - [Oracle Partitioning](https://umbum.dev/969)
+- **Functions and Queries:**
+  - [Procedural Functions and Queries](http://www.gisdeveloper.co.kr/?p=4621)
+  - [SQL Joins](https://sungtae-kim.tistory.com/40)
+  - [Inner and Outer Joins](https://kwomy.tistory.com/9)
+- **Webflux:**
+  - [Spring Boot Reactive with PostgreSQL R2DBC](https://warpgate3.tistory.com/entry/Spring-Boot-Reactive-Postgresqlr2dbc)
+- **Installation and Usage:**
+  - [PostgreSQL Installation](https://dora-guide.com/postgresql-install/)
+  - [PostgreSQL on Node.js](https://flaviocopes.com/sequelize/)
+  - [Node.js PostgreSQL Integration](https://velog.io/@eddie_kim/Sequelize-cli%EC%99%80-PostgreSQL%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%B4%EC%84%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-Migration-%EB%B0%8F-Seed%ED%95%98%EA%B8%B0)
+- **Miscellaneous:**
+  - [AWS NoSQL Database](https://aws.amazon.com/ko/nosql/)
+  - [Node.js Process Environment Variables](https://velog.io/@public_danuel/process-env-on-node-js)
+  - [PostgreSQL Official Documentation](https://www.postgresql.kr/)
+  - [DB Engines Ranking](https://db-engines.com/en/ranking)
