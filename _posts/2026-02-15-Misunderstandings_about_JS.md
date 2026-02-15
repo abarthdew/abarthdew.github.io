@@ -36,12 +36,12 @@ bound()
 ```
 - call: 즉시 실행 + this 지정
 - apply: 즉시 실행 + 배열 인자
-- bind: this 고정된 새 함수 반환
+- bind: 즉시 실행 X, this가 고정된 새로운 함수를 반환
 
 - js의 this 법칙
   1. new -> 새 객체
   2. 객체.메서드() -> 점 앞 객체
-  3. 그냥 함수() -> 전역 / undefined
+  3. 그냥 함수() -> (브라우저) window / (strict mode) undefine
   4. call/apply/bind -> 강제 지정
   5. 화살표 함수 -> 상위 this 고정
 
@@ -61,7 +61,7 @@ p.toString() // Object.prototype 에서 찾음
 ```
 - say는 prototype에 존재
 - this는 p
-- this가 p인 이뉴는 p.say()로 호출했기 때문
+- this가 p인 이유는 p.say()로 호출했기 때문
 - 내부 구조:
   ```lua
   p
@@ -69,6 +69,9 @@ p.toString() // Object.prototype 에서 찾음
                          └── [[Prototype]] → Object.prototype
                                                 └── [[Prototype]] → null
   ```
+- JS는 속성을 찾을 때:
+  1. 인스턴스 자신에서 찾고
+  2. 없으면 [[Prototype]] 체인을 따라 올라간다.
 
 # arguments
 - 유사 배열 객체: Array는 아니고 관련 메서드도 없지만, length 존재, index 접근 가능, 화살표 함수에는 없음
