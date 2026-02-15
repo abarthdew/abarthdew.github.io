@@ -88,6 +88,14 @@ tags: [front, JS]
   │  Timer / Network / I/O         │
   └────────────────────────────────┘
   ```
+- 이벤트(트리거): 나중에 처리해달라고 큐에 들어오는 작업 (클릭, 타이머 완료, 네트워크 응답 도착, 파일 읽기 완료)
+- 함수: 실행되는 코드 단위
+  ```js
+  button.addEventListener("click", () => {
+    console.log("clicked");
+  });
+  // 이벤트: click, 실행되는 것: 콜백 함수
+  ```
 
 # 비동기 언어인가? -> 아님.
 - JS: 단일 스레드 + 동기실행
@@ -109,6 +117,7 @@ tags: [front, JS]
   // a 출력 -> setTImeout 등록 -> c 출력 -> b는 이벤트 큐에 들어갔다가 나중에 실행됨
   ```
 - async / await: 비동기를 "동기 코드처럼 보이게" 쓰는 문법 설탕 (멀티 스레드 아님)
+- 스레드를 제어하는 기능이 아니라, Promise 기반 비동기 흐름의 실행 순서를 기술하는 문법
   ```js
   async function f() {
     const res = await fetch(url); // await: "여기서 이 함수만 잠깐 멈추기" -> 메인 스레드는 안 멈춤
@@ -128,6 +137,39 @@ tags: [front, JS]
   3. Promise.then 등록 (microtask queue)
   4. d (스택)
   5. 스택 비면: c (microtask 먼저) -> b (task queue)
+
+  ```js
+  async function f() {
+    console.log("a");
+    await fetch(url);
+    console.log("b");
+  }
+  console.log("c");
+  f();
+  console.log("d");
+  // 출력: c -> a -> d -> b
+  ```
+  1. f() 호출
+  2. "a" 출력
+  3. await fetch()를 만나서: f() 함수 실행 중단, 나머지는 Promise.then으로 등록, 그래도 메인 스레드는 계속됨
+  4. "d" 출력
+  5. fetch 끝나고 -> "b" 출력
+
+- 정리
+  ```js
+    async function f() {
+      A;
+      await P; // Promise를 멈춰서 기다리는 것이 아니라, resolve될 때까지 함수 실행을 일시 중단
+      B;
+    }
+    // 이 문법과 같음
+    function f() {
+      A; // A 실행 (동기)
+      return P.then(() => { // P.then(...) 실행
+         B; // P가 resolve되면 B 실행
+      }); 
+    } // f는 Promise를 반환
+  ```
 
 # 호이스팅
 - 실행 컨텍스트 생성 단계에서 선언부를 미리 등록
