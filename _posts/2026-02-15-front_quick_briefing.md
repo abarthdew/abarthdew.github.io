@@ -68,7 +68,7 @@ tags: [front, JS]
     3. 브라우저: cookie에 저장 or localStorage에 저장
     4. 이후 요청: Authorization: Bearer jwt...
 
-# SSL, TLS (HTTPS), CSRF, XSS, CORS, session / cookie, JWT, Reverse Proxy, Load Balancer, Timeout, Connection Pool, Thread Pool, CDN, SSE / WebSocket, HTTP 상태코드
+# SSL, TLS (HTTPS), CSRF, XSS, CORS
 - ssl, tls: 통신 암호화
   - 역할: 중간에서 패킷 훔쳐봐도 내용 못 봄, 인증서로 서버 신원 확인
 - csrf: 로그인된 사용자를 속여서 요청 보내게 하는 공격
@@ -78,6 +78,7 @@ tags: [front, JS]
   - 방어: html escape, csp
 - CORS: 브라우저가 막는 출처 다른 요청
   - 에러: Blocked by CORS policy
+# session / cookie, JWT, Reverse Proxy, Load Balancer, Timeout
 - Cookie / Session
   - Cookie: 브라우저 저장 / Session: 서버 저장(또는 Redis)
 - JWT: 세션 없는 인증 토큰
@@ -88,6 +89,7 @@ tags: [front, JS]
   - L4 / L7, Sticky session, 헬스체크
 - Timeout: 운영 장애 원인 TOP3
   - 종류: Client timeout, nginx timeout, tomcat timeout, DB timeout
+# Connection Pool, Thread Pool, CDN, SSE / WebSocket, HTTP 상태코드
 - Connection Pool: DB 커넥션 재사용 풀 (max pool size, idle, timeout)
 - Thread Pool: Tomcat 워커 스레드 풀
 - Cache: Redis / Local cache: DB 부하 감소, 응답속도 개선
