@@ -68,124 +68,51 @@ tags: [front, JS]
     3. 브라우저: cookie에 저장 or localStorage에 저장
     4. 이후 요청: Authorization: Bearer jwt...
 
-# 런타임 언어인가?
-- 컴파일해서 실행 파일 만들지 않음 -> 인터프리터/vm(v8 등)이 바로 실행
-- 이벤트 루프(콜 스택이 비면, 큐에서 콜백 하나 꺼내스 스택에 올리는 무한 루프) 전체 구조
-  ```mathematica
-  ┌──────── JS Engine ────────┐
-  │  Call Stack               │
-  └─────────▲─────────────────┘
-            │
-            │
-       Event Loop
-            │
-  ┌─────────┴─────────┐
-  │ Task Queue         │  (setTimeout, I/O 등)
-  │ Microtask Queue    │  (Promise.then, await)
-  └────────────────────┘
-  
-  ┌──────── Browser / Node ────────┐
-  │  Timer / Network / I/O         │
-  └────────────────────────────────┘
-  ```
-- 이벤트(트리거): 나중에 처리해달라고 큐에 들어오는 작업 (클릭, 타이머 완료, 네트워크 응답 도착, 파일 읽기 완료)
-- 함수: 실행되는 코드 단위
-  ```js
-  button.addEventListener("click", () => {
-    console.log("clicked");
-  });
-  // 이벤트: click, 실행되는 것: 콜백 함수
-  ```
+# SSL, TLS (HTTPS), CSRF, XSS, CORS, session / cookie, JWT, Reverse Proxy, Load Balancer, Timeout, Connection Pool, Thread Pool, CDN, SSE / WebSocket, HTTP 상태코드
+- ssl, tls: 통신 암호화
+  - 역할: 중간에서 패킷 훔쳐봐도 내용 못 봄, 인증서로 서버 신원 확인
+- csrf: 로그인된 사용자를 속여서 요청 보내게 하는 공격
+  - 예시: 로그인 상태에서 악성 사이트 접속 -> 몰래 송금 api 호출
+  - 방어: csrf 토큰, SameSite 쿠키, Spring Security의 기본 방어 기능 사용
+- XSS: 스크립트 주입 공격
+  - 방어: html escape, csp
+- CORS: 브라우저가 막는 출처 다른 요청
+  - 에러: Blocked by CORS policy
+- Cookie / Session
+  - Cookie: 브라우저 저장 / Session: 서버 저장(또는 Redis)
+- JWT: 세션 없는 인증 토큰
+  - 장점: 서버 상태 안 가짐 / 단점: 로그아웃 어려움, 토큰 탈취 시 위험
+- Reverse Proxy: nginx / apache 역할
+  - 하는 일: ssl 처리, 정적 파일 처리, was 앞단 보호, 로드밸런싱
+- Load Balancer: 트래픽 분산기
+  - L4 / L7, Sticky session, 헬스체크
+- Timeout: 운영 장애 원인 TOP3
+  - 종류: Client timeout, nginx timeout, tomcat timeout, DB timeout
+- Connection Pool: DB 커넥션 재사용 풀 (max pool size, idle, timeout)
+- Thread Pool: Tomcat 워커 스레드 풀
+- Cache: Redis / Local cache: DB 부하 감소, 응답속도 개선
+- CDN: 정적 파일 배달 전용 서버
+- SSE / WebSocket: 실시간 통신
+- HTTP 상태코드
+  - 200 (OK), 301/302 (Redirect), 400 (Bad Request), 401 (Unauthorized), 403 (Forbidden), 404 (Not Found), 500 (Internal Server Error), 502/504 (프록시/was 문제)
 
-# 비동기 언어인가? -> 아님.
-- JS: 단일 스레드 + 동기실행
-  ```js
-  console.log(1);
-  console.log(2);
-  console.log(3);
-  // 무조건 1, 2, 3 순서로 출력
-  ```
-- 비동기처럼 보이는 이유: 단일 스레드 + 이벤트 루프 + 비동기 api
-- JS 엔진은 한 번에 한 줄만 실행 + 타이머 / 네트워크 / 파일 io는 브라우저, Node가 백그라운드에서 처리
-  ```js
-  console.log("a");
-  setTimeout(() => {
-  console.log("b");
-  }, 0);
-  console.log("c");
-  // 출력: a -> c -> b 순서
-  // a 출력 -> setTImeout 등록 -> c 출력 -> b는 이벤트 큐에 들어갔다가 나중에 실행됨
-  ```
-- async / await: 비동기를 "동기 코드처럼 보이게" 쓰는 문법 설탕 (멀티 스레드 아님)
-- 스레드를 제어하는 기능이 아니라, Promise 기반 비동기 흐름의 실행 순서를 기술하는 문법
-  ```js
-  async function f() {
-    const res = await fetch(url); // await: "여기서 이 함수만 잠깐 멈추기" -> 메인 스레드는 안 멈춤
-    console.log(res);
-  }
-  ```
-- 비동기 실행 흐름 실제 예시
-  ```js
-  console.log("a");
-  setTimeout(() => console.log("b"), 0);
-  Promise.resolve().then(() => console.log("c"));
-  console.log("d");
-  // 출력: a -> d -> c -> b
-  ```
-  1. a (스택)
-  2. setTimeout 등록 (브라우저에 위임)
-  3. Promise.then 등록 (microtask queue)
-  4. d (스택)
-  5. 스택 비면: c (microtask 먼저) -> b (task queue)
-
-  ```js
-  async function f() {
-    console.log("a");
-    await fetch(url);
-    console.log("b");
-  }
-  console.log("c");
-  f();
-  console.log("d");
-  // 출력: c -> a -> d -> b
-  ```
-  1. f() 호출
-  2. "a" 출력
-  3. await fetch()를 만나서: f() 함수 실행 중단, 나머지는 Promise.then으로 등록, 그래도 메인 스레드는 계속됨
-  4. "d" 출력
-  5. fetch 끝나고 -> "b" 출력
-
-- 정리
-  ```js
-    async function f() {
-      A;
-      await P; // Promise를 멈춰서 기다리는 것이 아니라, resolve될 때까지 함수 실행을 일시 중단
-      B;
-    }
-  
-    // 이 문법과 같음
-    function f() {
-      A; // A 실행 (동기)
-      return P.then(() => { // P.then(...) 실행
-         B; // P가 resolve되면 B 실행
-      }); 
-    } // f는 Promise를 반환
-  ```
-
-# 호이스팅
-- 실행 컨텍스트 생성 단계에서 선언부를 미리 등록
-  ```js
-  console.log(x);
-  var x = 10;
-
-  // 엔진 내부
-  var x; // 선언 호이스팅
-  console.log(x);
-  x = 10;
-  ```
+# SSR, CSR, SPA
+### 어디서 랜더링 하나?
+- SSR: 서버가 HTML 완성해서 보내줌 (예전 JSP, Thymeleaf, Freemarker) -> SSR 기반 MPA 에서는 서버에서 HTML 받아올 때 화면이 비기 때문에, 다시 그려지며 페이지 깜빡거림 현상 있음
+- CSR: 서버는 JSON(데이터)만, 화면은 브라우저가 그림
+### 페이지 구조가 어떤가?
+- SPA: 페이지 이동 없이 CSR로 화면 갈아끼우는 앱 (페이지 하나짜리 웹앱: React, Vue, Angular) -> 대부분 csr 기반
+- MPA: Multi Page Application
+### 조합
+- SPA + (CSR | SSR) / MPA + (CSR | SSR)
 
 
 
 
 
-  
+
+
+
+
+
+
