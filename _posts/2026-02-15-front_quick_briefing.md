@@ -162,6 +162,7 @@ tags: [front, JS]
       await P; // Promise를 멈춰서 기다리는 것이 아니라, resolve될 때까지 함수 실행을 일시 중단
       B;
     }
+  
     // 이 문법과 같음
     function f() {
       A; // A 실행 (동기)
