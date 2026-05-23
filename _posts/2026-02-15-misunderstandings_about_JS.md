@@ -18,6 +18,7 @@ obj.hello() // this === obj
 - 여기서, this는 obj.hello()로 호출됐기 때문에 obj가 됨
 
 - this를 강제로 지정하는 메서드: apply, call, bind
+
 ```js
 function greet() {
   console.log(this.name)
@@ -34,6 +35,7 @@ bound()
 
 // 모든 경우, this === user
 ```
+
 - call: 즉시 실행 + this 지정
 - apply: 즉시 실행 + 배열 인자
 - bind: 즉시 실행 X, this가 고정된 새로운 함수를 반환
@@ -59,6 +61,7 @@ const p = new Person("Nana")
 p.say() // Person.prototype 에서 찾음
 p.toString() // Object.prototype 에서 찾음
 ```
+
 - say는 prototype에 존재
 - this는 p
 - this가 p인 이유는 p.say()로 호출했기 때문
@@ -102,6 +105,7 @@ p.toString() // Object.prototype 에서 찾음
   │  Timer / Network / I/O         │
   └────────────────────────────────┘
   ```
+  
 - 이벤트(트리거): 나중에 처리해달라고 큐에 들어오는 작업 (클릭, 타이머 완료, 네트워크 응답 도착, 파일 읽기 완료)
 - 함수: 실행되는 코드 단위
   ```js
