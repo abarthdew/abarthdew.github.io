@@ -25,6 +25,10 @@ tail_includes:
     <span>
       {{ site.data.locales[lang].post.updated }}
       {% include datetime.html date=page.last_modified_at tooltip=true %}
+      {% if page.last_modified_by %}
+        {{ site.data.locales[lang].post.written_by | downcase }}
+        <em>{{ page.last_modified_by }}</em>
+      {% endif %}
     </span>
     {% endif %}
 
