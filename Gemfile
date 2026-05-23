@@ -4,6 +4,11 @@ source "https://rubygems.org"
 
 gemspec
 
+# Chirpy 5.x was built before Jekyll's Sass pipeline moved to sass-embedded.
+# Keep the older converter line so GitHub Actions does not resolve a newer
+# native extension stack that fails on the hosted runner.
+gem "jekyll-sass-converter", "~> 2.2"
+
 group :test do
   gem "html-proofer", "~> 3.18"
 end
