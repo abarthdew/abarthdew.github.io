@@ -1,8 +1,8 @@
 ---
 title: 자바스크립트에 대한 오해들
 date: 2026-02-15
-categories: [front, JS]
-tags: [front, JS]
+categories: [Front, JS]
+tags: [Front, JS]
 ---
 
 # this

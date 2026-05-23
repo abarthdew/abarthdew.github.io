@@ -1,8 +1,8 @@
 ---
 title: 프론트 퀵 브리핑
 date: 2026-02-15
-categories: [front, JS]
-tags: [front, JS]
+categories: [Front, JS]
+tags: [Front, JS]
 ---
 
 # 쿠키, 캐시, 세션
