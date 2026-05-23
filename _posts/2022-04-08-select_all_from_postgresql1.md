@@ -1,6 +1,5 @@
 ---
 title: SELECT A.* FROM PostgreSQL A;
-date: 2022-04-08
 categories: [DB, RDBMS]
 tags: [DB, PostgreSQL]
 ---

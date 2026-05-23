@@ -1,6 +1,5 @@
 ---
 title: go to git-to-hell for beginners
-date: 2019-06-21
 categories: [git, gitHub]
 tags: [git, gitHub, pages]
 ---

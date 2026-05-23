@@ -1,6 +1,5 @@
 ---
 title: 프론트 퀵 브리핑
-date: 2026-02-15
 categories: [Front, JS]
 tags: [Front, JS]
 ---

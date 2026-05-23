@@ -1,6 +1,5 @@
 ---
 title: git for Advanced
-date: 2021-08-25
 categories: [git, gitHub]
 tags: [git, gitHub]
 ---

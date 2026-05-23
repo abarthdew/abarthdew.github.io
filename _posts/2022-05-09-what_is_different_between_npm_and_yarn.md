@@ -1,6 +1,5 @@
 ---
 title: What is different between NPM and YARN?
-date: 2023-05-09
 categories: [Front, Vue]
 tags: [Front, Vue]
 ---

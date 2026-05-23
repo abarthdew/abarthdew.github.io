@@ -1,6 +1,5 @@
 ---
 title: 1. settings, concept, remark
-date: 2022-04-11
 categories: [Back, Java]
 tags: [Back, Java]
 ---
