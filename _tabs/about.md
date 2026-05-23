@@ -5,7 +5,7 @@ order: 4
 mermaid: true
 ---
 
-![hello](assets/img/favicons/the-bad-war.jpg)
+![hello]({{ '/assets/img/favicons/the-bad-war.jpg' | relative_url }})
 > 👀👀여기 개발 블로그임. 아마도.👀👀
 {: .prompt-danger }
 <br>
