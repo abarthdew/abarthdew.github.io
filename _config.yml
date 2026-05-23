@@ -66,6 +66,10 @@ google_analytics:
   #   proxy_endpoint: ''
   #   cache: false  # pv data local cache, good for the users from GFW area.
 
+google_adsense:
+  enabled: true
+  client: 'ca-pub-8219463119226697'
+
 # Prefer color scheme setting.
 #
 # Note: Keep empty will follow the system prefer color by default,

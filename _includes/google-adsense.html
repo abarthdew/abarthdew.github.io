@@ -1,0 +1,7 @@
+{% if jekyll.environment == 'production'
+    and site.google_adsense.enabled
+    and site.google_adsense.client %}
+  <script async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ site.google_adsense.client }}"
+    crossorigin="anonymous"></script>
+{% endif %}
