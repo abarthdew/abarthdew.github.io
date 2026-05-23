@@ -1,6 +1,5 @@
 ---
 title: 1-1. Spring Reactive - Process, Thread, Reactive
-date: 2021-03-15
 categories: [Back, Spring]
 tags: [Back, Spring]
 ---

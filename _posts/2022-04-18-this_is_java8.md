@@ -1,6 +1,5 @@
 ---
 title: 8. Interface, polymorphism
-date: 2022-04-18
 categories: [Back, Java]
 tags: [Back, Java]
 ---

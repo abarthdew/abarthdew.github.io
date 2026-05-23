@@ -1,6 +1,5 @@
 ---
 title: 2-1. Spring Reactive - Reactive Spring
-date: 2021-03-15
 categories: [Back, Spring]
 tags: [Back, Spring]
 ---

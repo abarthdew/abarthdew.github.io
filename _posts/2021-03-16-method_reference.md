@@ -1,6 +1,5 @@
 ---
 title: JAVA Method Reference
-date: 2021-03-16
 categories: [Back, Java]
 tags: [Back, Java]
 ---

@@ -1,6 +1,5 @@
 ---
 title: Vue Master
-date: 2021-12-06
 categories: [Front, Vue]
 tags: [Front, Vue]
 ---

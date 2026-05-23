@@ -1,6 +1,5 @@
 ---
 title: Linux with CentOS
-date: 2021-09-11
 categories: [Linux, CentOS]
 tags: [Linux, CentOS]
 ---

@@ -1,6 +1,5 @@
 ---
 title: 0. JSP with Eclipse - List
-date: 2022-04-01
 categories: [Back, JSP]
 tags: [Back, JSP]
 ---
