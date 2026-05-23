@@ -7,10 +7,11 @@ tags: [Front, Vue]
 
 Example codes both of these two things:
 
-**Composition API:**   
+## Composition API:
+
 The Composition API is a new way of organizing and reusing code in Vue.js 3. It provides a set of functions that allow developers to create reusable logic that can be used across multiple components. The Composition API is designed to help developers build complex applications by providing a more organized way of managing component state and logic.
 
-**Here's an example code using the Composition API:**
+### Here's an example code using the Composition API:
 
 ```vue
 <template>
@@ -44,10 +45,11 @@ export default {
 
 In this example, we use the reactive function to create a reactive object, which we can then use to manage component state. We also use the computed function to create a computed property, which we can use to derive data from our component's state. Finally, we use the setup function to return the state, computed properties, and methods that our component needs to function.
 
-**Component Composition:**   
+## Component Composition:
+
 Component composition is a way of building components by composing smaller, reusable components together. In Vue.js 2, component composition is achieved using slots and props. By using slots and props, developers can create reusable components that can be combined in different ways to create more complex components.
 
-**Here's an example code using component composition:**
+### Here's an example code using component composition:
 
 ```vue
 <template>

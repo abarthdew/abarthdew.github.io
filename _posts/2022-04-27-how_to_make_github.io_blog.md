@@ -189,7 +189,7 @@ Already up to date.
 - 호환성 문제로 2.7.6 버전 설치함
 - 1, 2, 3 + Enter
 
-![Untitled](assets/img/2022/1(1).png)
+![Untitled]({{ '/assets/img/2022/1(1).png' | relative_url }})
 
 ## 2. Jekyll 설치
 
@@ -201,7 +201,7 @@ gem install jekyll bundler // jekyll 설치
 ## 3. 테마 적용
 
 - local 리포지토리에 테마 내용 복사 + 붙여넣기
-    ![http://jekyllthemes.org/themes/jekyll-theme-chirpy/](assets/img/2022/1(2).png)
+    ![http://jekyllthemes.org/themes/jekyll-theme-chirpy/]({{ '/assets/img/2022/1(2).png' | relative_url }})
     _http://jekyllthemes.org/themes/jekyll-theme-chirpy/_
     
 - 테마의 gem 파일 설치
@@ -390,11 +390,11 @@ $ bundle exec jekyll s(serve)
 - 왜일까 메뉴얼대로 했는데…
 - 같은 과정을 계속 반복하다가 GitHub Action 기능을 사용함
 
-![Untitled](assets/img/2022/1(3).png)
+![Untitled]({{ '/assets/img/2022/1(3).png' | relative_url }})
 
 - jekyll configure 사용 버튼을 누르면 pages.yml 파일이 새로 생김 ⇒ 배포 후 정상적으로 gh-pages 브랜치, 블로그 생성 완료
 
-![Untitled](assets/img/2022/1(4).png)
+![Untitled]({{ '/assets/img/2022/1(4).png' | relative_url }})
 
 - 이후 master 브랜치 _post 디렉토리 내 형식에 맞춰 포스트를 쓸 수 있음
 
