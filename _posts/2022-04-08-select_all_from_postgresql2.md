@@ -1470,6 +1470,7 @@ SELECT * FROM sub_number; -- Output: 3
     - [pg_upgrade](https://stackframe.tistory.com/3): An upgrade command provided by PostgreSQL [[Official Documentation]](https://postgresql.kr/docs/11/upgrading.html).
 
     - [C/S-based](http://blog.naver.com/PostView.nhn?blogId=pcs1535&logNo=220758702587&parentCategoryNo=&categoryNo=81&viewDate=&isShowPopularPosts=true&from=search): Application method where an app is installed on a PC to execute programs (↔ Web-based).
+
 ### 4) Internal Structure
 - [Internal Structure](https://waspro.tistory.com/146)[[2]](https://kimdubi.github.io/postgresql/psql_architecture/)[[3]](https://blog.goodusdata.com/12)[[4]](https://mangkyu.tistory.com/71)[[5]](https://www.youtube.com/watch?v=Hm_Q4_mz3UA)[[6]](https://kwomy.tistory.com/6?category=851266)
   - [DATABASE Structure](http://www.gurubee.net/lecture/2942)
@@ -1509,6 +1510,7 @@ SELECT * FROM sub_number; -- Output: 3
 - [Auto-increment (sequences)](https://aspdotnet.tistory.com/2401)
 - [SSL, IPv6](https://postgresql.kr/docs/9.6/auth-pg-hba-conf.html)
 - `hstore`: [[1]](https://www.postgresql.org/docs/9.0/hstore.html)[[2]](http://www.gisdeveloper.co.kr/?p=2082)A feature provided by PostgreSQL by default.
+
 ### 6) Comparison with Competing Products
 
 - **Migration:**
