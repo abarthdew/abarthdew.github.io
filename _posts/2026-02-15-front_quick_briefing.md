@@ -78,6 +78,7 @@ tags: [front, JS]
   - 방어: html escape, csp
 - CORS: 브라우저가 막는 출처 다른 요청
   - 에러: Blocked by CORS policy
+ 
 # session / cookie, JWT, Reverse Proxy, Load Balancer, Timeout
 - Cookie / Session
   - Cookie: 브라우저 저장 / Session: 서버 저장(또는 Redis)
@@ -89,6 +90,7 @@ tags: [front, JS]
   - L4 / L7, Sticky session, 헬스체크
 - Timeout: 운영 장애 원인 TOP3
   - 종류: Client timeout, nginx timeout, tomcat timeout, DB timeout
+
 # Connection Pool, Thread Pool, CDN, SSE / WebSocket, HTTP 상태코드
 - Connection Pool: DB 커넥션 재사용 풀 (max pool size, idle, timeout)
 - Thread Pool: Tomcat 워커 스레드 풀
@@ -102,11 +104,13 @@ tags: [front, JS]
 ### 어디서 랜더링 하나?
 - SSR: 서버가 HTML 완성해서 보내줌 (예전 JSP, Thymeleaf, Freemarker) -> SSR 기반 MPA 에서는 서버에서 HTML 받아올 때 화면이 비기 때문에, 다시 그려지며 페이지 깜빡거림 현상 있음
 - CSR: 서버는 JSON(데이터)만, 화면은 브라우저가 그림
+
 ### 페이지 구조가 어떤가?
 - SPA: 페이지 이동 없이 CSR로 화면 갈아끼우는 앱 (페이지 하나짜리 웹앱: React, Vue, Angular) -> 대부분 csr 기반
 - MPA: Multi Page Application
+
 ### 조합
-- SPA + (CSR | SSR) / MPA + (CSR | SSR)
+- `SPA + (CSR | SSR) / MPA + (CSR | SSR)`
 
 
 
