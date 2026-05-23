@@ -38,7 +38,7 @@ tags: [front, JS]
   ```
   
 - 관계:
-  ```scss
+  ```
   [브라우저]
   ├─ Cookie (세션ID, 토큰, 설정값)
   ├─ Cache (이미지, JS, CSS)
