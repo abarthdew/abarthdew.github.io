@@ -27,7 +27,12 @@ module ExternalMirror
           res = fetch_with_redirects(uri)
 
           if res.is_a?(Net::HTTPSuccess)
-            post.content = fix_github_image_links(res.body, repo, branch)
+            # raw.githubusercontent.com bytes are UTF-8, but Net::HTTP tags the
+            # body as ASCII-8BIT by default, which breaks Liquid rendering on
+            # any non-ASCII (e.g. Korean) content.
+            body = res.body.dup.force_encoding('UTF-8')
+            raise "invalid UTF-8 byte sequence" unless body.valid_encoding?
+            post.content = fix_github_image_links(body, repo, branch)
           else
             post.content = fallback_message(repo, path, "HTTP #{res.code}")
           end
