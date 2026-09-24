@@ -9,8 +9,12 @@ gemspec
 # native extension stack that fails on the hosted runner.
 gem "jekyll-sass-converter", "~> 2.2"
 
+# Parse mirrored document links without modifying code examples.
+gem "nokogiri", ">= 1.13", "< 2"
+
 group :test do
   gem "html-proofer", "~> 3.18"
+  gem "minitest", "~> 5.13"
 end
 
 # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
