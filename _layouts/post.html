@@ -99,7 +99,7 @@ tail_includes:
 </div> <!-- .post-meta -->
 
 <div class="post-content">
-  {{ content }}
+  {{ content | external_mirror_links: page }}
 </div>
 
 <div class="post-tail-wrapper text-muted">
