@@ -19,6 +19,7 @@ Classification: https://github.com/abarthdew/abarthdew.github.io/issues/36
 ## Validation
 
 - Preservation audit: 16 portable copies/appends, 8 matched source bodies (normalizing formatting and known repaired image paths), 17 pre-existing mirrors.
+- Highcharts PR #3 review follow-up adds the existing `src/assets/img/1.jpg` immediately above the introduction. Its original post body still matches after excluding only this added image line.
 - All 41 wrappers retain their original non-mirror metadata and contain no duplicated body.
 - Unit/regression tests cover relative/absolute/reference links, images, anchors, literal code, source front matter, failures, and the 41-post inventory.
 - Full local Jekyll build against the prepared source checkouts checks all 41 outputs, image URL resolution, excerpts, Vue template literals, and PostgreSQL tables.
@@ -81,6 +82,6 @@ Links below point at source revisions when this inventory was generated; new doc
 | `2022-05-09-what_is_different_between_npm_and_yarn.md` | [`back-and-forth/04-frontend-development/tooling/npm-and-yarn.md`](https://github.com/abarthdew/back-and-forth/blob/af1c9f2206be123167264bd8370852cccd51a345/04-frontend-development/tooling/npm-and-yarn.md) | new |
 | `2022-05-09-what_is_different_between_spring_core_and_spring_mvc.md` | [`back-and-forth/02-backend-development/spring/spring-core-and-spring-mvc.md`](https://github.com/abarthdew/back-and-forth/blob/af1c9f2206be123167264bd8370852cccd51a345/02-backend-development/spring/spring-core-and-spring-mvc.md) | new |
 | `2022-05-13-what_is_different_between_vue2_and_vue3.md` | [`back-and-forth/04-frontend-development/vue/vue2-and-vue3.md`](https://github.com/abarthdew/back-and-forth/blob/af1c9f2206be123167264bd8370852cccd51a345/04-frontend-development/vue/vue2-and-vue3.md) | new |
-| `2023-06-29-gpt_prompt_for_highcharts.md` | [`highcharts-gpt-chatbot/gpt_prompt_for_Highcharts.md`](https://github.com/abarthdew/highcharts-gpt-chatbot/blob/cb0cbccc73d20d89036b59e0c5d51c6853a6a195/gpt_prompt_for_Highcharts.md) | existing |
+| `2023-06-29-gpt_prompt_for_highcharts.md` | [`highcharts-gpt-chatbot/gpt_prompt_for_Highcharts.md`](https://github.com/abarthdew/highcharts-gpt-chatbot/blob/839367a170ed99ced360ec3c3f5643a0f3d86a5d/gpt_prompt_for_Highcharts.md) | existing |
 | `2026-02-15-front_quick_briefing.md` | [`back-and-forth/04-frontend-development/browser/cookies-cache-and-sessions.md`](https://github.com/abarthdew/back-and-forth/blob/af1c9f2206be123167264bd8370852cccd51a345/04-frontend-development/browser/cookies-cache-and-sessions.md) | new |
 | `2026-02-15-misunderstandings_about_JS.md` | [`back-and-forth/01-programming-languages/javascript/misunderstandings-about-js.md`](https://github.com/abarthdew/back-and-forth/blob/af1c9f2206be123167264bd8370852cccd51a345/01-programming-languages/javascript/misunderstandings-about-js.md) | new |
