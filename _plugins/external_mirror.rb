@@ -59,11 +59,21 @@ module ExternalMirror
       end
     end
 
-    # The source repo sometimes links images as .../blob/<branch>/... (an HTML
+    # The source repo sometimes links IMAGES as .../blob/<branch>/... (an HTML
     # viewer page, not the raw bytes), which does not render inline. Rewrite
-    # those to .../raw/<branch>/... for both Markdown and <img> syntax.
+    # those to .../raw/<branch>/... -- but only inside image syntax, never
+    # inside a plain link, since a plain link to a .md file should keep
+    # pointing at GitHub's rendered "blob" view.
     def fix_github_image_links(body, repo, branch)
-      body.gsub(%r{(github\.com/#{Regexp.escape(repo)})/blob/}i, '\1/raw/')
+      repo_re = Regexp.escape(repo)
+
+      # Markdown image syntax: ![alt](https://github.com/<repo>/blob/...)
+      body = body.gsub(%r{(!\[[^\]]*\]\(https://github\.com/#{repo_re}/)blob/}i, '\1raw/')
+
+      # HTML <img src="https://github.com/<repo>/blob/...">
+      body = body.gsub(%r{(<img\b[^>]*\bsrc=["']https://github\.com/#{repo_re}/)blob/}i, '\1raw/')
+
+      body
     end
 
     def fallback_message(repo, path, reason)
