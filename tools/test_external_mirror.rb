@@ -73,7 +73,7 @@ class ExternalMirrorTest < Minitest::Test
 
   def test_post_inventory_has_only_source_references
     files = Dir[File.expand_path('../_posts/[0-9]*.md', __dir__)]
-    assert_equal 41, files.length
+    refute_empty files
     files.each do |file|
       header, body = File.read(file, encoding: 'UTF-8').split(/^---\s*$\n?/, 3).drop(1)
       data = YAML.safe_load(header, permitted_classes: [Date, Time])

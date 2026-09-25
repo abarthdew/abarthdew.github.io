@@ -42,7 +42,7 @@ fetch failure logs a warning and displays a warning on that post without
 blocking the other posts. Review build logs for `External mirror:` warnings.
 
 Run `bundle exec ruby tools/test_external_mirror.rb` for offline regression tests.
-For a full build against checked-out source PRs, clone all source repositories
-beside this checkout and run `bundle exec ruby tools/verify_mirror_build.rb ..`.
-See [STUDY-10 inventory](tools/STUDY-10-mirroring.md) for all source mappings and
-the migration's preservation checks.
+Pull requests run the same tests through GitHub Actions; merges to `master`
+build and deploy the site through GitHub Actions. See the
+[STUDY-10 inventory](.github/docs/STUDY-10-mirroring.md) for the original
+source mappings and migration preservation checks.
