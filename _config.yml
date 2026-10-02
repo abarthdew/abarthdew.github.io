@@ -208,3 +208,12 @@ jekyll-archives:
   permalinks:
     tag: /tags/:name/
     category: /categories/:name/
+
+# Mirrored posts whose body is replaced with a notice (copyright-restricted lecture notes).
+# An entry matches when "external_repo/external_path" starts with it.
+external_mirror:
+  restricted_paths:
+    - abarthdew/back-and-forth/02-backend-development/spring/spring-security/
+    - abarthdew/infras-for-dev/03-infrastructure/kubernetes/kubernetes-for-the-absolute-beginners/
+    - abarthdew/infras-for-dev/03-infrastructure/kubernetes/cka-with-practice-tests/
+  restricted_message: 게시글을 볼 수 없습니다.
