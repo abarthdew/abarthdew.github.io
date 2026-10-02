@@ -98,8 +98,13 @@ tail_includes:
 
 </div> <!-- .post-meta -->
 
+{% include mirror-restricted.html %}
 <div class="post-content">
+  {% if mirror_restricted %}
+  <blockquote class="prompt-warning"><p>{{ site.external_mirror.restricted_message | default: '게시글을 볼 수 없습니다.' }}</p></blockquote>
+  {% else %}
   {{ content | external_mirror_links: page }}
+  {% endif %}
 </div>
 
 <div class="post-tail-wrapper text-muted">

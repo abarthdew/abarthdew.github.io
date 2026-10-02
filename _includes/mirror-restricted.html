@@ -1,0 +1,15 @@
+{%- comment -%}
+  Sets `mirror_restricted` to true when the mirrored source path starts with
+  an entry in `site.external_mirror.restricted_paths`.
+{%- endcomment -%}
+{%- assign mirror_restricted = false -%}
+{%- if page.external_repo and page.external_path -%}
+  {%- assign mirror_src = page.external_repo | append: '/' | append: page.external_path -%}
+  {%- for prefix in site.external_mirror.restricted_paths -%}
+    {%- assign head = mirror_src | slice: 0, prefix.size -%}
+    {%- if head == prefix -%}
+      {%- assign mirror_restricted = true -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
